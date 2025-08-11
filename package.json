@@ -1,0 +1,34 @@
+{
+  "name": "punkt3",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare",
+    "start": "node .output/server/index.mjs"
+  },
+  "dependencies": {
+    "@directus/sdk": "^19.1.0",
+    "@nuxtjs/seo": "^3.1.0",
+    "@vueuse/gesture": "^2.0.0",
+    "vue": "latest",
+    "vue-router": "latest"
+  },
+  "overrides": {
+    "vue": "latest"
+  },
+  "devDependencies": {
+    "@nuxt/image": "^1.10.0",
+    "@nuxthub/core": "^0.9.0",
+    "@pinia/nuxt": "^0.11.0",
+    "@tailwindcss/vite": "^4.1.8",
+    "@vueuse/nuxt": "^13.3.0",
+    "nuxt": "^3.17.4",
+    "pinia": "^3.0.2",
+    "tailwindcss": "^4.1.8"
+  }
+}
