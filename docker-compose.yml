@@ -8,9 +8,9 @@ services:
     ports:
       - "${PORT:-3000}:3000"
     environment:
-      - NODE_ENV=production
-      - HOST=0.0.0.0
-      - PORT=3000
-      - NUXT_PUBLIC_API_URL=https://directus.ludwigloth.cloud
+      - NODE_ENV
+      - HOST
+      - PORT
+      - NUXT_PUBLIC_API_URL
     restart: unless-stopped
     container_name: podinu
