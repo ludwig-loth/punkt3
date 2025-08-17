@@ -40,6 +40,9 @@ export default defineNuxtConfig({
       apiURL: "https://directus.ludwigloth.cloud",
     },
   },
+  typescript: {
+    typeCheck: true,
+  },
   app: {
     layoutTransition: { name: "layout", mode: "out-in" },
     pageTransition: { name: "page", mode: "out-in" },

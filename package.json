@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@directus/sdk": "^19.1.0",
+    "@nuxt/image": "^1.10.0",
     "@nuxtjs/seo": "^3.1.0",
     "@vueuse/gesture": "^2.0.0",
-  "@nuxt/image": "^1.10.0",
     "vue": "latest",
     "vue-router": "latest"
   },
@@ -29,6 +29,8 @@
     "@vueuse/nuxt": "^13.3.0",
     "nuxt": "^4.0.3",
     "pinia": "^3.0.2",
-    "tailwindcss": "^4.1.8"
+    "tailwindcss": "^4.1.8",
+    "typescript": "^5.9.2",
+    "vue-tsc": "^3.0.5"
   }
 }
