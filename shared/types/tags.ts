@@ -1,7 +1,13 @@
-export interface TechTags {
+export interface Tag {
   id: string | number;
-  name: string;
   value: string | number;
   icon: string | null;
-  color: string;
+  color: string | null;
+  type: "tech" | "tool" | "language" | "other";
+  translations: TagTranslation[];
+}
+
+export interface TagTranslation {
+  languages_code: string;
+  name: string;
 }

@@ -1,8 +1,7 @@
-import type { TechTags } from './tags'
+import type { Tag } from "./tags";
 
 export interface Project {
   id: string | number;
-  title: string;
   slug: string;
   status: "published" | "draft" | "archived";
   date_created: string;
@@ -15,24 +14,21 @@ export interface Project {
   source_code_link: string | null;
   tags: string[];
   content_blocks: ContentBlock[];
-  tech_tags: TechTags[];
-  translations: P_Translation[];
+  tech_tags: Tag[];
+  translations: ProjectTranslation[];
 }
 
 export interface ContentBlock {
-  content_blocks_id: {
-    date_updated: string;
-    show_heading: boolean;
-    image: string | null;
-    image_position: string | null;
-    divider: boolean;
-    sort: number | null;
-    translations: CB_Translation[];
-    projects: number[];
-  };
+  date_updated: string;
+  show_heading: boolean;
+  image: string | null;
+  image_position: string | null;
+  divider_at_bottom: boolean; // divider
+  sort: number | null;
+  translations: ContentBlockTranslation[];
 }
 
-export interface P_Translation {
+export interface ProjectTranslation {
   languages_code: string;
   title: string | null;
   subtitle: string | null;
@@ -40,7 +36,7 @@ export interface P_Translation {
   post_image_caption: string | null;
 }
 
-export interface CB_Translation {
+export interface ContentBlockTranslation {
   languages_code: string;
   heading: string | null;
   text: string | null;

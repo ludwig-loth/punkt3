@@ -19,7 +19,4 @@ export const useProjectStore = defineStore(
       projects,
     };
   }
-  // {
-  // persist: true,
-  // }
 );

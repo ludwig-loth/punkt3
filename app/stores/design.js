@@ -27,6 +27,4 @@ export const useDesignStore = defineStore('design', () => {
         setSidebarDesign,
         mobileMenuOpen,
     };
-}, {
-    persist: true,
 });
