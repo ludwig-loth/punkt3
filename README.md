@@ -8,3 +8,11 @@ The number 3 represents the three main aspects of the framework:
 - Personal website
 - Portfolio
 - Blog
+
+
+## Configuration
+
+Um die Konfiguration für PUNKT3 anzupassen, können Sie die Umgebungsvariablen in der `.env`-Datei ändern. Hier sind die verfügbaren Variablen:
+
+- `NUXT_BACKEND`: Wählen Sie den Backend-Service [directus, nuxt_content]
+- `NUXT_API_URL`: Die URL Ihres API-Endpunkts.
