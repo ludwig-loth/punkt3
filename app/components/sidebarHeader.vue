@@ -18,7 +18,7 @@ const headerData = computed(() => {
     for (const item of projectStore.projects) {
       if (item.slug === route.params.slug) {
         // Find the portfolio menu item for the group
-        const portfolioMenuItem = globalStore.landingPageData.page_menu_items_v2?.find(
+        const portfolioMenuItem = globalStore.landingPageData.menu_items?.find(
           menuItem => menuItem.global_menu_items_id.slug === 'portfolio'
         );
 
@@ -32,7 +32,7 @@ const headerData = computed(() => {
     }
   } else if (route.name) {
     // Handle main pages
-    const menuItem = globalStore.landingPageData.page_menu_items_v2?.find(
+    const menuItem = globalStore.landingPageData.menu_items?.find(
       item => item.global_menu_items_id.slug === route.name
     );
 

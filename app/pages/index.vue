@@ -28,7 +28,7 @@ useResizeObserver(about_me, (entries) => saveDimensions(entries, 'about_me'))
 useResizeObserver(menu_items, (entries) => saveDimensions(entries, 'menu_items'))
 
 const mainMenuItems = computed(() =>
-    landingPageData.value?.page_menu_items_v2
+    landingPageData.value?.menu_items
 );
 
 onMounted(() => {

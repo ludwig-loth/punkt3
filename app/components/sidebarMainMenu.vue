@@ -25,7 +25,7 @@ const isActiveOrChild = (menuItemPath) => {
 };
 
 const menuItems = computed(() => {
-  return globalStore.landingPageData?.page_menu_items_v2 || []
+  return globalStore.landingPageData?.menu_items || []
 })
 
 

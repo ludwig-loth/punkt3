@@ -27,9 +27,8 @@ export default defineNuxtConfig({
       },
       hmr: {
         protocol: "ws",
-        host: true,
+        host: 'localhost',
       },
-      // port: 3000,
     },
   },
   nitro: {

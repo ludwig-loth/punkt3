@@ -46,7 +46,7 @@ function setSubMenu() {
                 icon: item.icon,
             });
         }
-        const portfolioMenuItem = globalStore.landingPageData.page_menu_items_v2.find(item => item.global_menu_items_id.slug === 'portfolio');
+        const portfolioMenuItem = globalStore.landingPageData.menu_items.find(item => item.global_menu_items_id.slug === 'portfolio');
         subMenu.heading = portfolioMenuItem ? tMenuItem(portfolioMenuItem, 'heading') : null;
         subMenuItemsPortfolio.value = subMenu
     }

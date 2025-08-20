@@ -6,7 +6,10 @@ const languageStore = useLanguageStore()
 const { tStatic } = useTranslation()
 
 const props = defineProps({
-  error: Object as () => NuxtError
+  error: {
+    type: Object as () => NuxtError | undefined,
+    default: undefined
+  }
 })
 
 const encEmail = "aW5mb0BsdWR3aWdsb3RoLmRl";
@@ -28,7 +31,7 @@ onMounted(async () => {
 <template>
   <div class="flex items-center justify-center w-full h-screen">
     <div class="relative w-full max-w-4xl">
-      <div v-if="error.statusCode !== 404"
+      <div v-if="error && error.statusCode !== 404"
         class="relative z-20 flex flex-col items-center justify-center p-5 rounded-sm gap-15 bg-base-200">
         <h2 class="flex flex-col items-center justify-center w-full text-4xl text-center">
           <p>{{ tStatic('error_server_problem') }}</p>
@@ -39,7 +42,7 @@ onMounted(async () => {
         </div>
         <div class="flex flex-row justify-center w-full gap-8 text-xs">
           <div class="flex flex-col gap-2">
-          {{ tStatic('error_contact_info') }}
+            {{ tStatic('error_contact_info') }}
             <a id="mail" href="" class="p-1 bg-primary w-fit rounded-xs" @click="mailTo">
               <span class="blockspam" aria-hidden="true">Anti spam detection</span>
               info@<!-- sdfjsdhfkjypcsasdasdweqrvreq -->ludwigloth.de
@@ -50,12 +53,12 @@ onMounted(async () => {
           </div>
           <div
             class="flex flex-col items-start justify-center p-1 rounded-sm outline-4 outline-dotted w-fit outline-error bg-base-100">
-            <div>Code: {{ error.statusCode }}</div>
+            <div>Code: {{ error?.statusCode }}</div>
             <div>{{ error }}</div>
           </div>
         </div>
       </div>
-      <div v-if="error.statusCode === 404"
+      <div v-if="error && error.statusCode === 404"
         class="relative z-20 flex flex-col items-center justify-center p-5 rounded-sm gap-15 bg-base-200">
         <h2 class="flex flex-col items-center justify-center w-full text-4xl text-center">
           <p>{{ tStatic('error_heading_404') }}</p>
@@ -66,6 +69,10 @@ onMounted(async () => {
         <div class="flex flex-row justify-center w-full gap-8 text-xs">
           <div
             class="flex flex-col items-start justify-center p-1 rounded-sm outline-4 outline-dotted w-fit outline-error bg-base-100">
+            <div>Code: {{ error?.statusCode }}</div>
+            <div>{{ error }}</div>
+          </div>
+          <div>
             <NuxtLink @click="nav()" class="text-2xl font-bold cursor-pointer">
               {{ tStatic('home') }}
             </NuxtLink>

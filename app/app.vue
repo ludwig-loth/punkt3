@@ -2,6 +2,7 @@
 const router = useRouter();
 
 const globalStore = useGlobalStore();
+const landingPageStore = useLandingPageStore();
 const projectStore = useProjectStore();
 const designStore = useDesignStore();
 const cvStore = useCvStore();
@@ -11,7 +12,14 @@ const languageStore = useLanguageStore();
 const { $directus, $readItems } = useNuxtApp();
 
 const language = ref('');
-const { data: landingPage, refresh: refreshlandingPage } = await useAsyncData('landing_page', () => {
+const { data: landing } = await useAsyncData('landing_page', () => {
+  return $fetch('/api/landingPage')
+})
+
+console.log(landing.value);
+
+
+const { data: landingPage_old, refresh: refreshlandingPage } = await useAsyncData('landing_page', () => {
   return $directus.request($readItems('landing_page', {
     fields: ['*',
       'translations.*',
@@ -20,6 +28,8 @@ const { data: landingPage, refresh: refreshlandingPage } = await useAsyncData('l
     ],
   }))
 })
+console.log(landingPage_old.value);
+
 const { data: curriculumVitae, refresh: refreshCV } = await useAsyncData('Curriculum_vitae', () => {
   return $directus.request($readItems('Curriculum_vitae', {
     fields: ['*',

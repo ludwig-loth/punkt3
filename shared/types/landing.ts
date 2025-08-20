@@ -13,10 +13,12 @@ export interface LandingTranslation {
     my_name: string | null;
     about_me_summary: string | null; // about_me
     about_me_prefix: string | null;
+    opening_line: string | null;
 }
 
 export interface MenuItem {
-    id: string | number;
+    slug: string;
+    status: 'draft' | 'published' | 'archived';
     translations: MenuItemTranslation[];
 }
 

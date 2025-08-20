@@ -15,7 +15,7 @@ const getParentRoute = () => {
   const pathSegments = route.fullPath.split('/').filter(Boolean);
   pathSegments.pop();
 
-  const menuItems = globalStore.landingPageData?.page_menu_items_v2;
+  const menuItems = globalStore.landingPageData?.menu_items;
   if (!menuItems) return tStatic('home');
 
   const parentRoute = menuItems.find(
