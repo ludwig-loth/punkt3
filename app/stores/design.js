@@ -3,7 +3,7 @@ import { ref } from 'vue';
 
 export const useDesignStore = defineStore('design', () => {
     const landingPageDesign = ref({
-        hookup_line: { width: 0, height: 0, top: 0, left: 0 },
+        opening_line: { width: 0, height: 0, top: 0, left: 0 },
         about_me: { width: 0, height: 0, top: 0, left: 0 },
         menu_items: { width: 0, height: 0, top: 0, left: 0 },
     });

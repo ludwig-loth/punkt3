@@ -11,7 +11,6 @@ export default defineEventHandler(async (event) => {
     
     console.log('############################');
     console.log(`\nUsing adapter: ${activeAdapter}`)
-    // console.log('Old Landing Page Data:', old_data);
     console.log('############################');
     return data
   } catch (error) {

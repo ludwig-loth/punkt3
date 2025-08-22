@@ -11,7 +11,7 @@ export interface Landing {
 export interface LandingTranslation {
     languages_code: string;
     my_name: string | null;
-    about_me_summary: string | null; // about_me
+    about_me_summary: string | null;
     about_me_prefix: string | null;
     opening_line: string | null;
 }
@@ -23,7 +23,7 @@ export interface MenuItem {
 }
 
 export interface MenuItemTranslation {
-    languages_code: string;
+    languages_code: 'de-De' | 'en-US'; // add more as you wish
     heading: string | null;
     subheading: string | null;
     slug: string | null;

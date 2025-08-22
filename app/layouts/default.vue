@@ -9,10 +9,10 @@ onMounted(() => {
     <div class="flex-grow m-auto">
       <div class="absolute flex flex-col items-center justify-center w-full max-w-5xl">
         <div class="self-start hidden w-1/2 dots-border-right justify-self-start sm:block"
-          :style="{ height: `calc(${designStore.landingPageDesign.hookup_line.height}px + 6rem)` }">
+          :style="{ height: `calc(${designStore.landingPageDesign.opening_line.height}px + 6rem)` }">
         </div>
         <div class="self-start block w-1/2 dots-border-right justify-self-start sm:hidden"
-          :style="{ height: `calc(${designStore.landingPageDesign.hookup_line.height}px + 10rem)` }">
+          :style="{ height: `calc(${designStore.landingPageDesign.opening_line.height}px + 10rem)` }">
         </div>
         <div class="flex flex-row self-start w-1/2 -mt-1 justify-self-start">
           <div class="flex-shrink-0 w-8 sm:w-29">

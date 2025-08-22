@@ -3,17 +3,19 @@ definePageMeta({
     layout: 'default',
     scrollToTop: true,
 })
-const router = useRouter()
+// const router = useRouter()
 const config = useRuntimeConfig()
 const API_URL = config.public.apiURL
 
-const globalStore = useGlobalStore();
+// const globalStore = useGlobalStore();
 const designStore = useDesignStore();
+const landingStore = useLandingStore();
 
 const { t, tMenuItem } = useTranslation()
-const { landingPageData } = storeToRefs(globalStore)
+// const { landingPageData } = storeToRefs(globalStore)
+const { landingData } = storeToRefs(landingStore)
 
-const hookup_line = ref(null);
+const opening_line = ref(null);
 const about_me = ref(null);
 const menu_items = ref(null);
 
@@ -23,24 +25,25 @@ const saveDimensions = (entries, observerName) => {
     designStore.setLandingPageDesign(observerName, { width, height });
 }
 
-useResizeObserver(hookup_line, (entries) => saveDimensions(entries, 'hookup_line'))
+useResizeObserver(opening_line, (entries) => saveDimensions(entries, 'opening_line'))
 useResizeObserver(about_me, (entries) => saveDimensions(entries, 'about_me'))
 useResizeObserver(menu_items, (entries) => saveDimensions(entries, 'menu_items'))
 
 const mainMenuItems = computed(() =>
-    landingPageData.value?.menu_items
+    landingData.value?.menu_items
 );
 
 onMounted(() => {
+
 });
 </script>
 <template>
-    <div v-if="globalStore.landingPageData" class="relative">
+    <div v-if="landingData" class="relative">
         <div class="flex flex-col items-center justify-center max-w-5xl">
-            <div class="my-11" ref="hookup_line">
-                <h1 v-if="globalStore.landingPageData"
+            <div class="my-11" ref="opening_line">
+                <h1
                     class="max-w-sm p-4 text-center rounded-sm sm:max-w-lg text-5xl/14 sm:text-7xl/16 bg-base-100">
-                    {{ t(landingPageData, 'hookup_line') }}
+                    {{ t(landingData, 'opening_line') }}
                 </h1>
             </div>
             <div class="flex flex-col items-center px-10 sm:flex-row sm:gap-3 my-11" ref="about_me">
@@ -49,26 +52,25 @@ onMounted(() => {
                     <div
                         class="absolute block mt-4 w-22 h-22 sm:w-32 sm:h-32 -z-10 dots-border bg-base-300 rounded-xs ring-6 ring-base-100">
                     </div>
-                    <NuxtImg v-if="globalStore.landingPageData"
-                        :src="`${API_URL}/assets/${globalStore.landingPageData.image_me}`"
-                        alt="Portrait of Ludwig Loth"
+                    <NuxtImg v-if="landingData" :src="`${API_URL}/assets/${landingData.image}`"
+                        :alt="`Portrait of ${landingData.my_name}`"
                         class="object-cover ml-4 w-22 h-22 sm:w-32 sm:h-32 outline-2 rounded-xs" />
                 </picture>
                 <div class="flex px-3 rounded-sm bg-base-100 mt-9 sm:mt-0">
-                    <p v-if="globalStore.landingPageData" class="text-xl text-left md:text-2xl">
-                        {{ t(landingPageData, 'about_me_prefix') }}
+                    <p v-if="landingData" class="text-xl text-left md:text-2xl">
+                        {{ t(landingData, 'about_me_prefix') }}
                         <NuxtLink to="/about-me"
                             class="relative inline-block font-bold transition-all cursor-pointer md:text-2xl link-highlight hover:scale-103 active:scale-95">
-                            {{ globalStore.landingPageData.my_name }}
+                            {{ landingData.my_name }}
                         </NuxtLink>
-                        {{ t(landingPageData, 'about_me') }}
+                        {{ t(landingData, 'about_me_summary') }}
                     </p>
                 </div>
             </div>
             <nav class="relative flex flex-col sm:my-11" ref="menu_items">
                 <div class="grid grid-cols-1 sm:gap-10 sm:grid-cols-2 mt-25 sm:mt-20">
-                    <div v-for="item in mainMenuItems" :key="item.global_menu_items_id.slug">
-                        <NuxtLink :to="`/${item.global_menu_items_id.slug}`">
+                    <div v-for="item in mainMenuItems" :key="item.slug">
+                        <NuxtLink :to="`/${item.slug}`">
                             <div
                                 class="relative transition-all active:scale-95 hover:scale-103 focus:scale-103">
                                 <div class="flex p-4 mx-auto transition-all border-2 cursor-pointer sm:ml-auto w-[calc(100%-6rem)] sm:w-64 hover:outline-0 outline-primary bg-base-100 peer h-35 rounded-sm focus:outline-0  mb-10 sm:mb-0"

@@ -2,7 +2,7 @@
 const router = useRouter();
 
 const globalStore = useGlobalStore();
-const landingPageStore = useLandingPageStore();
+const landingStore = useLandingStore();
 const projectStore = useProjectStore();
 const designStore = useDesignStore();
 const cvStore = useCvStore();
@@ -12,7 +12,7 @@ const languageStore = useLanguageStore();
 const { $directus, $readItems } = useNuxtApp();
 
 const language = ref('');
-const { data: landing } = await useAsyncData('landing_page', () => {
+const { data: landing } = await useAsyncData('landing_page_2', () => {
   return $fetch('/api/landingPage')
 })
 
@@ -100,7 +100,7 @@ onMounted(() => {
   languageStore.initLanguage();
   language.value = languageStore.getCurrentLanguage();
   if (globalStore.landingPageData === null) {
-    globalStore.setLandingPageData(landingPage.value);
+    globalStore.setLandingPageData(landingPage_old.value);
   }
   if (projectStore.projects === null) {
     projectStore.setProjectsData(projectPosts.value);
@@ -110,6 +110,10 @@ onMounted(() => {
   }
   if (contactStore.data === null) {
     contactStore.setData(contact.value);
+  }
+
+  if (landingStore.landingData === null) {
+    landingStore.setLandingData(landing.value);
   }
 
   loading.value = false

@@ -79,15 +79,15 @@ export const useLanguageStore = defineStore('language', () => {
   }
 
   const getMenuItemTranslation = (menuItem, field) => {
-    if (!menuItem?.global_menu_items_id?.translations || !Array.isArray(menuItem.global_menu_items_id.translations)) {
-      return menuItem?.global_menu_items_id?.[field] || ''
+    if (!menuItem?.translations || !Array.isArray(menuItem.translations)) {
+      return menuItem?.[field] || ''
     }
 
-    const translation = menuItem.global_menu_items_id.translations.find(
+    const translation = menuItem.translations.find(
       t => t.languages_code === currentLanguage.value
     )
 
-    return translation?.[field] || menuItem?.global_menu_items_id?.[field] || ''
+    return translation?.[field] || menuItem?.[field] || ''
   }
 
   return {

@@ -9,8 +9,6 @@ export async function getAdapterName() {
 
 // Convert Directus data structure to our Landing interface
 function convertDirectusToLanding(directusData: any): Landing {
-    console.log('Converting Directus data to Landing format:', directusData);
-
     return {
         id: directusData.id,
         status: directusData.status,
@@ -31,21 +29,10 @@ function convertDirectusToLanding(directusData: any): Landing {
             languages_code: translation.languages_code,
             about_me_summary: translation.about_me,
             about_me_prefix: translation.about_me_prefix,
-            opening_line: translation.hook_up_line
+            opening_line: translation.hookup_line
         })) || []
     }
 }
-
-// export async function getLandingPage_old() {
-//     return await directus.request(readItems('landing_page', {
-//         fields: [
-//             '*',
-//             'translations.*',
-//             'page_menu_items_v2.global_menu_items_id.*',
-//             'page_menu_items_v2.global_menu_items_id.translations.*',
-//         ],
-//     }))
-// }
 
 export async function getLandingPageData(): Promise<Landing> {
     const directusData = await directus.request(readItems('landing_page', {
