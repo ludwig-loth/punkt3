@@ -92,7 +92,7 @@ onBeforeUnmount(() => {
         <div
           class="relative flex flex-col items-center justify-center w-full h-full max-w-[100vw] max-h-[99vh]">
           <NuxtImg :src="imgSrc" :alt="caption"
-            class="relative object-contain w-[95vw] h-[95vh] pb-1" />
+            class="relative object-contain w-[95vw] max-h-[95vh] pb-1" />
           <caption v-if="caption"
             class="p-1 text-sm italic font-semibold rounded-sm text-secondary-content bg-base-200">
             {{ caption }}
