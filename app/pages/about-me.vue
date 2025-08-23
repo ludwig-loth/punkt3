@@ -1,8 +1,9 @@
 <script setup>
-const globalStore = useGlobalStore();
+// const globalStore = useGlobalStore();
+const landingStore = useLandingStore();
 const cvStore = useCvStore();
 const languageStore = useLanguageStore();
-const router = useRouter()
+// const router = useRouter()
 const config = useRuntimeConfig()
 const API_URL = config.public.apiURL
 definePageMeta({
@@ -43,7 +44,7 @@ const cvImage = computed(() => {
   if (cvStore.data.cv_image)
     return cvStore.data.cv_image
   else
-    return globalStore.landingPageData.image_me
+    return landingStore.landingData.image
 })
 
 const technicalSkills = computed(() => {
@@ -122,7 +123,7 @@ function groupTechTagsByLevel(skill) {
         </div>
         <div class="flex flex-col items-start justify-end gap-2 p-3 w-42 shrink-0">
           <div class="relative w-full">
-            <light-box v-if="globalStore.landingPageData.image_me || cvStore.data.cv_image"
+            <light-box v-if="landingStore.landingData.image_me || cvStore.data.cv_image"
               :img-src="`${API_URL}/assets/${cvImage}`" class="">
               <template #trigger="{ openLightbox }">
                 <picture class="self-center mt-0 shrink-0">

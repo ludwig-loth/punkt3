@@ -1,5 +1,5 @@
 <script setup>
-const globalStore = useGlobalStore();
+const landingStore = useLandingStore();
 const designStore = useDesignStore();
 const route = useRoute()
 const { tMenuItem, tStatic } = useTranslation()
@@ -25,7 +25,7 @@ const isActiveOrChild = (menuItemPath) => {
 };
 
 const menuItems = computed(() => {
-  return globalStore.landingPageData?.menu_items || []
+  return landingStore.landingData?.menu_items || []
 })
 
 
@@ -48,7 +48,7 @@ onMounted(() => {
     class="absolute self-start hidden w-9 -z-10 top-5 dots-border-bottom dots-border-top dots-border-right left-35 sm:block lg:hidden"
     :style="{ height: `calc(${designStore.sidebarDesign.main_menu.height}px + 1.25rem)` }">
   </div>
-  <nav v-if="globalStore.landingPageData"
+  <nav v-if="landingStore.landingData"
     class="z-0 flex flex-col flex-none w-40 gap-2 mt-2 text-sm h-fit" ref="menuRef">
     <div
       class="p-1 outline-2 outline-base-content bg-base-100 w-40 h-[calc(100%+20px)] -z-20 -mt-2 rounded-sm"
@@ -91,16 +91,16 @@ onMounted(() => {
             </div>
           </div>
         </NuxtLink>
-        <div v-for="item in menuItems" :key="item.global_menu_items_id.slug">
-          <NuxtLink :href="`/${item.global_menu_items_id.slug}`">
+        <div v-for="item in menuItems" :key="item.slug">
+          <NuxtLink :href="`/${item.slug}`">
             <div class="relative transition-all"
-              :class="{ 'active:scale-97 hover:scale-103': !isActiveOrChild(`/${item.global_menu_items_id.slug}`), 'hover:scale-103': (isActiveOrChild(`/${item.global_menu_items_id.slug}`) && hasSubMenu) }">
+              :class="{ 'active:scale-97 hover:scale-103': !isActiveOrChild(`/${item.slug}`), 'hover:scale-103': (isActiveOrChild(`/${item.slug}`) && hasSubMenu) }">
               <div
                 class="flex items-center p-1 transition-all border-2 rounded-sm cursor-default outline-secondary bg-base-100 peer"
                 :class="{
-                  'scale-95 bg-base-300 outline-3': isActiveOrChild(`/${item.global_menu_items_id.slug}`),
-                  'bg-base-100 hover:outline-0 cursor-pointer': !isActiveOrChild(`/${item.global_menu_items_id.slug}`),
-                  '!outline-0 cursor-pointer hover:scale-100': (isActiveOrChild(`/${item.global_menu_items_id.slug}`) && hasSubMenu)
+                  'scale-95 bg-base-300 outline-3': isActiveOrChild(`/${item.slug}`),
+                  'bg-base-100 hover:outline-0 cursor-pointer': !isActiveOrChild(`/${item.slug}`),
+                  '!outline-0 cursor-pointer hover:scale-100': (isActiveOrChild(`/${item.slug}`) && hasSubMenu)
                 }">
                 <div class="flex flex-col justify-start align-middle">
                   <div class="flex items-center align-middle">
@@ -110,7 +110,7 @@ onMounted(() => {
               </div>
               <div
                 class="absolute -bottom-[3px] h-[calc(100%+6px)] w-[calc(100%+6px)] -left-[3px]  mx-auto bg-primary  origin-bottom scale-y-0 transition-transform rounded-sm -z-10"
-                :class="{ 'peer-hover:color-primary-content peer-hover:scale-y-100 scale-y-10': (!isActiveOrChild(`/${item.global_menu_items_id.slug}`) || hasSubMenu) }">
+                :class="{ 'peer-hover:color-primary-content peer-hover:scale-y-100 scale-y-10': (!isActiveOrChild(`/${item.slug}`) || hasSubMenu) }">
               </div>
             </div>
           </NuxtLink>

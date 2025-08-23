@@ -1,10 +1,10 @@
 <script setup>
 // const route = useRoute()
-const globalStore = useGlobalStore();
+const landingStore = useLandingStore();
 const { tStatic } = useTranslation()
 
 const menuItems = computed(() => {
-  return globalStore.landingPageData.pages_menu_items
+  return landingStore.landingData.menu_items
 })
 const props = defineProps({
   open: {
@@ -40,7 +40,7 @@ onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
       class="fixed top-0 left-0 w-full h-screen transition-all opacity-50 z-100 bg-neutral">
     </div>
   </Transition>
-  <div v-if="globalStore.landingPageData" ref="mobileMenuRef"
+  <div v-if="landingStore.landingData" ref="mobileMenuRef"
     class="fixed z-110 bottom-2 right-2 sm:hidden">
     <div class="flex flex-col items-end justify-end gap-4">
       <Transition name="v-scale">

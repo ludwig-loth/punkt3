@@ -1,7 +1,4 @@
 <script setup>
-const router = useRouter();
-
-const globalStore = useGlobalStore();
 const landingStore = useLandingStore();
 const projectStore = useProjectStore();
 const designStore = useDesignStore();
@@ -12,23 +9,9 @@ const languageStore = useLanguageStore();
 const { $directus, $readItems } = useNuxtApp();
 
 const language = ref('');
-const { data: landing } = await useAsyncData('landing_page_2', () => {
+const { data: landing } = await useAsyncData('landing_page', () => {
   return $fetch('/api/landingPage')
 })
-
-console.log(landing.value);
-
-
-const { data: landingPage_old, refresh: refreshlandingPage } = await useAsyncData('landing_page', () => {
-  return $directus.request($readItems('landing_page', {
-    fields: ['*',
-      'translations.*',
-      'page_menu_items_v2.global_menu_items_id.*',
-      'page_menu_items_v2.global_menu_items_id.translations.*',
-    ],
-  }))
-})
-console.log(landingPage_old.value);
 
 const { data: curriculumVitae, refresh: refreshCV } = await useAsyncData('Curriculum_vitae', () => {
   return $directus.request($readItems('Curriculum_vitae', {
@@ -51,72 +34,57 @@ const { data: curriculumVitae, refresh: refreshCV } = await useAsyncData('Curric
   }))
 })
 
-const { data: projectPosts, refresh: refreshPosts } = await useAsyncData('projects', () => {
-  return $directus.request(
-    $readItems('projects', {
-      fields: ['*',
-        'translations.*',
-        'content_blocks.content_blocks_id.*',
-        'content_blocks.content_blocks_id.translations.*',
-        'tech_tags.tech_stack_tags_id.*'
-      ]
-    })
-  )
+const { data: projectPosts } = await useAsyncData('projectPosts', () => {
+  return $fetch('/api/projects')
 })
+
 const { data: contact } = await useAsyncData('contact', () => {
-  return $directus.request(
-    $readItems('contact', {
-      fields: ['*',
-        'translations.*',
-        'socials.contact_socials_id.*'
-      ]
-    })
-  )
+  return $fetch('/api/contact')
 })
 
 
 const loading = ref(false);
 
 const isLoading = computed(() => {
-  if (!globalStore.landingPageData || !projectStore.projects || !designStore) {
-    return true
-  } else {
-    return false
-  }
-});
+  return loading.value ||
+    !landingStore.landingData ||
+    !contactStore.contactData ||
+    !cvStore.data ||
+    !projectStore.projects
+})
 
 const handleLanguageChange = (newLanguage) => {
   languageStore.setLanguage(newLanguage);
 }
 
+const handleThemeChange = (newTheme) => {
+  console.log('Theme changed to:', newTheme);
+}
+
 onBeforeMount(() => {
   languageStore.initLanguage();
+  designStore.initTheme();
   language.value = languageStore.getCurrentLanguage()
 });
 
 onMounted(() => {
 
-  loading.value = true
+  // loading.value = true
   languageStore.initLanguage();
   language.value = languageStore.getCurrentLanguage();
-  if (globalStore.landingPageData === null) {
-    globalStore.setLandingPageData(landingPage_old.value);
-  }
   if (projectStore.projects === null) {
     projectStore.setProjectsData(projectPosts.value);
   }
   if (!cvStore.data) {
     cvStore.setData(curriculumVitae.value);
   }
-  if (contactStore.data === null) {
+  if (contactStore.contactData === null) {
     contactStore.setData(contact.value);
   }
-
   if (landingStore.landingData === null) {
     landingStore.setLandingData(landing.value);
   }
-
-  loading.value = false
+  // loading.value = false
 });
 </script>
 <template>
@@ -124,6 +92,7 @@ onMounted(() => {
   <NuxtErrorBoundary>
     <header class="relative mx-auto max-w-7xl">
       <LangToggle @language-changed="handleLanguageChange" class="" />
+      <!-- <ThemeToggle @theme-changed="handleThemeChange" class="" /> -->
     </header>
     <main class="">
       <NuxtLayout>

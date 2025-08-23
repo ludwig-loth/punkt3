@@ -1,6 +1,6 @@
 <script setup>
 const designStore = useDesignStore();
-const globalStore = useGlobalStore();
+const landingStore = useLandingStore();
 const projectStore = useProjectStore();
 const route = useRoute()
 
@@ -18,8 +18,8 @@ const headerData = computed(() => {
     for (const item of projectStore.projects) {
       if (item.slug === route.params.slug) {
         // Find the portfolio menu item for the group
-        const portfolioMenuItem = globalStore.landingPageData.menu_items?.find(
-          menuItem => menuItem.global_menu_items_id.slug === 'portfolio'
+        const portfolioMenuItem = landingStore.landingData.menu_items?.find(
+          menuItem => menuItem.slug === 'portfolio'
         );
 
         headerData = {
@@ -32,8 +32,8 @@ const headerData = computed(() => {
     }
   } else if (route.name) {
     // Handle main pages
-    const menuItem = globalStore.landingPageData.menu_items?.find(
-      item => item.global_menu_items_id.slug === route.name
+    const menuItem = landingStore.landingData.menu_items?.find(
+      item => item.slug === route.name
     );
 
     if (menuItem) {
@@ -62,7 +62,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="globalStore.landingPageData"
+  <div v-if="landingStore.landingData"
     class="z-10 flex flex-col flex-grow w-full px-3 pb-10 sm:px-0" ref="section_heading">
     <div class="flex flex-row items-start gap-1 pl-1 mt-10 sm:gap-3 sm:mb-6 sm:mt-22">
       <picture class="relative z-10 self-center flex-shrink-0 size-12 sm:size-16" ref="heroImg">

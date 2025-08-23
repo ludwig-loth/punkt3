@@ -1,6 +1,6 @@
 <script setup>
 const designStore = useDesignStore();
-const globalStore = useGlobalStore();
+const landingStore = useLandingStore();
 const route = useRoute()
 const { tMenuItem, tStatic } = useTranslation()
 
@@ -15,11 +15,11 @@ const getParentRoute = () => {
   const pathSegments = route.fullPath.split('/').filter(Boolean);
   pathSegments.pop();
 
-  const menuItems = globalStore.landingPageData?.menu_items;
+  const menuItems = landingStore.landingData.menu_items;
   if (!menuItems) return tStatic('home');
 
   const parentRoute = menuItems.find(
-    item => item.global_menu_items_id.slug === pathSegments[pathSegments.length - 1]
+    item => item.slug === pathSegments[pathSegments.length - 1]
   );
 
   if (!parentRoute || pathSegments[pathSegments.length - 1] === '/') {
@@ -30,7 +30,7 @@ const getParentRoute = () => {
 };
 </script>
 <template>
-  <div v-if="globalStore.landingPageData && designStore.sidebarDesign"
+  <div v-if="landingStore.landingData && designStore.sidebarDesign"
     class="absolute flex flex-col items-center justify-center w-full"
     :class="props.tailwindClasses">
     <div></div>

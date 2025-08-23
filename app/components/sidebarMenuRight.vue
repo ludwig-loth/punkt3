@@ -1,5 +1,5 @@
 <script setup>
-const globalStore = useGlobalStore();
+const landingStore = useLandingStore();
 const route = useRoute()
 const props = defineProps({
   submenu: {
@@ -50,7 +50,7 @@ const navigationLinks = computed(() => {
 </script>
 
 <template>
-  <div v-if="globalStore.landingPageData && active">
+  <div v-if="landingStore.landingData && active">
     <div class="z-0 w-40 p-1 text-sm rounded-sm bg-base-100 outline-2 outline-base-content">
       <h2 v-if="submenu.heading"
         class="flex flex-row items-center justify-between gap-1 p-2 mb-1 text-sm rounded-sm lg:flex-row-reverse bg-base-300">
@@ -71,7 +71,7 @@ const navigationLinks = computed(() => {
           </g>
         </svg>
       </h2>
-            <div v-if="btns"
+      <div v-if="btns"
         class="flex flex-row items-center justify-between w-full h-[38px] gap-4 p-1 rounded-sm bg-base-200">
         <NuxtLink v-if="navigationLinks.prev" :href="`${getParentRoute()}/${navigationLinks.prev}`"
           class="flex flex-row items-center text-sm transition-all w-9 h-7 rounded-xs bg-accent outline-2 outline-base-content hover:scale-105 active:scale-95 group/btnPrev">
