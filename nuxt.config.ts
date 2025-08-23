@@ -1,6 +1,11 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
+  pages: true,
+  ssr: true,
+  experimental: {
+    payloadExtraction: false
+  },
   site: {
     url: "https://www.ludwigloth.de",
     name: "Ludwig Loth | Webauftritt | Informatiker | Akademiker",
@@ -18,13 +23,13 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
     server: {
-      proxy: {
-        "/api": {
-          target: "https://directus.ludwigloth.cloud",
-          changeOrigin: true,
-          rewrite: (path) => path.replace(/^\/api/, ""),
-        },
-      },
+      // proxy: {
+      //   "/api": {
+      //     target: process.env.NUXT_PUBLIC_API_URL,
+      //     changeOrigin: true,
+      //     rewrite: (path) => path.replace(/^\/api/, ""),
+      //   },
+      // },
       hmr: {
         protocol: "ws",
         host: 'localhost',
@@ -36,7 +41,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiURL: "https://directus.ludwigloth.cloud",
+      apiURL: process.env.NUXT_PUBLIC_API_URL,
     },
   },
   typescript: {
@@ -68,10 +73,7 @@ export default defineNuxtConfig({
           type: "font/otf",
           crossorigin: "",
         },
-        // Basic favicon
         { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
-
-        // Standard sizes
         {
           rel: "icon",
           type: "image/png",
@@ -84,15 +86,11 @@ export default defineNuxtConfig({
           sizes: "32x32",
           href: "/favicon-32x32.png",
         },
-
-        // Apple devices
         {
           rel: "apple-touch-icon",
           sizes: "180x180",
           href: "/apple-touch-icon.png",
         },
-
-        // Android devices
         {
           rel: "icon",
           type: "image/png",
@@ -105,8 +103,6 @@ export default defineNuxtConfig({
           sizes: "512x512",
           href: "/android-chrome-512x512.png",
         },
-
-        // Web App Manifest
         { rel: "manifest", href: "/site.webmanifest" },
       ],
     },
@@ -114,9 +110,7 @@ export default defineNuxtConfig({
   modules: [
     "@pinia/nuxt",
     "@vueuse/nuxt",
-    // "@nuxthq/studio",
     "@nuxt/image",
-    // "@nuxthub/core",
     "@nuxtjs/seo",
   ],
 });
