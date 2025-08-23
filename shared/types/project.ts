@@ -7,11 +7,11 @@ export interface Project {
   date_created: string;
   date_updated: string;
   role: string | null;
-  link: string | null;
+  project_url: string | null; //link
   type: string | null;
   year: number | null;
   post_image: string | null;
-  source_code_link: string | null;
+  source_code_url: string | null; //source_code_link
   tags: string[];
   content_blocks: ContentBlock[];
   tech_tags: Tag[];
