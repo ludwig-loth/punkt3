@@ -73,12 +73,12 @@ onMounted(() => {
                                 </div>
                             </div>
                             <div class="flex flex-row flex-wrap gap-3">
-                                <div v-if="project.link">
-                                    <link-button :link="project.link"
+                                <div v-if="project.project_url">
+                                    <link-button :link="project.project_url"
                                         :link-text="tStatic('open_project')"></link-button>
                                 </div>
-                                <div v-if="project.source_code_link">
-                                    <link-button :link="project.source_code_link"
+                                <div v-if="project.source_code_url">
+                                    <link-button :link="project.source_code_url"
                                         :link-text="tStatic('open_source_code')"></link-button>
                                 </div>
                             </div>

@@ -34,6 +34,11 @@ const { data: curriculumVitae, refresh: refreshCV } = await useAsyncData('Curric
   }))
 })
 
+const { data: cvData } = await useAsyncData('Curriculum_vitae_new', () => {
+  return $fetch('/api/cv')
+})
+console.log(cvData.value);
+
 const { data: projectPosts } = await useAsyncData('projectPosts', () => {
   return $fetch('/api/projects')
 })

@@ -9,9 +9,9 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     console.error('Failed to fetch contact data:', error)
 
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to fetch contact data'
-    })
+    // throw createError({
+    //   statusCode: 500,
+    //   statusMessage: `Failed to fetch contact data: ${error}`
+    // })
   }
 })

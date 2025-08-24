@@ -6,7 +6,7 @@ export interface CV {
     image: string | null;
     educational_stages: EducationalStage[];
     career_stages: CareerStage[];
-    accumulate_work_experience: boolean;
+    accumulate_work_experience: boolean | null;
     birthdate: string | null;
     work_status_attention: boolean; //work_blink
     skills: Skill[];
@@ -39,6 +39,7 @@ export interface CareerStage {
     show_month_and_year: boolean;
     translations: CareerStageTranslation[];
     use_in_accumulate_work_experience: boolean; //use_in_accumulate_work_years
+    until_today: boolean;
 }
 
 export interface CareerStageTranslation {

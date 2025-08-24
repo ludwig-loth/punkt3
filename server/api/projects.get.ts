@@ -9,9 +9,9 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     console.error('Failed to fetch project data:', error)
 
-    throw createError({
-      statusCode: 500,
-      statusMessage: 'Failed to fetch project data'
-    })
+    // throw createError({
+    //   statusCode: 500,
+    //   statusMessage: `Failed to fetch project data: ${error}`
+    // })
   }
 })

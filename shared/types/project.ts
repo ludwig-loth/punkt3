@@ -6,13 +6,11 @@ export interface Project {
   status: "published" | "draft" | "archived";
   date_created: string;
   date_updated: string;
-  role: string | null;
-  project_url: string | null; //link
-  type: string | null;
+  project_url: string | null;
   year: number | null;
   post_image: string | null;
-  source_code_url: string | null; //source_code_link
-  tags: string[];
+  source_code_url: string | null;
+  // tags: string[];
   content_blocks: ContentBlock[];
   tech_tags: Tag[];
   translations: ProjectTranslation[];
@@ -34,6 +32,8 @@ export interface ProjectTranslation {
   subtitle: string | null;
   description: string | null;
   post_image_caption: string | null;
+  role: string | null;
+  type: string | null;
 }
 
 export interface ContentBlockTranslation {

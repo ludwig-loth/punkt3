@@ -1,32 +1,41 @@
-<script setup lang="ts">
-interface ContactForm {
-  name: string;
-  mail: string;
-  text: string;
-}
+<script setup>
+// TypeScript Interface - for later use
+// interface ContactForm {
+//   name: string;
+//   mail: string;
+//   text: string;
+// }
+
 definePageMeta({
   layout: 'sidebars',
   hasSubMenu: false,
   hasHeader: true,
   scrollToTop: true
 })
+
 const cvStore = useCvStore();
 const contactStore = useContactStore();
 const { $directus, $createItem } = useNuxtApp();
 const { t, tStatic } = useTranslation()
 
-const contactFrom = ref<ContactForm>({
+// TypeScript typed ref - for later use
+// const contactFrom = ref<ContactForm>({
+const contactFrom = ref({
   name: '',
   mail: '',
   text: ''
 });
 
-
 const { textarea, input } = useTextareaAutosize({ styleProp: 'minHeight' })
-const message_send = ref<boolean>(false);
-const showToastDuration = ref<number>(5000);
+// TypeScript typed refs - for later use
+// const message_send = ref<boolean>(false);
+// const showToastDuration = ref<number>(5000);
+const message_send = ref(false);
+const showToastDuration = ref(5000);
 
-async function sendContactForm(): Promise<void> {
+// TypeScript return type - for later use
+// async function sendContactForm(): Promise<void> {
+async function sendContactForm() {
   try {
     contactFrom.value.text = input.value || '';
     await $directus.request($createItem('contact_form', contactFrom.value));
@@ -40,7 +49,9 @@ async function sendContactForm(): Promise<void> {
     setTimeout(() => {
       message_send.value = false;
     }, showToastDuration.value);
-  } catch (error: unknown) {
+    // TypeScript error typing - for later use
+    // } catch (error: unknown) {
+  } catch (error) {
     console.error('Unknown error submitting contact form:', error);
   }
 }

@@ -28,18 +28,26 @@ async function loadAdapter() {
         return adapterCache
     }
 
-    switch (ACTIVE_ADAPTER) {
-        case 'directus':
-            adapterCache = await import('./directus.adapter')
-            break
-        case 'supabase':
-            adapterCache = await import('./supabase.adapter')
-            break
-        case 'nuxt_content':
-            adapterCache = await import('./nuxt_content.adapter')
-            break
-        default:
-            throw new Error(`Adapter implementation for '${ACTIVE_ADAPTER}' not found`)
+    try {
+        switch (ACTIVE_ADAPTER) {
+            case 'directus':
+                const { default: DirectusAdapter } = await import('./directus.adapter')
+                adapterCache = new DirectusAdapter()
+                break
+            // case 'supabase':
+            //     const { default: SupabaseAdapter } = await import('./supabase.adapter')
+            //     adapterCache = new SupabaseAdapter()
+            //     break
+            // case 'nuxt_content':
+            //     const { default: NuxtContentAdapter } = await import('./nuxt_content.adapter')
+            //     adapterCache = new NuxtContentAdapter()
+            //     break
+            default:
+                throw new Error(`Adapter implementation for '${ACTIVE_ADAPTER}' not found`)
+        }
+    } catch (error) {
+        console.error('Failed to load adapter:', error)
+        throw error
     }
 
     return adapterCache
