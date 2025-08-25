@@ -22,7 +22,7 @@ export interface ContentBlock {
   image: string | null;
   image_position: string | null;
   divider_at_bottom: boolean; // divider
-  sort: number | null;
+  sort: number | string | null;
   translations: ContentBlockTranslation[];
 }
 

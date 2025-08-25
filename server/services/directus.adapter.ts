@@ -110,20 +110,18 @@ class DirectusAdapter {
             date_updated: directusData.date_updated,
             content_blocks: directusData.content_blocks?.map((block: any) => ({
                 id: block.content_blocks_id.id,
-                heading: block.heading,
-                content_blocks_id: {
-                    id: block.content_blocks_id.id,
-                    show_heading: block.content_blocks_id.show_heading,
-                    image: block.content_blocks_id.image,
-                    image_position: block.content_blocks_id.image_position,
-                    divider: block.content_blocks_id.divider,
-                    translations: block.content_blocks_id.translations?.map((trans: any) => ({
-                        languages_code: trans.languages_code,
-                        heading: trans.heading,
-                        text: trans.text,
-                        image_caption: trans.image_caption
-                    })) || []
-                }
+                show_heading: block.content_blocks_id.show_heading,
+                image: block.content_blocks_id.image,
+                image_position: block.content_blocks_id.image_position,
+                divider_at_bottom: block.content_blocks_id.divider,
+                sort: block.content_blocks_id.sort,
+                translations: block.content_blocks_id.translations?.map((trans: any) => ({
+                    languages_code: trans.languages_code,
+                    heading: trans.heading,
+                    text: trans.text,
+                    image_caption: trans.image_caption
+                })) || []
+
             })) || [],
             tech_tags: directusData.tech_tags?.map((tag: any) => ({
                 id: tag.tech_stack_tags_id.id,
@@ -229,7 +227,7 @@ class DirectusAdapter {
         }
     }
 
-    async getCVData(): Promise<CV[]> {
+    async getCVData(): Promise<CV> {
         try {
             const directusData = await (this.directus as any).request((readItems as any)('Curriculum_vitae', {
                 fields: ['*',
@@ -249,7 +247,9 @@ class DirectusAdapter {
                     'socials.contact_socials_id.*'
                 ]
             }))
-            return Array.isArray(directusData) ? directusData.map(item => this.convertToCV(item)) : []
+            console.log(directusData);
+
+            return this.convertToCV(directusData);
         } catch (error) {
             console.error('Error fetching CV data:', error);
             throw error;

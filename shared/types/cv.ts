@@ -55,7 +55,7 @@ export interface CareerStageTranslation {
 
 export interface Skill {
     id: string | number;
-    sort: number | null;
+    sort: number | string | null;
     tags: Tag[] | null; // tags
     translations: SkillTranslation[];
 }

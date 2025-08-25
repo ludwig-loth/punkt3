@@ -42,6 +42,8 @@ console.log(cvData.value);
 const { data: projectPosts } = await useAsyncData('projectPosts', () => {
   return $fetch('/api/projects')
 })
+console.log(projectPosts.value);
+
 
 const { data: contact } = await useAsyncData('contact', () => {
   return $fetch('/api/contact')

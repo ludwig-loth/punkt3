@@ -4,6 +4,7 @@ export interface Tag {
   icon: string | null;
   color: string | null;
   type: "tech" | "tool" | "language" | "other";
+  sort: number | string | null;
   translations: TagTranslation[];
 }
 

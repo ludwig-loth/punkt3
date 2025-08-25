@@ -9,7 +9,7 @@ export interface Contact {
 
 export interface Social {
     id: string | number;
-    sort: number | null;
+    sort: number | string | null;
     date_created: string;
     name: string;
     link: string;
