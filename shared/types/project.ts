@@ -12,7 +12,7 @@ export interface Project {
   source_code_url: string | null;
   // tags: string[];
   content_blocks: ContentBlock[];
-  tech_tags: Tag[];
+  tags: Tag[];
   translations: ProjectTranslation[];
 }
 

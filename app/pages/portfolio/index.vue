@@ -11,21 +11,10 @@ const { t, tStatic } = useTranslation()
 
 const config = useRuntimeConfig();
 const API_URL = config.public.apiURL;
-const { x, y, pressure, pointerType } = usePointer()
 
 function openProject(slug) {
   router.push(`/portfolio/${slug}`);
 }
-// function openProject(slug) {
-//   if (pointerType.value === 'mouse' || pointerType.value === null) {
-//     router.push(`/portfolio/${slug}`);
-//     return;
-//   } else if (pointerType.value === 'touch' || pointerType.value === 'pen') {
-//     setTimeout(() => {
-//       router.push(`/portfolio/${slug}`);
-//     }, 1000);
-//   }
-// }
 
 const sortedProjects = computed(() => {
   return [...(projectStore.projects ?? [])].sort((a, b) => {
@@ -33,11 +22,6 @@ const sortedProjects = computed(() => {
   });
 });
 
-
-
-onMounted(() => {
-  // window.scrollTo({ top: 0, behavior: "smooth" });
-});
 </script>
 <template>
   <div class="flex flex-col gap-0">
@@ -58,7 +42,6 @@ onMounted(() => {
                   </h2>
                   <div
                     class="flex flex-row items-center gap-2 ml-4 font-semibold transition-transform md:hidden text-base-content group-hover:-translate-x-1 group-hover:text-accent-content group-focus:-translate-x-1 group-focus:text-accent-content">
-                    <!-- <div>{{ project.type }}</div> -->
                     <div> {{ t(project, 'type') }}</div>
                     <div class="size-2">
                       <div
@@ -108,8 +91,9 @@ onMounted(() => {
                   <div
                     class="absolute z-10 block w-[calc(100%-1rem)] mt-2 md:mt-4 transition-transform h-42 md:size-42 dots-border bg-base-300 rounded-xs group-hover:scale-x-98 group-hover:scale-y-95 group-focus:scale-97 group-hover:focus-y-95 md:group-hover:scale-95 md:group-focus:scale-95">
                   </div>
-                  <NuxtImg :src="`${API_URL}/assets/${project.post_image}`" alt="Header image of the project"
-                    class="relative z-20 object-cover object-left-top w-full ml-2 transition-transform md:ml-4 h-42 md:size-42 outline-2 rounded-xs group-hover:-translate-x-2 group-hover:translate-y-2 group-focus:-translate-x-2 group-focus:translate-y-2 md:group-hover:-translate-x-4 md:group-hover:translate-y-4 md:group-focus:-translate-x-4 md:group-focus:translate-y-4 "/>
+                  <NuxtImg :src="`${API_URL}/assets/${project.post_image}`"
+                    alt="Header image of the project"
+                    class="relative z-20 object-cover object-left-top w-full ml-2 transition-transform md:ml-4 h-42 md:size-42 outline-2 rounded-xs group-hover:-translate-x-2 group-hover:translate-y-2 group-focus:-translate-x-2 group-focus:translate-y-2 md:group-hover:-translate-x-4 md:group-hover:translate-y-4 md:group-focus:-translate-x-4 md:group-focus:translate-y-4 " />
                 </picture>
                 <div
                   class="md:hidden flex-shrink-0 w-1 h-43 transition-transform origin-right scale-x-0 dots-border-left !border-accent group-focus:scale-x-100 group-hover:scale-x-100 translate-y-1.5 translate-x-2.5">
@@ -135,8 +119,8 @@ onMounted(() => {
                   </div>
                 </div>
               </div>
-              <div class="flex flex-wrap gap-2 ml-4">
-                <div v-for="tag in project.tech_tags" :key="tag.id">
+              <div v-if="project.tags && project.tags.length" class="flex flex-wrap gap-2 ml-4">
+                <div v-for="tag in project.tags" :key="tag.id">
                   <tag-pill :item="tag" />
                 </div>
               </div>

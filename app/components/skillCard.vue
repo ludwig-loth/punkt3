@@ -24,7 +24,7 @@ const props = defineProps({
     <div v-else
       class="h-full p-0.5 mr-1 rounded-xs bg-base-100 text-xl font-league-spartan size-7 flex self-center justify-center"
       :class="subheading ? 'p-0.5 pt-1.5' : 'p-0.5'">
-      {{ tBySuffix(item, 'name').charAt(0) }}
+      {{ tBySuffix(item, 'name').charAt(0).toUpperCase() }}
     </div>
     <div class="flex flex-col justify-center gap-0">
       <p class="pr-2 font-semibold">{{ tBySuffix(item, 'name') }}</p>

@@ -67,8 +67,8 @@ onMounted(() => {
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="flex flex-wrap gap-2">
-                                <div v-for="tag in project.tech_tags" :key="tag.id">
+                            <div v-if="project.tags && project.tags.length" class="flex flex-wrap gap-2">
+                                <div v-for="tag in project.tags" :key="tag.id">
                                     <tag-pill :item="tag" />
                                 </div>
                             </div>

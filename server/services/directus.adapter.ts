@@ -14,7 +14,6 @@ class DirectusAdapter {
         return 'directus'
     }
 
-    // Convert Directus data structure to our Landing interface
     private convertToLanding(directusData: any): Landing {
         return {
             id: directusData.id,
@@ -123,13 +122,17 @@ class DirectusAdapter {
                 })) || []
 
             })) || [],
-            tech_tags: directusData.tech_tags?.map((tag: any) => ({
-                id: tag.tech_stack_tags_id.id,
-                tech_stack_tags_id: {
-                    id: tag.tech_stack_tags_id.id,
-                    name: tag.tech_stack_tags_id.name,
-                    icon: tag.tech_stack_tags_id.icon
-                }
+            tags: directusData.tags?.map((tag: any) => ({
+                id: tag.tags_id.id,
+                icon: tag.tags_id.icon,
+                sort: tag.tags_id.sort,
+                color: tag.tags_id.color,
+                type: tag.tags_id.type,
+                translations: tag.tags_id.translations?.map((trans: any) => ({
+                    languages_code: trans.languages_code,
+                    name: trans.name,
+                    skill_level: trans.skill_level
+                })) || []
             })) || [],
             translations: directusData.translations?.map((translation: any) => ({
                 languages_code: translation.languages_code,
@@ -149,7 +152,9 @@ class DirectusAdapter {
                     'translations.*',
                     'content_blocks.content_blocks_id.*',
                     'content_blocks.content_blocks_id.translations.*',
-                    'tech_tags.tech_stack_tags_id.*'
+                    'tech_tags.tech_stack_tags_id.*',
+                    'tags.tags_id.*',
+                    'tags.tags_id.translations.*'
                 ]
             }))
             return Array.isArray(directusData) ? directusData.map(item => this.convertToProject(item)) : []
@@ -247,8 +252,6 @@ class DirectusAdapter {
                     'socials.contact_socials_id.*'
                 ]
             }))
-            console.log(directusData);
-
             return this.convertToCV(directusData);
         } catch (error) {
             console.error('Error fetching CV data:', error);
