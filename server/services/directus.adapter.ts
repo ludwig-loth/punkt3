@@ -177,8 +177,8 @@ class DirectusAdapter {
             educational_stages: directusData.educational_stages?.map((stage: any) => ({
                 from: stage.from,
                 to: stage.to,
-                show_only_year: stage.show_only_year,
-                show_month_and_year: stage.show_month_and_year,
+                until_today: stage.until_today,
+                date_display: stage.date_display,
                 final_grade: stage.final_grade,
                 final_thesis_grade: stage.final_thesis_grade,
                 translations: stage.translations?.map((trans: any) => ({
@@ -193,17 +193,16 @@ class DirectusAdapter {
             career_stages: directusData.career_stages?.map((stage: any) => ({
                 from: stage.from,
                 to: stage.to,
-                show_only_year: stage.show_only_year,
-                show_month_and_year: stage.show_month_and_year,
+                status: stage.status,
+                until_today: stage.until_today,
+                date_display: stage.date_display,
                 use_in_accumulate_work_experience: stage.use_in_accumulate_work_years,
                 translations: stage.translations?.map((trans: any) => ({
                     languages_code: trans.languages_code,
                     position: trans.position,
                     company: trans.company,
                     location: trans.location,
-                    description: trans.description,
                     additional_info: trans.additional_info,
-                    responsibilities: trans.responsibilities,
                     employment_level: trans.employment_level
                 })) || [],
             })) || [],
@@ -220,14 +219,14 @@ class DirectusAdapter {
                     name: trans.name
                 })) || []
             })) || [],
-            translations: directusData.translations?.map((translation: any) => ({
-                languages_code: translation.languages_code,
-                welcome_heading: translation.welcome_heading,
-                work_status: translation.work_status,
-                summary: translation.introduction_text,
-                skills_summary: translation.skills_introduction,
-                stages_summary: translation.life_stages_introduction,
-                additional_info: translation.additional_info
+            translations: directusData.translations?.map((trans: any) => ({
+                languages_code: trans.languages_code,
+                welcome_heading: trans.welcome_heading,
+                work_status: trans.work_status,
+                summary: trans.introduction_text,
+                skills_summary: trans.skills_introduction,
+                stages_summary: trans.life_stages_introduction,
+                additional_info: trans.additional_info
             })) || []
         }
     }

@@ -15,9 +15,9 @@ export interface CV {
 
 export interface EducationalStage {
     from: string | null;
-    to: string | null; //if null it shows "present"
-    show_only_year: boolean;
-    show_month_and_year: boolean;
+    to: string | null;
+    until_today: boolean | null;
+    date_display: "year" | "month_year" | "full" | null; // nuxt-time automaically converts this format for your language
     final_grade: string | null;
     final_thesis_grade: string | null;
     translations: EducationalStageTranslation[];
@@ -33,13 +33,17 @@ export interface EducationalStageTranslation {
 }
 
 export interface CareerStage {
+    id: string | number;
+    status: "published" | "draft" | "archived";
+    sort: number | string | null;
+    date_created: string;
+    date_updated: string;
     from: string | null;
-    to: string | null; //if null it shows "present"
-    show_only_year: boolean;
-    show_month_and_year: boolean;
-    translations: CareerStageTranslation[];
+    to: string | null;
+    until_today: boolean | null;
+    date_display: "year" | "month_year" | "full" | null; // nuxt-time automaically converts this format for your language
     use_in_accumulate_work_experience: boolean; //use_in_accumulate_work_years
-    until_today: boolean;
+    translations: CareerStageTranslation[];
 }
 
 export interface CareerStageTranslation {
@@ -47,9 +51,7 @@ export interface CareerStageTranslation {
     position: string | null;
     company: string | null;
     location: string | null;
-    description: string | null;
     additional_info: string | null;
-    responsibilities: string | null;
     employment_level: "part_time" | "full_time" | "contract" | "internship" | null;
 }
 
