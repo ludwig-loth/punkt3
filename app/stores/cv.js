@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-export const useCvStore = defineStore('cv', () => {
+export const useCvStore_old = defineStore('cv', () => {
   const data = ref(null)
 
   function setData(d) {

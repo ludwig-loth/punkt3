@@ -107,5 +107,5 @@ export const useDesignStore = defineStore('Design', () => {
     toggleTheme,
     setTheme,
     applyTheme
-  }
+  } as const;
 })

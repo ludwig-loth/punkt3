@@ -3,6 +3,7 @@ const landingStore = useLandingStore();
 const projectStore = useProjectStore();
 const designStore = useDesignStore();
 const cvStore = useCvStore();
+const cvStore_old = useCvStore_old();
 const contactStore = useContactStore();
 const languageStore = useLanguageStore();
 
@@ -54,7 +55,8 @@ const isLoading = computed(() => {
   return loading.value ||
     !landingStore.landingData ||
     !contactStore.contactData ||
-    !cvStore.data ||
+    // !cvStore_old.data ||
+    // !cvStore.data ||
     !projectStore.projects
 })
 
@@ -80,8 +82,11 @@ onMounted(() => {
   if (projectStore.projects === null) {
     projectStore.setProjectsData(projectPosts.value);
   }
+  if (!cvStore_old.data) {
+    cvStore_old.setData(curriculumVitae.value);
+  }
   if (!cvStore.data) {
-    cvStore.setData(curriculumVitae.value);
+    cvStore.setData(cvData.value);
   }
   if (contactStore.contactData === null) {
     contactStore.setData(contact.value);

@@ -16,5 +16,5 @@ export const useLandingStore = defineStore('LandingPage', () => {
     setLandingData,
     clearStore,
     landingData,
-  };
+  } as const;
 });

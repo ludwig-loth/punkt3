@@ -190,7 +190,7 @@ class DirectusAdapter {
                     additional_info: trans.additional_info
                 })) || []
             })) || [],
-            career_stages: directusData.career_stages?.map((stage: any) => ({
+            career_stages: directusData.career_stages_v2?.map((stage: any) => ({
                 from: stage.from,
                 to: stage.to,
                 status: stage.status,
@@ -206,17 +206,34 @@ class DirectusAdapter {
                     employment_level: trans.employment_level
                 })) || [],
             })) || [],
-            skills: directusData.skills?.map((skill: any) => ({
-                id: skill.item.id,
-                sort: skill.item.sort,
-                tags: skill.item.tags ? skill.item.tags.map((tag: any) => ({
-                    id: tag.id,
-                    name: tag.name,
-                    icon: tag.icon
-                })) : [],
-                translations: skill.item.translations?.map((trans: any) => ({
+            skills: directusData.skills_v2?.map((skill: any) => ({
+                id: skill.skills_id.id,
+                sort: skill.skills_id.sort,
+                tags: skill.skills_id.tags.map((tag: any) => ({
+                    id: tag.tags_id.id,
+                    value: tag.tags_id.value,
+                    icon: tag.tags_id.icon,
+                    color: tag.tags_id.color,
+                    sort: tag.tags_id.sort,
+                    translations: tag.tags_id.translations?.map((trans: any) => ({
+                        languages_code: trans.languages_code,
+                        name: trans.name,
+                        skill_level: trans.skill_level
+                    })) || [],
+                })) || [],
+                section: {
+                    id: skill.skills_id.section.section_id,
+                    sort: skill.skills_id.section.sort,
+                    date_created: skill.skills_id.section.date_created,
+                    date_updated: skill.skills_id.section.date_updated,
+                    translations: skill.skills_id.section.translations?.map((trans: any) => ({
+                        languages_code: trans.languages_code,
+                        heading: trans.heading,
+                    })) || [],
+                },
+                translations: skill.skills_id.translations?.map((trans: any) => ({
                     languages_code: trans.languages_code,
-                    name: trans.name
+                    subsection: trans.subsection
                 })) || []
             })) || [],
             translations: directusData.translations?.map((trans: any) => ({
@@ -238,19 +255,22 @@ class DirectusAdapter {
                     'field.*',
                     'translations.*',
                     'images.directus_files_id.*',
-                    'skills.item.*',
-                    'skills.collection',
-                    'skills.item.tags.*',
-                    'skills.item.tech_tags.tech_stack_tags_id.*',
-                    'skills.item.tech_tags.tech_stack_tags_id.skill_level.*',
-                    'skills.item.tools_tags.tags_tools_id.*',
-                    'skills.item.other_tags.tags_id.*',
-                    'skills.item.languages_tags.tags_languages_id.*',
-                    'skills.item.tags_soft_skills.tags_soft_skills_id.*',
+                    'skills_v2.*',
+                    'skills_v2.skills_id.*',
+                    'skills_v2.skills_id.translations.*',
+                    'skills_v2.skills_id.translations.section.*',
+                    'skills_v2.skills_id.tags.tags_id.*',
+                    'skills_v2.skills_id.tags.tags_id.translations.*',
+                    'skills_v2.skills_id.section.*',
+                    'skills_v2.skills_id.section.translations.*',
+                    'career_stages_v2.*',
+                    'career_stages_v2.translations.*',
                     'publications.publications_id.*',
                     'socials.contact_socials_id.*'
                 ]
             }))
+            console.log(directusData);
+
             return this.convertToCV(directusData);
         } catch (error) {
             console.error('Error fetching CV data:', error);

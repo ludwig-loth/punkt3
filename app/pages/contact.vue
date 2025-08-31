@@ -65,8 +65,8 @@ async function sendContactForm() {
         <div class="px-2 pb-2" v-html="t(contactStore.contactData, 'contact_introduction')"></div>
         <div
           class="flex flex-row flex-wrap w-fit *:flex *:flex-row *:items-center *:justify-start p-2 pb-4 gap-5 relative justify-center">
-          <contact-card v-for="social in cvStore.data?.socials || []"
-            :key="social.id || social.contact_socials_id" :item="social.contact_socials_id"
+          <contact-card v-for="social in contactStore.contactData?.socials || []"
+            :key="social.id" :item="social"
             class="post-content-none">
           </contact-card>
         </div>

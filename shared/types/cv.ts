@@ -1,3 +1,5 @@
+import type { Section } from "./section";
+
 export interface CV {
     id: string | number;
     status: "published" | "draft" | "archived";
@@ -8,7 +10,7 @@ export interface CV {
     career_stages: CareerStage[];
     accumulate_work_experience: boolean | null;
     birthdate: string | null;
-    work_status_attention: boolean; //work_blink
+    work_status_attention: boolean;
     skills: Skill[];
     translations: CVTranslation[];
 }
@@ -42,7 +44,7 @@ export interface CareerStage {
     to: string | null;
     until_today: boolean | null;
     date_display: "year" | "month_year" | "full" | null; // nuxt-time automaically converts this format for your language
-    use_in_accumulate_work_experience: boolean; //use_in_accumulate_work_years
+    use_in_accumulate_work_experience: boolean;
     translations: CareerStageTranslation[];
 }
 
@@ -58,21 +60,22 @@ export interface CareerStageTranslation {
 export interface Skill {
     id: string | number;
     sort: number | string | null;
-    tags: Tag[] | null; // tags
+    tags: Tag[] | null;
+    section: Section;
     translations: SkillTranslation[];
 }
 
 export interface SkillTranslation {
     languages_code: string;
-    name: string | null;
+    subsection: string | null;
 }
 
 export interface CVTranslation {
     languages_code: string;
     welcome_heading: string | null;
     work_status: string | null;
-    summary: string | null; // introduction_text
-    skills_summary: string | null; // skills_introduction
-    stages_summary: string | null; // life_stages_introduction
+    summary: string | null;
+    skills_summary: string | null;
+    stages_summary: string | null;
     additional_info: string | null;
 }

@@ -16,5 +16,5 @@ export const useContactStore = defineStore('Contact', () => {
     setData,
     clearStore,
     contactData
-  }
+  } as const;
 })
