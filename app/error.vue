@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
-const router = useRouter();
-const route = useRoute();
-const languageStore = useLanguageStore()
-const { tStatic } = useTranslation()
 
 const props = defineProps({
   error: {
@@ -12,20 +8,44 @@ const props = defineProps({
   }
 })
 
-const encEmail = "aW5mb0BsdWR3aWdsb3RoLmRl";
-function mailTo() {
-  const mail = document.getElementById("mail");
-  mail?.setAttribute("href", "mailto:".concat(atob(encEmail)));
-}
-
-async function nav() {
+async function nav(): Promise<void> {
   await navigateTo('/')
 }
-onMounted(async () => {
-  if (!languageStore.staticTranslations || Object.keys(languageStore.staticTranslations).length === 0) {
-    await languageStore.initLanguage()
+
+// Simple fallback translations for error page
+const errorTranslations: Record<string, Record<string, string>> = {
+  'en-US': {
+    error_server_problem: 'Server Problem',
+    error_try_again: 'Please try again later',
+    error_apology: 'Sorry for the inconvenience',
+    error_heading_404: 'Page Not Found',
+    error_404_message: 'The page you are looking for does not exist',
+    home: 'Home'
+  },
+  'de-DE': {
+    error_server_problem: 'Server Problem',
+    error_try_again: 'Bitte versuchen Sie es später erneut',
+    error_apology: 'Entschuldigung für die Unannehmlichkeiten',
+    error_heading_404: 'Seite nicht gefunden',
+    error_404_message: 'Die gesuchte Seite existiert nicht',
+    home: 'Startseite'
   }
-})
+}
+
+// Get browser language or fallback
+const getLanguage = (): string => {
+  if (process.client && typeof navigator !== 'undefined') {
+    const browserLang = navigator.language || 'en-US'
+    return browserLang.startsWith('de') ? 'de-DE' : 'en-US'
+  }
+  return 'en-US'
+}
+
+// Simple translation function that doesn't rely on stores
+const t = (key: string): string => {
+  const lang = getLanguage()
+  return errorTranslations[lang]?.[key] || errorTranslations['en-US']?.[key] || key
+}
 </script>
 
 <template>
@@ -34,23 +54,13 @@ onMounted(async () => {
       <div v-if="error && error.statusCode !== 404"
         class="relative z-20 flex flex-col items-center justify-center p-5 rounded-sm gap-15 bg-base-200">
         <h2 class="flex flex-col items-center justify-center w-full text-4xl text-center">
-          <p>{{ tStatic('error_server_problem') }}</p>
+          <p>{{ t('error_server_problem') }}</p>
         </h2>
         <div class="flex flex-col items-center justify-center w-full text-2xl text-center">
-          <p>{{ tStatic('error_try_again') }}</p>
-          <p>{{ tStatic('error_apology') }}</p>
+          <p>{{ t('error_try_again') }}</p>
+          <p>{{ t('error_apology') }}</p>
         </div>
         <div class="flex flex-row justify-center w-full gap-8 text-xs">
-          <div class="flex flex-col gap-2">
-            {{ tStatic('error_contact_info') }}
-            <a id="mail" href="" class="p-1 bg-primary w-fit rounded-xs" @click="mailTo">
-              <span class="blockspam" aria-hidden="true">Anti spam detection</span>
-              info@<!-- sdfjsdhfkjypcsasdasdweqrvreq -->ludwigloth.de
-            </a>
-            <div class="text-[10px]">
-              {{ tStatic('error_include_info') }}
-            </div>
-          </div>
           <div
             class="flex flex-col items-start justify-center p-1 rounded-sm outline-4 outline-dotted w-fit outline-error bg-base-100">
             <div>Code: {{ error?.statusCode }}</div>
@@ -61,21 +71,19 @@ onMounted(async () => {
       <div v-if="error && error.statusCode === 404"
         class="relative z-20 flex flex-col items-center justify-center p-5 rounded-sm gap-15 bg-base-200">
         <h2 class="flex flex-col items-center justify-center w-full text-4xl text-center">
-          <p>{{ tStatic('error_heading_404') }}</p>
+          <p>{{ t('error_heading_404') }}</p>
         </h2>
         <div class="flex flex-col items-center justify-center w-full text-2xl text-center">
-          <p>{{ tStatic('error_404_message') }}</p>
+          <p>{{ t('error_404_message') }}</p>
         </div>
-        <div class="flex flex-row justify-center w-full gap-8 text-xs">
+        <div class="flex flex-col justify-center items-center w-full gap-8 text-xs">
           <div
             class="flex flex-col items-start justify-center p-1 rounded-sm outline-4 outline-dotted w-fit outline-error bg-base-100">
             <div>Code: {{ error?.statusCode }}</div>
-            <div>{{ error }}</div>
           </div>
           <div>
-            <NuxtLink @click="nav()" class="text-2xl font-bold cursor-pointer">
-              {{ tStatic('home') }}
-            </NuxtLink>
+            <link-button :link-text="`${t('home')}`" icon-position="left" icon="arrow-up" back-btn>
+            </link-button>
           </div>
         </div>
       </div>
