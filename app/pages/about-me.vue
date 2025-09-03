@@ -112,7 +112,7 @@ const groupedSkills = computed(() => {
         </div>
         <div class="flex flex-col items-start justify-end gap-2 p-3 w-42 shrink-0">
           <div class="relative w-full">
-            <light-box v-if="landingStore.landingData.image_me || cvStore_old.data.cv_image"
+            <light-box v-if="landingStore.landingData.image_me || cvStore.cvData.image"
               :img-src="`${API_URL}/assets/${cvImage}`" class="">
               <template #trigger="{ openLightbox }">
                 <picture class="self-center mt-0 shrink-0">

@@ -1,101 +1,70 @@
-<script setup>
-const landingStore = useLandingStore();
-const projectStore = useProjectStore();
-const designStore = useDesignStore();
-const cvStore = useCvStore();
-const cvStore_old = useCvStore_old();
-const contactStore = useContactStore();
-const languageStore = useLanguageStore();
+<script setup lang="ts">
+const landingStore = useLandingStore()
+const projectStore = useProjectStore()
+const designStore = useDesignStore()
+const cvStore = useCvStore()
+const contactStore = useContactStore()
+const languageStore = useLanguageStore()
 
-const { $directus, $readItems } = useNuxtApp();
+const language: Ref<string> = ref('')
 
-const language = ref('');
-const { data: landing } = await useAsyncData('landing_page', () => {
+const { data: landing } = await useAsyncData('landing_page', (): Promise<Landing> => {
   return $fetch('/api/landingPage')
 })
 
-const { data: curriculumVitae, refresh: refreshCV } = await useAsyncData('Curriculum_vitae', () => {
-  return $directus.request($readItems('Curriculum_vitae', {
-    fields: ['*',
-      'field.*',
-      'translations.*',
-      'images.directus_files_id.*',
-      'skills.item.*',
-      'skills.collection',
-      'skills.item.tags.*',
-      'skills.item.tech_tags.tech_stack_tags_id.*',
-      'skills.item.tech_tags.tech_stack_tags_id.skill_level.*',
-      'skills.item.tools_tags.tags_tools_id.*',
-      'skills.item.other_tags.tags_id.*',
-      'skills.item.languages_tags.tags_languages_id.*',
-      'skills.item.tags_soft_skills.tags_soft_skills_id.*',
-      'publications.publications_id.*',
-      'socials.contact_socials_id.*'
-    ]
-  }))
-})
-
-const { data: cvData } = await useAsyncData('Curriculum_vitae_new', () => {
+const { data: cvData } = await useAsyncData('Curriculum_vitae_new', (): Promise<CV> => {
   return $fetch('/api/cv')
 })
-console.log(cvData.value);
 
-const { data: projectPosts } = await useAsyncData('projectPosts', () => {
+const { data: projectPosts } = await useAsyncData('projectPosts', (): Promise<Project[]> => {
   return $fetch('/api/projects')
 })
 
-const { data: contact } = await useAsyncData('contact', () => {
+const { data: contact } = await useAsyncData('contact', (): Promise<Contact> => {
   return $fetch('/api/contact')
 })
 
+const loading: Ref<boolean> = ref(false)
 
-const loading = ref(false);
-
-const isLoading = computed(() => {
+const isLoading = computed((): boolean => {
   return loading.value ||
     !landingStore.landingData ||
     !contactStore.contactData ||
-    // !cvStore_old.data ||
-    // !cvStore.data ||
+    !cvStore.cvData ||
     !projectStore.projects
 })
 
-const handleLanguageChange = (newLanguage) => {
-  languageStore.setLanguage(newLanguage);
+const handleLanguageChange = (newLanguage: string): void => {
+  languageStore.setLanguage(newLanguage)
 }
 
-const handleThemeChange = (newTheme) => {
-  console.log('Theme changed to:', newTheme);
+const handleThemeChange = (newTheme: string): void => {
+  console.log('Theme changed to:', newTheme)
 }
 
-onBeforeMount(() => {
-  languageStore.initLanguage();
-  designStore.initTheme();
+onBeforeMount((): void => {
+  languageStore.initLanguage()
+  designStore.initTheme()
   language.value = languageStore.getCurrentLanguage()
-});
+})
 
-onMounted(() => {
+onMounted((): void => {
+  languageStore.initLanguage()
+  language.value = languageStore.getCurrentLanguage()
 
-  // loading.value = true
-  languageStore.initLanguage();
-  language.value = languageStore.getCurrentLanguage();
-  if (projectStore.projects === null) {
-    projectStore.setProjectsData(projectPosts.value);
+  if (!projectStore.projects) {
+    projectStore.setProjectsData(projectPosts.value ?? [])
   }
-  if (!cvStore_old.data) {
-    cvStore_old.setData(curriculumVitae.value);
+  if (!cvStore.cvData && cvData.value) {
+    cvStore.setData(cvData.value)
   }
-  if (!cvStore.data) {
-    cvStore.setData(cvData.value);
+  if (!contactStore.contactData && contact.value) {
+    contactStore.setData(contact.value)
   }
-  if (contactStore.contactData === null) {
-    contactStore.setData(contact.value);
+  if (!landingStore.landingData && landing.value) {
+    landingStore.setLandingData(landing.value)
   }
-  if (landingStore.landingData === null) {
-    landingStore.setLandingData(landing.value);
-  }
-  // loading.value = false
-});
+})
 </script>
 <template>
   <Loader v-if="isLoading"></Loader>

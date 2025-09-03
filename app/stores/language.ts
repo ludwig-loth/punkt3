@@ -1,10 +1,26 @@
 import { defineStore } from 'pinia'
 
-export const useLanguageStore = defineStore('language', () => {
-  const currentLanguage = ref('')
-  const staticTranslations = ref({})
+interface TranslationItem {
+  translations?: Array<{
+    languages_code: string;
+    [key: string]: any;
+  }>;
+  [key: string]: any;
+}
 
-  function initLanguage() {
+interface MenuItemType {
+  translations?: Array<{
+    languages_code: string;
+    [key: string]: any;
+  }>;
+  [key: string]: any;
+}
+
+export const useLanguageStore = defineStore('language', () => {
+  const currentLanguage: Ref<string> = ref('')
+  const staticTranslations: Ref<StaticTranslation> = ref({})
+
+  function initLanguage(): void {
     const storedLanguage = localStorage.getItem('language')
     if (!storedLanguage) {
       const { detectLanguage } = useLanguageDetection()
@@ -17,13 +33,13 @@ export const useLanguageStore = defineStore('language', () => {
     loadStaticTranslations()
   }
 
-  function setLanguage(data) {
+  function setLanguage(data: string): void {
     localStorage.setItem('language', data)
     currentLanguage.value = data
     loadStaticTranslations()
   }
 
-  async function loadStaticTranslations() {
+  async function loadStaticTranslations(): Promise<void> {
     try {
       const langCode = currentLanguage.value.split('-')[0]
       const { default: translationData } = await import(`@/assets/i18n/${langCode}.json`)
@@ -34,15 +50,15 @@ export const useLanguageStore = defineStore('language', () => {
     }
   }
 
-  function getCurrentLanguage() {
+  function getCurrentLanguage(): string {
     return currentLanguage.value
   }
 
-  const getStaticTranslation = (key) => {
+  const getStaticTranslation = (key: string): string => {
     return staticTranslations.value[key] || key
   }
 
-  const getTranslation = (item, field) => {
+  const getTranslation = (item: TranslationItem | null | undefined, field: string): string => {
     if (!item?.translations || !Array.isArray(item.translations)) {
       return item?.[field] || ''
     }
@@ -58,27 +74,27 @@ export const useLanguageStore = defineStore('language', () => {
     return translation?.[field] || item?.[field] || ''
   }
 
-  const getTranslationBySuffix = (item, field) => {
-    if (!item || !field) {
-      return ''
-    }
+  // const getTranslationBySuffix = (item: any, field: string, suffix?: string): string => {
+  //   if (!item || !field) {
+  //     return ''
+  //   }
 
-    const langCode = currentLanguage.value.split('-')[0]
-    const fieldWithSuffix = `${field}_${langCode}`
+  //   const langCode = currentLanguage.value.split('-')[0]
+  //   const fieldWithSuffix = suffix ? `${field}_${suffix}` : `${field}_${langCode}`
 
-    if (item[fieldWithSuffix] !== undefined) {
-      return item[fieldWithSuffix]
-    }
+  //   if (item[fieldWithSuffix] !== undefined) {
+  //     return item[fieldWithSuffix]
+  //   }
 
-    // Fallback to the original field if language-specific field doesn't exist
-    if (item[field] !== undefined) {
-      return item[field]
-    }
+  //   // Fallback to the original field if language-specific field doesn't exist
+  //   if (item[field] !== undefined) {
+  //     return item[field]
+  //   }
 
-    return ''
-  }
+  //   return ''
+  // }
 
-  const getMenuItemTranslation = (menuItem, field) => {
+  const getMenuItemTranslation = (menuItem: MenuItemType | null | undefined, field: string): string => {
     if (!menuItem?.translations || !Array.isArray(menuItem.translations)) {
       return menuItem?.[field] || ''
     }
@@ -95,10 +111,10 @@ export const useLanguageStore = defineStore('language', () => {
     setLanguage,
     getCurrentLanguage,
     getTranslation,
-    getTranslationBySuffix,
+    // getTranslationBySuffix,
     getStaticTranslation,
     getMenuItemTranslation,
     currentLanguage,
     staticTranslations
-  }
+  } as const
 })

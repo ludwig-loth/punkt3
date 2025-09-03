@@ -9,7 +9,7 @@ definePageMeta({
     hasSubMenu: true,
     scrollToTop: true
 })
-const { t, tStatic, tBySuffix } = useTranslation()
+const { t, tStatic } = useTranslation()
 
 const project = ref(null)
 onMounted(() => {
@@ -67,7 +67,8 @@ onMounted(() => {
                                     </tbody>
                                 </table>
                             </div>
-                            <div v-if="project.tags && project.tags.length" class="flex flex-wrap gap-2">
+                            <div v-if="project.tags && project.tags.length"
+                                class="flex flex-wrap gap-2">
                                 <div v-for="tag in project.tags" :key="tag.id">
                                     <tag-pill :item="tag" />
                                 </div>
