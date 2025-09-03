@@ -1,10 +1,10 @@
-<script setup>
-// TypeScript Interface - for later use
-// interface ContactForm {
-//   name: string;
-//   mail: string;
-//   text: string;
-// }
+<script setup lang="ts">
+
+interface ContactForm {
+  name: string;
+  mail: string;
+  text: string;
+}
 
 definePageMeta({
   layout: 'sidebars',
@@ -13,29 +13,21 @@ definePageMeta({
   scrollToTop: true
 })
 
-const cvStore = useCvStore();
 const contactStore = useContactStore();
 const { $directus, $createItem } = useNuxtApp();
 const { t, tStatic } = useTranslation()
 
-// TypeScript typed ref - for later use
-// const contactFrom = ref<ContactForm>({
-const contactFrom = ref({
+const contactFrom = ref<ContactForm>({
   name: '',
   mail: '',
   text: ''
 });
 
 const { textarea, input } = useTextareaAutosize({ styleProp: 'minHeight' })
-// TypeScript typed refs - for later use
-// const message_send = ref<boolean>(false);
-// const showToastDuration = ref<number>(5000);
-const message_send = ref(false);
-const showToastDuration = ref(5000);
+const message_send = ref<boolean>(false);
+const showToastDuration = ref<number>(5000);
 
-// TypeScript return type - for later use
-// async function sendContactForm(): Promise<void> {
-async function sendContactForm() {
+async function sendContactForm(): Promise<void> {
   try {
     contactFrom.value.text = input.value || '';
     await $directus.request($createItem('contact_form', contactFrom.value));
@@ -49,13 +41,10 @@ async function sendContactForm() {
     setTimeout(() => {
       message_send.value = false;
     }, showToastDuration.value);
-    // TypeScript error typing - for later use
-    // } catch (error: unknown) {
-  } catch (error) {
+  } catch (error: unknown) {
     console.error('Unknown error submitting contact form:', error);
   }
 }
-
 </script>
 <template>
   <div v-if="contactStore.contactData" class="flex flex-col w-full gap-3 post-content">
@@ -65,9 +54,8 @@ async function sendContactForm() {
         <div class="px-2 pb-2" v-html="t(contactStore.contactData, 'contact_introduction')"></div>
         <div
           class="flex flex-row flex-wrap w-fit *:flex *:flex-row *:items-center *:justify-start p-2 pb-4 gap-5 relative justify-center">
-          <contact-card v-for="social in contactStore.contactData?.socials || []"
-            :key="social.id" :item="social"
-            class="post-content-none">
+          <contact-card v-for="social in contactStore.contactData?.socials || []" :key="social.id"
+            :item="social" class="post-content-none">
           </contact-card>
         </div>
       </div>

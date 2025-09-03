@@ -1,4 +1,4 @@
-import { createDirectus, rest, readItems } from '@directus/sdk'
+import { createDirectus, rest, readItems, createItem } from '@directus/sdk'
 
 class DirectusAdapter {
     private directus: any
@@ -7,7 +7,7 @@ class DirectusAdapter {
         if (!process.env.NUXT_PUBLIC_API_URL) {
             throw new Error('NUXT_PUBLIC_API_URL environment variable is required')
         }
-        this.directus = createDirectus(process.env.NUXT_PUBLIC_API_URL).with(rest())
+        this.directus = createDirectus<any>(process.env.NUXT_PUBLIC_API_URL).with(rest())
     }
 
     async getAdapterName() {
