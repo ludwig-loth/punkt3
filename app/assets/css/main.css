@@ -227,19 +227,19 @@ h2 {
 }
 
 .post-content blockquote:not(.post-content-none) {
-    @apply p-1 pl-2 m-4 text-base italic font-semibold border-l-4 rounded-r-sm text-secondary-content bg-base-200 border-secondary;
+    @apply p-1 pl-2 m-4 italic font-semibold border-l-4 rounded-r-sm text-secondary-content bg-base-200 border-secondary;
 }
 
 .post-content ul:not(.post-content-none) {
-    @apply pl-4 m-2 text-base list-disc text-base-content;
+    @apply pl-4 m-2 list-disc text-base-content;
 }
 
 .post-content ol:not(.post-content-none) {
-    @apply pl-4 m-2 text-base list-decimal text-base-content;
+    @apply pl-4 m-2 list-decimal text-base-content;
 }
 
 .post-content li:not(.post-content-none) {
-    @apply my-1 text-base text-base-content;
+    @apply my-1 text-base-content;
 }
 
 .post-content a:not(.post-content-none) {

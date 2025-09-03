@@ -174,23 +174,25 @@ class DirectusAdapter {
             accumulate_work_experience: directusData.accumulate_work_years,
             birthdate: directusData.birthdate,
             work_status_attention: directusData.work_blink,
-            educational_stages: directusData.educational_stages?.map((stage: any) => ({
+            educational_stages: directusData.educational_stage_v2?.map((stage: any) => ({
+                id: stage.id,
                 from: stage.from,
                 to: stage.to,
                 until_today: stage.until_today,
                 date_display: stage.date_display,
                 final_grade: stage.final_grade,
-                final_thesis_grade: stage.final_thesis_grade,
                 translations: stage.translations?.map((trans: any) => ({
                     languages_code: trans.languages_code,
                     degree: trans.degree,
                     institution: trans.institution,
                     location: trans.location,
-                    final_thesis: trans.final_thesis,
+                    final_thesis_title: trans.final_thesis_title,
+                    final_thesis_grade: trans.final_thesis_grade,
                     additional_info: trans.additional_info
                 })) || []
             })) || [],
             career_stages: directusData.career_stages_v2?.map((stage: any) => ({
+                id: stage.id,
                 from: stage.from,
                 to: stage.to,
                 status: stage.status,
@@ -199,7 +201,7 @@ class DirectusAdapter {
                 use_in_accumulate_work_experience: stage.use_in_accumulate_work_years,
                 translations: stage.translations?.map((trans: any) => ({
                     languages_code: trans.languages_code,
-                    position: trans.position,
+                    position: trans.role,
                     company: trans.company,
                     location: trans.location,
                     additional_info: trans.additional_info,
@@ -236,6 +238,30 @@ class DirectusAdapter {
                     subsection: trans.subsection
                 })) || []
             })) || [],
+            publications: directusData.publications?.map((pub: any) => ({
+                id: pub.publications_id.id,
+                title: pub.publications_id.title,
+                subtitle: pub.publications_id.subtitle,
+                authors: pub.publications_id.authors?.map((author: any) => ({
+                    prefix: author.prefix,
+                    first_name: author.first_name,
+                    last_name: author.last_name
+                })) || [],
+                publisher: pub.publications_id.publisher,
+                identifier: {
+                    type: pub.publications_id.identifier_type,
+                    value: pub.publications_id.identifier
+                },
+                location: pub.publications_id.location,
+                year: pub.publications_id.year,
+                conference: pub.publications_id.conference,
+                journal: pub.publications_id.journal,
+                url: pub.publications_id.link,
+                additional_fields: pub.publications_id.additional_fields?.map((field: any) => ({
+                    name: field.name,
+                    value: field.value
+                })) || []
+            })) || [],
             translations: directusData.translations?.map((trans: any) => ({
                 languages_code: trans.languages_code,
                 welcome_heading: trans.welcome_heading,
@@ -265,12 +291,12 @@ class DirectusAdapter {
                     'skills_v2.skills_id.section.translations.*',
                     'career_stages_v2.*',
                     'career_stages_v2.translations.*',
+                    'educational_stage_v2.*',
+                    'educational_stage_v2.translations.*',
                     'publications.publications_id.*',
                     'socials.contact_socials_id.*'
                 ]
             }))
-            console.log(directusData);
-
             return this.convertToCV(directusData);
         } catch (error) {
             console.error('Error fetching CV data:', error);
