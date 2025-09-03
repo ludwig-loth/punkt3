@@ -1,31 +1,17 @@
-<script setup>
-const route = useRoute()
-const router = useRouter()
+<script setup lang="ts">
+interface Props {
+  type?: 'button' | 'submit';
+  buttonText?: string;
+  iconPosition?: 'left' | 'right';
+  icon?: 'send' | 'globe';
+}
 
-const props = defineProps({
-  type: {
-    type: String,
-    default: 'button',
-    validator: (value) => ['button', 'submit'].includes(value)
-  },
-  buttonText: {
-    type: String,
-    default: ''
-  },
-  iconPosition: {
-    type: String,
-    default: 'left',
-    validator: (value) => ['left', 'right'].includes(value)
-  },
-  icon: {
-    type: String,
-    default: 'send',
-    validator: (value) => ['send', 'globe'].includes(value)
-  },
+const props = withDefaults(defineProps <Props> (), {
+  type: 'button',
+  buttonText: '',
+  iconPosition: 'left',
+  icon: 'send',
 })
-
-const { pointerType } = usePointer()
-
 </script>
 <template>
   <button :type="type" tabindex="0"

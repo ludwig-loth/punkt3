@@ -1,22 +1,21 @@
-<script setup>
-const { tStatic } = useTranslation()
-const props = defineProps({
-  type: {
-    type: String,
-    default: 'info',
-    validator: (value) => ['info', 'warning', 'error', 'success'].includes(value)
-  },
-  message: {
-    type: String,
-    default: 'This is an alert message'
-  },
-  displayDuration: {
-    type: Number,
-    default: 5000
-  }
-});
+<script setup lang="ts">
+interface Props {
+  type?: 'info' | 'warning' | 'error' | 'success';
+  message?: string;
+  displayDuration?: number;
+  modelValue?: boolean;
+}
 
-const heading = computed(() => {
+const props = withDefaults(defineProps<Props>(), {
+  type: 'info',
+  message: 'This is an alert message',
+  displayDuration: 5000,
+  modelValue: true
+})
+
+const { tStatic } = useTranslation()
+
+const heading = computed((): string => {
   switch (props.type) {
     case 'info':
       return `${tStatic('alert_info')}:`;
@@ -31,7 +30,7 @@ const heading = computed(() => {
   }
 });
 
-const colorClass = computed(() => {
+const colorClass = computed((): string => {
   switch (props.type) {
     case 'info':
       return 'bg-info text-blue-500';
@@ -45,7 +44,8 @@ const colorClass = computed(() => {
       return 'bg-gray-100 text-gray-500';
   }
 });
-const colorClassIcon = computed(() => {
+
+const colorClassIcon = computed((): string => {
   switch (props.type) {
     case 'info':
       return 'bg-info text-blue-500';
@@ -59,9 +59,10 @@ const colorClassIcon = computed(() => {
       return 'bg-gray-100 text-gray-500';
   }
 });
-const barWidth = ref('100%')
 
-function triggerBar() {
+const barWidth = ref<string>('100%')
+
+function triggerBar(): void {
   barWidth.value = '100%'
   // nextTick ensures DOM update before transition
   setTimeout(() => {
@@ -72,7 +73,7 @@ function triggerBar() {
 // Watch for alert being shown (v-if or v-show)
 watch(
   () => props.modelValue ?? true, // fallback for always-on if no v-model
-  (show) => {
+  (show: boolean) => {
     if (show) triggerBar()
   },
   { immediate: true }
@@ -85,7 +86,8 @@ watch(
     if (props.modelValue ?? true) triggerBar()
   }
 )
-const barStyle = computed(() => ({
+
+const barStyle = computed((): { width: string; transition: string } => ({
   width: barWidth.value,
   transition: `width ${props.displayDuration}ms linear`
 }))
