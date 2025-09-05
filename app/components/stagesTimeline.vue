@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<{
             class="-mt-1 rounded-sm bg-secondary size-4.5 shrink-0 ring-2 ring-base-100  -ml-2">
           </span>
           <span v-else-if="milestoneStyle === 'diamond'"
-            class="-mt-1 rotate-45 rounded-sm bg-secondary size-5 shrink-0 ring-2 ring-base-100">
+            class="-mt-1 rotate-45 rounded-sm bg-secondary size-4.5 shrink-0 ring-2 ring-base-100 ml-0.25">
           </span>
           <div v-else-if="milestoneStyle === 'triangle'"
             class="relative flex items-center justify-center -mt-1 -ml-[2.25px]">
@@ -112,7 +112,7 @@ const props = withDefaults(defineProps<{
             </p>
           </div>
         </div>
-        <div v-if="items[stageIndex + 1]" class="divider pl-4">
+        <div v-if="items[stageIndex + 1]" class="pl-4 divider">
           <div class="h-fit my-4 max-w-full border-t-3 border-dotted !border-base-200">
           </div>
         </div>

@@ -20,13 +20,13 @@ const props = withDefaults(defineProps<{
     <li v-for="(pub, pubIndex) in items" :key="pub.id" class="list-none">
       <div class="relative flex items-start gap-2 -ml-2">
         <span v-if="milestoneStyle === 'circle'"
-          class="-mt-1 rounded-full bg-secondary size-5 shrink-0 ring-2 ring-base-100  -ml-2.25">
+          class="-mt-1 rounded-full bg-secondary size-5 shrink-0 ring-2 ring-base-100 -ml-2.25">
         </span>
         <span v-else-if="milestoneStyle === 'square'"
-          class="-mt-1 rounded-sm bg-secondary size-4.5 shrink-0 ring-2 ring-base-100  -ml-2">
+          class="-mt-1 rounded-sm bg-secondary size-4.5 shrink-0 ring-2 ring-base-100 -ml-2">
         </span>
         <span v-else-if="milestoneStyle === 'diamond'"
-          class="-mt-1 rotate-45 rounded-sm bg-secondary size-5 shrink-0 ring-2 ring-base-100">
+          class="-mt-1 rotate-45 rounded-sm bg-secondary size-4.5 shrink-0 ring-2 ring-base-100 ml-0.25">
         </span>
         <div v-else-if="milestoneStyle === 'triangle'"
           class="relative flex items-center justify-center -mt-1 -ml-[2.25px]">
@@ -75,12 +75,39 @@ const props = withDefaults(defineProps<{
           </div>
         </span>
       </div>
-      <div v-if="items[pubIndex + 1]" class="divider  pl-4">
+      <div v-if="items[pubIndex + 1]" class="pl-4 divider">
         <div class="h-fit my-4 max-w-full border-t-3 border-dotted !border-base-200">
         </div>
       </div>
     </li>
   </ol>
 </template>
+<style scoped>
+.triangle {
+  --r: 0.2rem;
+  width: 1.55rem;
+  aspect-ratio: 1/cos(30deg);
+  --_g: calc(tan(60deg)*var(--r)) bottom var(--r), #000 98%, #0000 101%;
+  -webkit-mask:
+    conic-gradient(from -30deg at 50% calc(200% - 3*var(--r)/2), #000 60deg, #0000 0) 0 100%/100% calc(100% - 3*var(--r)/2) no-repeat,
+    radial-gradient(var(--r) at 50% calc(2*var(--r)), #000 98%, #0000 101%),
+    radial-gradient(var(--r) at left var(--_g)),
+    radial-gradient(var(--r) at right var(--_g));
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: var(--color-secondary);
+}
 
-<style scoped></style>
+.triangle-ring {
+  --r: 0.3rem;
+  width: calc(1.55rem + 8px);
+  aspect-ratio: 1/cos(30deg);
+  --_g: calc(tan(60deg)*var(--r)) bottom var(--r), #000 98%, #0000 101%;
+  -webkit-mask:
+    conic-gradient(from -30deg at 50% calc(200% - 3*var(--r)/2), #000 60deg, #0000 0) 0 100%/100% calc(100% - 3*var(--r)/2) no-repeat,
+    radial-gradient(var(--r) at 50% calc(2*var(--r)), #000 98%, #0000 101%),
+    radial-gradient(var(--r) at left var(--_g)),
+    radial-gradient(var(--r) at right var(--_g));
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  background: var(--color-base-100);
+}
+</style>
