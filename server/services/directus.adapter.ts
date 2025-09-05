@@ -303,6 +303,15 @@ class DirectusAdapter {
             throw error;
         }
     }
+
+    async submitContactForm(formData: { name: string; mail: string; text: string }): Promise<void> {
+        try {
+            await (this.directus as any).request((createItem as any)('contact_form', formData));
+        } catch (error) {
+            console.error('Error submitting contact form:', error);
+            throw error;
+        }
+    }
 }
 
 export default DirectusAdapter

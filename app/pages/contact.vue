@@ -30,7 +30,11 @@ const showToastDuration = ref<number>(5000);
 async function sendContactForm(): Promise<void> {
   try {
     contactFrom.value.text = input.value || '';
-    await $directus.request($createItem('contact_form', contactFrom.value));
+
+    const response = await $fetch('/api/contactForm', {
+      method: 'POST',
+      body: contactFrom.value
+    })
 
     message_send.value = true;
     contactFrom.value = {
@@ -38,11 +42,12 @@ async function sendContactForm(): Promise<void> {
       mail: '',
       text: ''
     };
+
     setTimeout(() => {
       message_send.value = false;
     }, showToastDuration.value);
   } catch (error: unknown) {
-    console.error('Unknown error submitting contact form:', error);
+    console.error('Error submitting contact form:', error);
   }
 }
 </script>
