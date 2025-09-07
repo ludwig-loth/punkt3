@@ -5,6 +5,7 @@ const designStore = useDesignStore()
 const cvStore = useCvStore()
 const contactStore = useContactStore()
 const languageStore = useLanguageStore()
+const legalNoticeStore = useLegalNoticeStore()
 
 const language: Ref<string> = ref('')
 
@@ -23,6 +24,9 @@ const { data: projectPosts } = await useAsyncData('projectPosts', (): Promise<Pr
 const { data: contact } = await useAsyncData('contact', (): Promise<Contact> => {
   return $fetch('/api/contact')
 })
+const { data: legalNotice } = await useAsyncData('legalNotice', (): Promise<LegalNotice> => {
+  return $fetch('/api/legalNotice')
+})
 
 const loading: Ref<boolean> = ref(false)
 
@@ -31,7 +35,8 @@ const isLoading = computed((): boolean => {
     !landingStore.landingData ||
     !contactStore.contactData ||
     !cvStore.cvData ||
-    !projectStore.projects
+    !projectStore.projects ||
+    !legalNoticeStore.legalNoticeData
 })
 
 const handleLanguageChange = (newLanguage: string): void => {
@@ -63,6 +68,9 @@ onMounted((): void => {
   }
   if (!landingStore.landingData && landing.value) {
     landingStore.setLandingData(landing.value)
+  }
+  if (!legalNoticeStore.legalNoticeData && legalNotice.value) {
+    legalNoticeStore.setData(legalNotice.value)
   }
 })
 </script>

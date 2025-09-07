@@ -96,6 +96,15 @@ class DirectusAdapter {
         }
     }
 
+    async submitContactForm(formData: { name: string; mail: string; text: string }): Promise<void> {
+        try {
+            await (this.directus as any).request((createItem as any)('contact_form', formData));
+        } catch (error) {
+            console.error('Error submitting contact form:', error);
+            throw error;
+        }
+    }
+
     private convertToProject(directusData: any): Project {
         return {
             id: directusData.id,
@@ -304,14 +313,37 @@ class DirectusAdapter {
         }
     }
 
-    async submitContactForm(formData: { name: string; mail: string; text: string }): Promise<void> {
+    private convertToLegalNotice(directusData: any): LegalNotice {
+        return {
+            status: directusData.status,
+            full_name: directusData.full_name,
+            street_and_number: directusData.street_and_number,
+            zipcode_and_town: directusData.zipcode_and_town,
+            mail_address: directusData.mail_address,
+            contact_form_url: directusData.contact_form_url,
+            translations: directusData.translations?.map((translation: any) => ({
+                languages_code: translation.languages_code,
+                text: translation.text,
+                address_info: translation.address_info,
+                country: translation.country,
+            })) || []
+        }
+    }
+
+    async getLegalNoticeData(): Promise<LegalNotice> {
         try {
-            await (this.directus as any).request((createItem as any)('contact_form', formData));
+            const directusData = await (this.directus as any).request((readItems as any)('imprint', {
+                fields: ['*',
+                    'translations.*',
+                ]
+            }))
+            return this.convertToLegalNotice(directusData)
         } catch (error) {
-            console.error('Error submitting contact form:', error);
+            console.error('Error fetching legal notice data:', error);
             throw error;
         }
     }
+
 }
 
 export default DirectusAdapter
