@@ -1,27 +1,29 @@
-<script setup>
-const projectStore = useProjectStore();
+<script setup lang="ts">
+import type { ComputedRef } from 'vue'
+
+const projectStore = useProjectStore()
 const router = useRouter()
+
 definePageMeta({
   layout: 'sidebars',
   hasHeader: true,
   hasSubMenu: false,
   scrollToTop: true
 })
+
 const { t, tStatic } = await useTranslation()
 
-const config = useRuntimeConfig();
-const API_URL = config.public.apiURL;
+const config = useRuntimeConfig()
+const API_URL: string = config.public.apiURL
 
-function openProject(slug) {
-  router.push(`/portfolio/${slug}`);
+function openProject(slug: string): void {
+  router.push(`/portfolio/${slug}`)
 }
 
-const sortedProjects = computed(() => {
-  return [...(projectStore.projects ?? [])].sort((a, b) => {
-    return b.year - a.year;
-  });
-});
-
+const sortedProjects: ComputedRef<Project[]> = computed(() => {
+  const list = (projectStore.projects ?? []) as Project[]
+  return [...list].sort((a, b) => Number(b.year) - Number(a.year))
+})
 </script>
 <template>
   <div class="flex flex-col gap-0">
@@ -129,7 +131,7 @@ const sortedProjects = computed(() => {
         </article>
       </NuxtLink>
       <div
-        v-if="sortedProjects.length > 1 && project.id !== sortedProjects[sortedProjects.length - 1].id"
+        v-if="(sortedProjects?.length ?? 0) > 1 && project.id !== sortedProjects?.[sortedProjects.length - 1]?.id"
         class="h-fit mx-auto my-2 max-w-1/4 dots-border-top !border-base-300 divider">
       </div>
     </div>

@@ -1,8 +1,9 @@
-<script setup>
-const projectStore = useProjectStore();
+<script setup lang="ts">
+const projectStore = useProjectStore()
 const config = useRuntimeConfig()
-const API_URL = config.public.apiURL
+const API_URL: string = config.public.apiURL
 const route = useRoute()
+
 definePageMeta({
     layout: 'sidebars',
     hasHeader: true,
@@ -13,11 +14,20 @@ definePageMeta({
     },
     scrollToTop: true
 })
+
 const { t, tStatic } = await useTranslation()
 
-const project = ref(null)
-onMounted(() => {
-    project.value = projectStore.projects.find((project) => project.slug === route.params.slug);
+const project: Ref<Project | null> = ref(null)
+
+const slug = computed(() => String(route.params.slug || ''))
+
+watchEffect(() => {
+    if (!slug.value) {
+        project.value = null
+        return
+    }
+    const list = projectStore.projects as Project[] | undefined
+    project.value = list?.find(p => p.slug === slug.value) || null
 })
 </script>
 
@@ -109,14 +119,13 @@ onMounted(() => {
                 <div class="h-1 mx-auto my-3 w-3/4 dots-border-top !border-base-300">
                 </div>
                 <div v-for="(block, index) in project.content_blocks" :key="block.id">
-                    <div :class="block.divider ? '' : 'rounded-t-sm bg-base-100'">
+                    <div :class="block.divider_at_bottom ? '' : 'rounded-t-sm bg-base-100'">
                         <div class="relative p-1"
-                            :class="block.divider ? 'rounded-sm bg-base-100' : ''">
+                            :class="block.divider_at_bottom ? 'rounded-sm bg-base-100' : ''">
                             <div
                                 class="p-1 border-2 border-dotted rounded-sm bg-base-100 border-base-200">
                                 <h2 v-if="block.show_heading"
                                     class="p-2 font-sans text-2xl text-base-content">
-                                    {{ block.heading }}
                                     {{ t(block, 'heading') }}
                                 </h2>
                                 <div class="clearfix gap-4"
@@ -135,7 +144,7 @@ onMounted(() => {
                                                         @click="openLightbox" />
                                                 </template>
                                             </light-box>
-                                            <caption v-if="block.translations[0].image_caption"
+                                            <caption v-if="block.translations?.[0]?.image_caption"
                                                 class="mt-2 text-sm italic font-semibold text-secondary-content ">
                                                 {{ t(block, 'image_caption') }}
                                             </caption>
@@ -146,12 +155,13 @@ onMounted(() => {
                                 </div>
                             </div>
                         </div>
-                        <div v-if="block.divider && index !== project.content_blocks.length - 1">
+                        <div
+                            v-if="block.divider_at_bottom && index !== project.content_blocks.length - 1">
                             <div
                                 class="h-fit mx-auto my-3 max-w-1/2 dots-border-top !border-base-300">
                             </div>
                         </div>
-                        <div v-else-if="!block.divider && index !== project.content_blocks.length - 1"
+                        <div v-else-if="!block.divider_at_bottom && index !== project.content_blocks.length - 1"
                             class="absolute w-[calc(100%-1rem)] bg-base-100 z-20">
                             <!-- this is a filthy hack to to create the illusion of a continous post -->
                             <div class="px-1 bg-base-100">
