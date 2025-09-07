@@ -3,10 +3,13 @@ definePageMeta({
   layout: 'sidebars',
   hasHeader: true,
   hasSubMenu: false,
+  underConstruction: true,
+
 })
+const isDev = process.dev
 </script>
 <template>
-  <div class="w-full">
+  <div v-if="isDev" class="w-full">
     <div class="max-w-max">
       Diese Seite ist momentan im Aufbau und wird bald mit weiteren Projekten gefüllt.
       <br />

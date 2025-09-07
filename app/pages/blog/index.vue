@@ -1,11 +1,23 @@
 <script setup>
 definePageMeta({
-  layout: 'sidebars'
+  layout: 'sidebars',
+  hasHeader: true,
+  hasSubMenu: true,
+  underConstruction: true,
+  subMenu: {
+    type: 'custom',
+    headingSlug: 'blog',
+    items: [
+      { slug: 'foo', title: 'Foo', icon: null },
+      { slug: 'bar', title: 'Bar', icon: null }
+    ]
+  }
 })
+const isDev = process.dev
 </script>
 
 <template>
-  <div class="w-full">
+  <div v-if="isDev" class="w-full">
     <div class="max-w-max">
       Diese Seite ist momentan im Aufbau und wird bald mit weiteren Projekten gefüllt.
       <br />
