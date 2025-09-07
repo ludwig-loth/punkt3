@@ -42,7 +42,7 @@ export const useLanguageStore = defineStore('language', () => {
   async function loadStaticTranslations(): Promise<void> {
     try {
       const langCode = currentLanguage.value.split('-')[0]
-      const { default: translationData } = await import(`@/assets/i18n/${langCode}.json`)
+      const { default: translationData } = await import(`@/assets/i18n/locales/${langCode}.json`)
       staticTranslations.value = translationData
     } catch (error) {
       console.error(`Translation file not found for language: ${currentLanguage.value}`)
@@ -74,26 +74,6 @@ export const useLanguageStore = defineStore('language', () => {
     return translation?.[field] || item?.[field] || ''
   }
 
-  // const getTranslationBySuffix = (item: any, field: string, suffix?: string): string => {
-  //   if (!item || !field) {
-  //     return ''
-  //   }
-
-  //   const langCode = currentLanguage.value.split('-')[0]
-  //   const fieldWithSuffix = suffix ? `${field}_${suffix}` : `${field}_${langCode}`
-
-  //   if (item[fieldWithSuffix] !== undefined) {
-  //     return item[fieldWithSuffix]
-  //   }
-
-  //   // Fallback to the original field if language-specific field doesn't exist
-  //   if (item[field] !== undefined) {
-  //     return item[field]
-  //   }
-
-  //   return ''
-  // }
-
   const getMenuItemTranslation = (menuItem: MenuItemType | null | undefined, field: string): string => {
     if (!menuItem?.translations || !Array.isArray(menuItem.translations)) {
       return menuItem?.[field] || ''
@@ -111,7 +91,6 @@ export const useLanguageStore = defineStore('language', () => {
     setLanguage,
     getCurrentLanguage,
     getTranslation,
-    // getTranslationBySuffix,
     getStaticTranslation,
     getMenuItemTranslation,
     currentLanguage,

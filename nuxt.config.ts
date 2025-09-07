@@ -7,10 +7,10 @@ export default defineNuxtConfig({
     payloadExtraction: false
   },
   site: {
-    url: "https://www.ludwigloth.de",
-    name: "Ludwig Loth | Webauftritt | Informatiker | Akademiker",
+    url: "https://<site-url>",
+    name: "Site Name",
     description:
-      "Hier findet ihr einiges, was mich betrifft: meine Projekte, meinen Werdegang, meine Gedanken zu bestimmten Themen und was mich sonst so beschäftigt.",
+      "This is the site description.",
     defaultLocale: "de",
   },
   robots: {
@@ -23,13 +23,6 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
     server: {
-      // proxy: {
-      //   "/api": {
-      //     target: process.env.NUXT_PUBLIC_API_URL,
-      //     changeOrigin: true,
-      //     rewrite: (path) => path.replace(/^\/api/, ""),
-      //   },
-      // },
       hmr: {
         protocol: "ws",
         host: 'localhost',
@@ -107,10 +100,5 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: [
-    "@pinia/nuxt",
-    "@vueuse/nuxt",
-    "@nuxt/image",
-    "@nuxtjs/seo",
-  ],
+  modules: ["@pinia/nuxt", "@vueuse/nuxt", "@nuxt/image", "@nuxtjs/seo"],
 });
