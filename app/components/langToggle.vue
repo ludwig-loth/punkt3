@@ -1,13 +1,13 @@
 <script lang="ts" setup>
-// first typescript test
+
 const languageStore = useLanguageStore()
 const emit = defineEmits<{
   languageChanged: [value: string]
 }>()
-const selected = ref('')
-const isOpen = ref(false)
+const selected: Ref<string> = ref('')
+const isOpen: Ref<boolean> = ref(false)
 
-const options = ref([
+const options: Ref<Array<{ text: string; value: string; label: string }>> = ref([
   { text: 'de', value: 'de-DE', label: 'deutsch' },
   { text: 'en', value: 'en-US', label: 'english' },
 ])

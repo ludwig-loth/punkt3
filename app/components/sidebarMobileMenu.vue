@@ -1,7 +1,7 @@
 <script setup>
 // const route = useRoute()
 const landingStore = useLandingStore();
-const { tStatic } = useTranslation()
+const { tStatic } = await useTranslation()
 
 const menuItems = computed(() => {
   return landingStore.landingData.menu_items

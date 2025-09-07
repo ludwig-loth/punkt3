@@ -1,21 +1,27 @@
-<script setup>
-const props = defineProps({
-  imgSrc: {
-    type: String,
-    required: true
-  },
-  caption: {
-    type: String,
-    default: ''
-  },
+<script setup lang="ts">
+interface Props {
+  imgSrc: string;
+  caption?: string;
+}
+
+interface TriggerSlotProps {
+  openLightbox: () => void;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  caption: ''
 });
 
-const isOpen = ref(false);
-const transformOrigin = ref('center center');
-const triggerSlot = useTemplateRef('trigger-slot')
-const { x, y } = usePointer()
+defineSlots<{
+  trigger(props: TriggerSlotProps): any;
+}>();
 
-function openLightbox() {
+const isOpen = ref<boolean>(false);
+const transformOrigin = ref<string>('center center');
+const triggerSlot = useTemplateRef<HTMLElement>('trigger-slot');
+const { x, y } = usePointer();
+
+function openLightbox(): void {
   const { innerWidth, innerHeight } = window;
   const xPercent = (x.value / innerWidth) * 100;
   const yPercent = (y.value / innerHeight) * 100;
@@ -24,22 +30,25 @@ function openLightbox() {
   isOpen.value = true;
 }
 
-function closeLightbox() {
+function closeLightbox(): void {
   isOpen.value = false;
 }
-onKeyStroke('Escape', (e) => {
+
+onKeyStroke('Escape', (e: KeyboardEvent) => {
   if (e.key === 'Escape') {
-    e.preventDefault()
+    e.preventDefault();
   }
   isOpen.value = false;
-})
-watch(isOpen, (newValue) => {
+});
+
+watch(isOpen, (newValue: boolean) => {
   if (newValue) {
     document.body.classList.add('overflow-hidden');
   } else {
     document.body.classList.remove('overflow-hidden');
   }
 });
+
 onBeforeUnmount(() => {
   document.body.classList.remove('overflow-hidden');
 });

@@ -7,7 +7,7 @@ definePageMeta({
   hasSubMenu: false,
   scrollToTop: true
 })
-const { t, tStatic } = useTranslation()
+const { t, tStatic } = await useTranslation()
 
 const config = useRuntimeConfig();
 const API_URL = config.public.apiURL;

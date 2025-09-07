@@ -11,7 +11,7 @@ const API_URL = config.public.apiURL
 const designStore = useDesignStore();
 const landingStore = useLandingStore();
 
-const { t, tMenuItem } = useTranslation()
+const { t, tMenuItem } = await useTranslation()
 // const { landingPageData } = storeToRefs(globalStore)
 const { landingData } = storeToRefs(landingStore)
 

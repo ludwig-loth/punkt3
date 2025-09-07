@@ -15,7 +15,7 @@ definePageMeta({
 
 const contactStore = useContactStore();
 const { $directus, $createItem } = useNuxtApp();
-const { t, tStatic } = useTranslation()
+const { t, tStatic } = await useTranslation()
 
 const contactFrom = ref<ContactForm>({
   name: '',

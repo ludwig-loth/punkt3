@@ -1,5 +1,3 @@
-<script setup>
-</script>
 <template>
   <div
     class="fixed top-0 left-0 z-[999] w-screen h-screen bg-base-100 overflow-hidden dots-background">
@@ -26,5 +24,3 @@
     </div>
   </div>
 </template>
-
-<style scoped></style>

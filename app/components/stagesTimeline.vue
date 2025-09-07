@@ -1,7 +1,6 @@
 <script lang="ts" setup>
-const cvStore = useCvStore();
 const languageStore = useLanguageStore();
-const { t, tStatic } = useTranslation()
+const { t, tStatic } = await useTranslation()
 
 /*  Attention!:
 * 'triangle' is an experimantal feature and it is just ok in firefox based browsers

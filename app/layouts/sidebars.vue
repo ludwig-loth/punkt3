@@ -6,9 +6,8 @@ const landingStore = useLandingStore();
 const projectStore = useProjectStore();
 const languageStore = useLanguageStore();
 
-const { t, tMenuItem } = useTranslation()
+const { t, tMenuItem } = await useTranslation()
 const { projects } = storeToRefs(projectStore)
-// Add reactive reference to landing data
 const { landingData } = storeToRefs(landingStore)
 
 const hasSubMenu = computed(() => route.meta.hasSubMenu);
@@ -38,7 +37,6 @@ function setSubMenu() {
     items: [],
     heading: null,
   }
-  // Add proper null checks
   if (hasSubMenu.value && projects.value && route.path.includes("/portfolio/") && landingData.value) {
     const sortedProjects = [...projects.value].sort((a, b) => b.year - a.year);
     for (const item of sortedProjects) {
@@ -55,7 +53,6 @@ function setSubMenu() {
   }
 }
 
-// Add watchers for reactive updates
 watch(landingData, () => {
   setSubMenu()
 })
@@ -112,9 +109,6 @@ onMounted(() => {
         </div>
       </div>
     </div>
-    <!-- <div v-else class="flex items-center justify-center h-screen">
-            <div class="loading loading-spinner loading-lg"></div>
-        </div> -->
     <div>
       <sidebarMobileMenu :submenu="subMenuItemsPortfolio" :hasSubMenu="hasSubMenu" />
     </div>

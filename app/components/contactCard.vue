@@ -1,22 +1,15 @@
-<script setup>
+<script setup lang="ts">
+interface Props {
+  item: Social;
+}
+const props = defineProps<Props>()
+
 const config = useRuntimeConfig()
 const API_URL = config.public.apiURL
-const props = defineProps({
-  item: {
-    type: Object,
-    required: true
-  }
-})
 
-const clearedLink = computed(() => {
-  // Remove protocol and www if present, and remove trailing slashes
-  return props.item.link
-    ? props.item.link.replace(/^(https?:\/\/)?(www\.)?/, '').replace(/\/$/, '')
-    : '';
-});
 </script>
 <template>
-  <div v-if="item.active">
+  <div>
     <a :href="item.link" target="_blank"
       class="relative flex items-center w-full gap-2 transition-all border-2 rounded-sm cursor-pointer group focus:ring-4 focus:ring-primary bg-accent hover:outline-4 hover:outline-primary post-content-none border-base-content "
       style="text-decoration: none;" tabindex="0">

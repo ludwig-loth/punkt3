@@ -4,7 +4,7 @@ const landingStore = useLandingStore();
 const projectStore = useProjectStore();
 const route = useRoute()
 
-const { t, tMenuItem } = useTranslation()
+const { t, tMenuItem } = await useTranslation()
 
 const getFirstLetter = computed(() => {
   return (heading) => heading ? heading.charAt(0) : '';

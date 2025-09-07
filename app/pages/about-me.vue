@@ -10,7 +10,7 @@ definePageMeta({
   scrollToTop: true
 })
 
-const { t, tStatic } = useTranslation()
+const { t, tStatic } = await useTranslation()
 
 const age = computed(() => {
   if (!cvStore.cvData.birthdate) return null;

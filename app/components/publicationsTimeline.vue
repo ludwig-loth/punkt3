@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-const languageStore = useLanguageStore();
-const { tStatic } = useTranslation()
-
 /*  Attention!:
 * 'triangle' is an experimantal feature and it is just ok in firefox based browsers
 * I don't know about Safari

@@ -9,7 +9,7 @@ definePageMeta({
     hasSubMenu: true,
     scrollToTop: true
 })
-const { t, tStatic } = useTranslation()
+const { t, tStatic } = await useTranslation()
 
 const project = ref(null)
 onMounted(() => {
@@ -161,13 +161,13 @@ onMounted(() => {
             </div>
         </div>
         <div v-else class="flex flex-col items-center justify-center w-full min-h-150 md:p-8">
-            <div class=" w-full text-center">
+            <div class="w-full text-center ">
                 <div
-                    class="bg-base-100 border-2 border-dotted border-base-200 rounded-sm p-8 mb-6 w-full">
-                    <h1 class="text-4xl font-bold text-base-content mb-4 tracking-wide">
+                    class="w-full p-8 mb-6 border-2 border-dotted rounded-sm bg-base-100 border-base-200">
+                    <h1 class="mb-4 text-4xl font-bold tracking-wide text-base-content">
                         {{ tStatic('project_not_found') }}
                     </h1>
-                    <p class="text-lg text-base-content/80 mb-6 leading-relaxed">
+                    <p class="mb-6 text-lg leading-relaxed text-base-content/80">
                         {{ tStatic('project_not_found_description') }}
                     </p>
                 </div>

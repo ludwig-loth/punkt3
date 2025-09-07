@@ -1,5 +1,5 @@
 <script setup>
-const { t, tBySuffix } = useTranslation()
+const { t, tBySuffix } = await useTranslation()
 const config = useRuntimeConfig()
 const API_URL = config.public.apiURL
 const props = defineProps({

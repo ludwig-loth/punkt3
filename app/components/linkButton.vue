@@ -1,37 +1,32 @@
-<script setup>
-const route = useRoute()
-const router = useRouter()
+<script setup lang="ts">
+import type { RouteLocationNormalizedLoaded } from 'vue-router'
+import type { Router } from 'vue-router'
 
-const props = defineProps({
-  link: {
-    type: String,
-    default: '/'
-  },
-  linkText: {
-    type: String,
-    default: 'open'
-  },
-  iconPosition: {
-    type: String,
-    default: 'left',
-    validator: (value) => ['left', 'right'].includes(value)
-  },
-  icon: {
-    type: String,
-    default: 'external',
-    validator: (value) => ['external', 'arrow-up', 'arrow-down'].includes(value)
-  },
-  internal: {
-    type: Boolean,
-    default: false
-  },
-  backBtn: {
-    type: Boolean,
-    default: false
-  }
+type IconType = 'external' | 'arrow-up' | 'arrow-down'
+type IconPosition = 'left' | 'right'
+
+interface Props {
+  link?: string
+  linkText?: string
+  iconPosition?: IconPosition
+  icon?: IconType
+  internal?: boolean
+  backBtn?: boolean
+}
+
+const route: RouteLocationNormalizedLoaded = useRoute()
+const router: Router = useRouter()
+
+const props = withDefaults(defineProps<Props>(), {
+  link: '/',
+  linkText: 'open',
+  iconPosition: 'left',
+  icon: 'external',
+  internal: false,
+  backBtn: false
 })
 
-const linkTarget = computed(() => {
+const linkTarget = computed((): string => {
   if (props.internal) {
     return '_self'
   } else {
@@ -39,33 +34,15 @@ const linkTarget = computed(() => {
   }
 })
 
-const { pointerType } = usePointer()
-
-function openLink(li) {
+function openLink(li: string): void {
   if (props.backBtn) {
-    const pathSegments = route.fullPath.split('/').filter(Boolean);
-    pathSegments.pop();
-    router.push(`/${pathSegments.join('/')}` || '/');
+    const pathSegments: string[] = route.fullPath.split('/').filter(Boolean)
+    pathSegments.pop()
+    router.push(`/${pathSegments.join('/')}` || '/')
   } else if (!props.internal) {
-    window.open(li, linkTarget.value);
+    window.open(li, linkTarget.value)
   }
 }
-// function openLink(li) {
-//   if (props.backBtn) {
-//     const pathSegments = route.fullPath.split('/').filter(Boolean);
-//     pathSegments.pop();
-//     router.push(`/${pathSegments.join('/')}` || '/');
-//   } else if (!props.internal) {
-//     if (pointerType.value === 'mouse' || pointerType.value === null) {
-//       window.open(li, linkTarget.value);
-//       return;
-//     } else if (pointerType.value === 'touch' || pointerType.value === 'pen') {
-//       setTimeout(() => {
-//         window.open(li, linkTarget);
-//       }, 1000);
-//     }
-//   }
-// }
 </script>
 <template>
   <NuxtLink @click="openLink(link)"
@@ -124,6 +101,5 @@ function openLink(li) {
     <div class="z-20 px-1 pl-2">{{ linkText }}</div>
   </NuxtLink>
 </template>
-
 
 <style></style>

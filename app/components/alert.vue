@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
   modelValue: true
 })
 
-const { tStatic } = useTranslation()
+const { tStatic } = await useTranslation()
 
 const heading = computed((): string => {
   switch (props.type) {
@@ -64,7 +64,7 @@ const barWidth = ref<string>('100%')
 
 function triggerBar(): void {
   barWidth.value = '100%'
-  // nextTick ensures DOM update before transition
+  // little hack to ensure DOM update before transition
   setTimeout(() => {
     barWidth.value = '0%'
   }, 10)

@@ -2,7 +2,7 @@
 const landingStore = useLandingStore();
 const designStore = useDesignStore();
 const route = useRoute()
-const { tMenuItem, tStatic } = useTranslation()
+const { tMenuItem, tStatic } = await useTranslation()
 
 const props = defineProps({
   submenu: {

@@ -1,8 +1,5 @@
-<script setup>
+<script setup lang="ts">
 const designStore = useDesignStore();
-
-onMounted(() => {
-});
 </script>
 <template>
   <div class="relative flex flex-col min-h-screen overflow-hidden">

@@ -7,7 +7,7 @@ const props = defineProps({
     required: true
   }
 })
-const { t } = useTranslation()
+const { t } = await useTranslation()
 </script>
 <template>
   <span
