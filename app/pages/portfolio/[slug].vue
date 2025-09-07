@@ -7,6 +7,10 @@ definePageMeta({
     layout: 'sidebars',
     hasHeader: true,
     hasSubMenu: true,
+    subMenu: {
+        type: 'projects',
+        headingSlug: 'portfolio'
+    },
     scrollToTop: true
 })
 const { t, tStatic } = await useTranslation()

@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 const route = useRoute()
 
 const designStore = useDesignStore();
@@ -6,68 +6,133 @@ const landingStore = useLandingStore();
 const projectStore = useProjectStore();
 const languageStore = useLanguageStore();
 
-const { t, tMenuItem } = await useTranslation()
-const { projects } = storeToRefs(projectStore)
-const { landingData } = storeToRefs(landingStore)
+const { t, tMenuItem } = useTranslation()
+const { projects } = storeToRefs(projectStore) as { projects: Ref<Project[] | null> }
+const { landingData } = storeToRefs(landingStore) as { landingData: Ref<Landing | null> }
 
-const hasSubMenu = computed(() => route.meta.hasSubMenu);
-const hasHeader = computed(() => route.meta.hasHeader);
-const subMenuItemsPortfolio = ref({
-  items: [],
-  heading: null,
-})
+const hasSubMenu = computed<boolean>(() => Boolean(route.meta.hasSubMenu));
+const hasHeader = computed<boolean>(() => Boolean(route.meta.hasHeader));
 
 const mobileMenu = ref(false)
-const mobileMenuRef = useTemplateRef('mobileMenuRef')
-const section_heading = ref(null);
-const section_content = ref(null);
+const mobileMenuRef = useTemplateRef<HTMLElement | null>('mobileMenuRef')
 
-const saveDimensions = (entries, observerName) => {
+const section_heading = ref<HTMLElement | null>(null)
+const section_content = ref<HTMLElement | null>(null)
+
+type SidebarDimensionKey = 'section_heading' | 'section_content'
+
+const saveDimensions = (entries: ReadonlyArray<ResizeObserverEntry>, key: SidebarDimensionKey): void => {
   const entry = entries[0]
-  const { width, height } = entry.contentRect
-  designStore.setSidebarDesign(observerName, { width, height });
+  if (!entry) return
+  const { width, height, x: left, y: top } = entry.contentRect
+  designStore.setSidebarDesign(key, { width, height, top, left })
 }
 
-useResizeObserver(section_heading, (entries) => saveDimensions(entries, 'section_heading'))
-useResizeObserver(section_content, (entries) => saveDimensions(entries, 'section_content'))
-onClickOutside(mobileMenuRef, () => mobileMenu.value = false)
+useResizeObserver(section_heading, e => saveDimensions(e, 'section_heading'))
+useResizeObserver(section_content, e => saveDimensions(e, 'section_content'))
 
-function setSubMenu() {
-  let subMenu = {
-    items: [],
-    heading: null,
-  }
-  if (hasSubMenu.value && projects.value && route.path.includes("/portfolio/") && landingData.value) {
-    const sortedProjects = [...projects.value].sort((a, b) => b.year - a.year);
-    for (const item of sortedProjects) {
-      subMenu.items.push({
-        slug: item.slug,
-        title: t(item, 'title'),
-        icon: item.icon,
-      });
-    }
-    const portfolioMenuItem = landingData.value.menu_items?.find(item => item.slug === 'portfolio');
+onClickOutside(mobileMenuRef, () => { mobileMenu.value = false })
 
-    subMenu.heading = portfolioMenuItem ? tMenuItem(portfolioMenuItem, 'heading') : null;
-    subMenuItemsPortfolio.value = subMenu
-  }
+type SubMenuSource = 'projects' | 'menu' | 'custom'
+interface SubMenuMeta {
+  type: SubMenuSource
+  headingSlug?: string
+  excludeCurrent?: boolean
+  items?: Array<{ slug: string; title: string; icon?: string | null }>
 }
 
-watch(landingData, () => {
-  setSubMenu()
-})
+// Flat shape consumed by the UI
+interface SubMenuFlat {
+  slug: string
+  title: string
+  icon: string | null
+  source: SubMenuSource
+}
 
-watch(projects, () => {
-  setSubMenu()
-})
+interface SubMenu {
+  items: SubMenuFlat[]
+  heading: string | null
+}
 
-watch(hasSubMenu, () => {
-  setSubMenu()
-})
+const subMenuItemsPortfolio = ref<SubMenu>({ items: [], heading: null })
 
-watch(() => languageStore.currentLanguage, () => {
-  setSubMenu()
-})
+const rootSlug = computed(() => route.path.split('/').filter(Boolean)[0] ?? '')
+const subMenuMeta = computed<SubMenuMeta | undefined>(() => (route.meta as any).subMenu)
+
+function buildProjectItems(): SubMenuFlat[] {
+  if (!projects.value) return []
+  return [...projects.value]
+    .sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
+    .map(p => ({
+      slug: p.slug,
+      title: t(p, 'title'),
+      icon: (p as any).icon ?? null,
+      original: p,
+      source: 'projects' as const
+    }))
+}
+
+function buildMenuItems(excludeCurrent: boolean | undefined): SubMenuFlat[] {
+  if (!landingData.value?.menu_items) return []
+  return landingData.value.menu_items
+    .filter(mi => !excludeCurrent || mi.slug !== rootSlug.value)
+    .map(mi => ({
+      slug: mi.slug,
+      title: tMenuItem(mi, 'heading'),
+      icon: (mi as any).icon ?? null,
+      original: mi,
+      source: 'menu' as const
+    }))
+}
+
+function buildCustomItems(custom: NonNullable<SubMenuMeta['items']>): SubMenuFlat[] {
+  return custom.map(it => ({
+    slug: it.slug,
+    title: it.title,
+    icon: it.icon ?? null,
+    original: { slug: it.slug, title: it.title, icon: it.icon ?? null },
+    source: 'custom' as const
+  }))
+}
+
+function setSubMenu(): void {
+  if (!hasSubMenu.value || !landingData.value) {
+    subMenuItemsPortfolio.value = { items: [], heading: null }
+    return
+  }
+
+  const meta = subMenuMeta.value
+  if (!meta) {
+    subMenuItemsPortfolio.value = { items: [], heading: null }
+    return
+  }
+
+  let items: SubMenuFlat[] = []
+  if (meta.type === 'projects') {
+    items = buildProjectItems()
+  } else if (meta.type === 'menu') {
+    items = buildMenuItems(meta.excludeCurrent)
+  } else if (meta.type === 'custom') {
+    items = buildCustomItems(meta.items ?? [])
+  }
+
+  const headingSlug =
+    meta.headingSlug ||
+    (meta.type === 'projects' ? 'portfolio' : rootSlug.value)
+
+  const headingMenuItem = landingData.value.menu_items?.find(m => m.slug === headingSlug)
+  const heading = headingMenuItem ? tMenuItem(headingMenuItem, 'heading') : null
+
+  subMenuItemsPortfolio.value = { items, heading }
+
+  if (import.meta.dev) console.debug('[submenu]', meta, subMenuItemsPortfolio.value)
+}
+
+watch(
+  [landingData, projects, hasSubMenu, () => languageStore.currentLanguage, subMenuMeta],
+  () => setSubMenu(),
+  { immediate: true }
+)
 
 onMounted(() => {
   setSubMenu()

@@ -24,11 +24,12 @@ class DirectusAdapter {
             menu_items: directusData.page_menu_items_v2?.map((item: any) => ({
                 slug: item.global_menu_items_id.slug,
                 status: item.global_menu_items_id.status,
+                sort: item.global_menu_items_id.sort,
+                icon: item.global_menu_items_id.icon,
                 translations: item.global_menu_items_id.translations?.map((translation: any) => ({
                     languages_code: translation.languages_code,
                     heading: translation.heading,
-                    subheading: translation.subheading,
-                    slug: translation.slug
+                    description: translation.subheading,
                 })) || []
             })) || [],
             translations: directusData.translations?.map((translation: any) => ({

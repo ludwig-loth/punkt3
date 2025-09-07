@@ -17,6 +17,7 @@ export interface Project {
 }
 
 export interface ContentBlock {
+  id: string | number;
   date_updated: string;
   show_heading: boolean;
   image: string | null;

@@ -17,18 +17,3 @@ export interface LandingTranslation {
     opening_line: string | null;
     [key: string]: any;
 }
-
-export interface MenuItem {
-    slug: string;
-    status: 'draft' | 'published' | 'archived';
-    translations: MenuItemTranslation[];
-    [key: string]: any;
-}
-
-export interface MenuItemTranslation {
-    languages_code: 'de-De' | 'en-US'; // add more as you wish
-    heading: string | null;
-    subheading: string | null;
-    slug: string | null;
-    [key: string]: any;
-}

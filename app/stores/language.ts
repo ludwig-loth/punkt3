@@ -16,7 +16,7 @@ interface MenuItemType {
   [key: string]: any;
 }
 
-export const useLanguageStore = defineStore('language', () => {
+export const useLanguageStore = defineStore('Language', () => {
   const currentLanguage: Ref<string> = ref('')
   const staticTranslations: Ref<StaticTranslation> = ref({})
 

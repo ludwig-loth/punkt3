@@ -1,24 +1,6 @@
 import { defineStore } from 'pinia'
 import { type Ref } from "vue";
 
-interface ElementDimensions {
-  width: number;
-  height: number;
-  top: number;
-  left: number;
-}
-
-interface LandingPageDesign {
-  opening_line: ElementDimensions;
-  about_me: ElementDimensions;
-  menu_items: ElementDimensions;
-}
-
-interface SidebarDesign {
-  section_heading: ElementDimensions;
-  section_content: ElementDimensions;
-}
-
 type ThemeMode = 'dark' | 'light';
 
 export const useDesignStore = defineStore('Design', () => {

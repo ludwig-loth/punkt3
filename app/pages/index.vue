@@ -1,41 +1,35 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
     layout: 'default',
     scrollToTop: true,
 })
-// const router = useRouter()
 const config = useRuntimeConfig()
-const API_URL = config.public.apiURL
+const API_URL: string = config.public.apiURL
 
-// const globalStore = useGlobalStore();
 const designStore = useDesignStore();
 const landingStore = useLandingStore();
 
-const { t, tMenuItem } = await useTranslation()
-// const { landingPageData } = storeToRefs(globalStore)
-const { landingData } = storeToRefs(landingStore)
 
-const opening_line = ref(null);
-const about_me = ref(null);
-const menu_items = ref(null);
+const { t, tMenuItem } = useTranslation()
+const { landingData } = storeToRefs(landingStore) as { landingData: Ref<Landing | null> }
 
-const saveDimensions = (entries, observerName) => {
+const opening_line: Ref<HTMLElement | null> = ref(null);
+const about_me: Ref<HTMLElement | null> = ref(null);
+const menu_items: Ref<HTMLElement | null> = ref(null);
+
+const saveDimensions = (entries: ReadonlyArray<ResizeObserverEntry>, key: keyof LandingPageDesign): void => {
     const entry = entries[0]
-    const { width, height } = entry.contentRect
-    designStore.setLandingPageDesign(observerName, { width, height });
+    if (!entry) return
+    const { width, height, x: left, y: top } = entry.contentRect
+    designStore.setLandingPageDesign(key, { width, height, top, left })
 }
 
 useResizeObserver(opening_line, (entries) => saveDimensions(entries, 'opening_line'))
 useResizeObserver(about_me, (entries) => saveDimensions(entries, 'about_me'))
 useResizeObserver(menu_items, (entries) => saveDimensions(entries, 'menu_items'))
 
-const mainMenuItems = computed(() =>
-    landingData.value?.menu_items
-);
+const mainMenuItems = computed((): Array<MenuItem> => landingData.value?.menu_items ?? [])
 
-onMounted(() => {
-
-});
 </script>
 <template>
     <div v-if="landingData" class="relative">
@@ -78,12 +72,11 @@ onMounted(() => {
                                     <div class="z-20 flex flex-col justify-start align-middle ">
                                         <div class="flex items-center align-middle">
                                             <h2 class="text-xl md:text-2xl">
-                                                {{ item.heading }}
                                                 {{ tMenuItem(item, 'heading') }}
                                             </h2>
                                         </div>
                                         <p class="line-clamp-3">
-                                            {{ tMenuItem(item, 'subheading') }}
+                                            {{ tMenuItem(item, 'description') }}
                                         </p>
                                     </div>
                                 </div>
