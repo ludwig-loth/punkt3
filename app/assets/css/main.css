@@ -121,10 +121,11 @@
 }
 
 body {
-    @apply relative h-screen bg-base-100 dots-background;
+    transition: background-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    @apply relative bg-base-100 dots-background;
     padding: 0;
     margin: 0;
-    transition: background-size 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    min-height: 100dvh;
 }
 
 h1 {
