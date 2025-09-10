@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   layout: 'sidebars',
   hasHeader: true,
@@ -13,7 +13,7 @@ definePageMeta({
     ]
   }
 })
-const isDev = process.dev
+const isDev = import.meta.dev
 </script>
 
 <template>
@@ -34,6 +34,4 @@ const isDev = process.dev
     </div>
   </div>
 </template>
-
-
 <style></style>

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 interface ContactForm {
   name: string;
   mail: string;
@@ -14,8 +13,7 @@ definePageMeta({
 })
 
 const contactStore = useContactStore();
-const { $directus, $createItem } = useNuxtApp();
-const { t, tStatic } = await useTranslation()
+const { t, tStatic } = useTranslation()
 
 const contactFrom = ref<ContactForm>({
   name: '',

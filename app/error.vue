@@ -34,7 +34,7 @@ const errorTranslations: Record<string, Record<string, string>> = {
 
 // Get browser language or fallback
 const getLanguage = (): string => {
-  if (process.client && typeof navigator !== 'undefined') {
+  if (import.meta.client && typeof navigator !== 'undefined') {
     const browserLang = navigator.language || 'en-US'
     return browserLang.startsWith('de') ? 'de-DE' : 'en-US'
   }
@@ -76,7 +76,7 @@ const t = (key: string): string => {
         <div class="flex flex-col items-center justify-center w-full text-2xl text-center">
           <p>{{ t('error_404_message') }}</p>
         </div>
-        <div class="flex flex-col justify-center items-center w-full gap-8 text-xs">
+        <div class="flex flex-col items-center justify-center w-full gap-8 text-xs">
           <div
             class="flex flex-col items-start justify-center p-1 rounded-sm outline-4 outline-dotted w-fit outline-error bg-base-100">
             <div>Code: {{ error?.statusCode }}</div>

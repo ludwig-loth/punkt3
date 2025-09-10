@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const legalNoticeStore = useLegalNoticeStore()
-const { t, tStatic } = await useTranslation()
+const { t, tStatic } = useTranslation()
 definePageMeta({
   layout: 'sidebars',
   hasSubMenu: false,

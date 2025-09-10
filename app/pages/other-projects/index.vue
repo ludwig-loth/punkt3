@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   layout: 'sidebars',
   hasHeader: true,
@@ -6,7 +6,7 @@ definePageMeta({
   underConstruction: true,
 
 })
-const isDev = process.dev
+const isDev = import.meta.dev
 </script>
 <template>
   <div v-if="isDev" class="w-full">
