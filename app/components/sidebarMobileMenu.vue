@@ -1,29 +1,22 @@
-<script setup >
+<script setup lang="ts">
+interface Props {
+  open: boolean;
+  submenu: SubMenu;
+  hasSubMenu: boolean;
+}
 const landingStore = useLandingStore();
-const { tStatic } = await useTranslation()
+const { tStatic } = useTranslation()
 
-const menuItems = computed(() => {
-  return landingStore.landingData.menu_items
-})
-const props = defineProps({
-  open: {
-    type: Boolean,
-    default: false
-  },
-  submenu: {
-    type: Object,
-    default: () => ({
-      items: [],
-    })
-  },
-  hasSubMenu: {
-    type: Boolean,
-    default: false,
-  },
+const menuItems = computed<MenuItem[]>(() => landingStore.landingData?.menu_items || [])
+
+const props = withDefaults(defineProps<Props>(), {
+  submenu: () => ({ items: [], heading: '' }),
+  hasSubMenu: false,
+  mobile: false
 })
 
-const mobileMenuOpen = ref(false)
-const mobileMenuRef = useTemplateRef('mobileMenuRef')
+const mobileMenuOpen = ref<boolean>(false)
+const mobileMenuRef = useTemplateRef<HTMLElement | null>('mobileMenuRef')
 onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
 
 </script>
@@ -39,7 +32,7 @@ onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
       <Transition name="v-scale">
         <div v-if="mobileMenuOpen"
           class="absolute flex flex-row items-center justify-center gap-4 p-4 pr-6 rounded-tl-sm max-w-96 min-w-50 -bottom-4 -right-4 pb-15 bg-base-100 ring-4 ring-primary outline-2 outline-base-content shrink-0 dots-background">
-          <sidebarMainMenu :submenu="menuItems" mobile>
+          <sidebarMainMenu :submenu="submenu" :has-sub-menu="hasSubMenu" mobile>
           </sidebarMainMenu>
           <sidebarMenuRight :active="hasSubMenu" :submenu="submenu" class="z-10" :icon="false"
             :btns="false" mobile> </sidebarMenuRight>
@@ -101,13 +94,9 @@ onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
     class="fixed bottom-0 right-0 w-32 h-12 rounded-tl z-105 sm:hidden bg-base-300 outline-0 outline-dotted outline-base-100 ring-5 ring-base-content inset-ring-0 inset-ring-base-content"
     @click="mobileMenuOpen = !mobileMenuOpen">
   </div>
-  <!-- <div class="fixed bottom-0 right-0 z-20 rounded-tl w-33 h-13 sm:hidden"
-    @click="mobileMenuOpen = !mobileMenuOpen">
-  </div> -->
 </template>
 <style>
 .dots-background {
-
   background-image: radial-gradient(rgba(208, 182, 161, 0.15) 2px, transparent 0);
   background-size: 20px 20px;
   background-position: 0px 0px;

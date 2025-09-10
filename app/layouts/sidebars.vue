@@ -103,7 +103,8 @@ onMounted(() => {
         <div class="flex flex-row gap-5" ref="section_content">
           <aside class="sticky z-40 hidden top-1 lg:top-5 sm:flex h-fit"
             :class="{ '!top-1': !hasSubMenu }">
-            <sidebarMainMenu :submenu="subMenuItemsPortfolio" :hasSubMenu="hasSubMenu" />
+            <sidebarMainMenu :submenu="subMenuItemsPortfolio" :hasSubMenu="hasSubMenu"
+              :mobile="false" />
           </aside>
           <section class="relative flex flex-col p-2 rounded-sm mb-14 sm:mb-11 bg-base-200">
             <div class="flex flex-col gap-8">
@@ -117,7 +118,8 @@ onMounted(() => {
       </div>
     </div>
     <div>
-      <sidebarMobileMenu :submenu="subMenuItemsPortfolio" :hasSubMenu="hasSubMenu" />
+      <sidebarMobileMenu :submenu="subMenuItemsPortfolio" :hasSubMenu="hasSubMenu"
+        :open="false" />
     </div>
   </div>
 </template>

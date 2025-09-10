@@ -1,4 +1,12 @@
 <script setup lang="ts">
+interface GroupedSkillSubsection {
+  subsection: string
+  tags: Tag[]
+}
+interface GroupedSkillSection {
+  section: Section
+  subsections: GroupedSkillSubsection[]
+}
 const landingStore = useLandingStore();
 const cvStore = useCvStore();
 const config = useRuntimeConfig()
@@ -9,15 +17,6 @@ definePageMeta({
   scrollToTop: true,
   hasSubMenu: false,
 })
-
-interface GroupedSkillSubsection {
-  subsection: string
-  tags: Tag[]
-}
-interface GroupedSkillSection {
-  section: Section
-  subsections: GroupedSkillSubsection[]
-}
 
 const { t, tStatic } = useTranslation()
 
@@ -171,7 +170,7 @@ const groupedSkills = computed<GroupedSkillSection[]>(() => {
                   subsectionGroup.subsection
                   }}</h4>
                 <div
-                  class="flex flex-wrap gap-2 p-2 ml-1 md:ml-3 relative before:absolute before:-ml-4 before:-mt-2 before:h-full before:w-1 before:rounded-full before:bg-secondary">
+                  class="relative flex flex-wrap gap-2 p-2 ml-1 md:ml-3 before:absolute before:-ml-4 before:-mt-2 before:h-full before:w-1 before:rounded-full before:bg-secondary">
                   <skill-badge v-for="tag in subsectionGroup.tags" :key="tag.id" :item="tag" />
                 </div>
               </div>
@@ -207,7 +206,7 @@ const groupedSkills = computed<GroupedSkillSection[]>(() => {
     </div>
     <div v-if="cvStore.cvData.publications && cvStore.cvData.publications.length > 0"
       class="p-1 rounded-sm bg-base-100">
-      <div class="border-2 border-dotted rounded-sm bg-base-100 border-base-200  post-content">
+      <div class="border-2 border-dotted rounded-sm bg-base-100 border-base-200 post-content">
         <h2 class="p-2 pb-0">{{ tStatic('publications') }}</h2>
         <div class="p-2">
           <publications-timeline :items="cvStore.cvData.publications" milestone-style="diamond" />

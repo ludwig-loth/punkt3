@@ -18,12 +18,6 @@ const opening_line: Ref<HTMLElement | null> = ref(null);
 const about_me: Ref<HTMLElement | null> = ref(null);
 const menu_items: Ref<HTMLElement | null> = ref(null);
 
-// const saveDimensions = (entries: ReadonlyArray<ResizeObserverEntry>, key: keyof LandingPageDesign): void => {
-//     const entry = entries[0]
-//     if (!entry) return
-//     const { width, height, x: left, y: top } = entry.contentRect
-//     designStore.setLandingPageDesign(key, { width, height, top, left })
-// }
 type DimensionKey = 'opening_line' | 'about_me' | 'menu_items'
 const { saveDimensions } = useElementDimensions<DimensionKey>({
     set: designStore.setLandingPageDesign
@@ -32,10 +26,6 @@ const { saveDimensions } = useElementDimensions<DimensionKey>({
 saveDimensions(opening_line, 'opening_line')
 saveDimensions(about_me, 'about_me')
 saveDimensions(menu_items, 'menu_items')
-
-// useResizeObserver(opening_line, (entries) => saveDimensions(entries, 'opening_line'))
-// useResizeObserver(about_me, (entries) => saveDimensions(entries, 'about_me'))
-// useResizeObserver(menu_items, (entries) => saveDimensions(entries, 'menu_items'))
 
 const mainMenuItems = computed((): Array<MenuItem> => landingData.value?.menu_items ?? [])
 
@@ -77,7 +67,7 @@ function handleHtmlClick(e: MouseEvent) {
                         :alt="`Portrait of ${landingData.my_name}`"
                         class="object-cover ml-4 w-22 h-22 sm:w-32 sm:h-32 outline-2 rounded-xs" />
                 </picture>
-                <div class="post-content flex px-3 rounded-sm bg-base-100 mt-9 sm:mt-0">
+                <div class="flex px-3 rounded-sm post-content bg-base-100 mt-9 sm:mt-0">
                     <p v-if="landingData" ref="htmlLink" class="text-xl text-left md:text-2xl"
                         v-html="t(landingData, 'about_me_short')" @click="handleHtmlClick">
                     </p>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 interface Props {
-  submenu: SubMenu | [];
+  submenu: SubMenu;
   hasSubMenu: boolean;
   mobile: boolean;
 }
