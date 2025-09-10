@@ -78,8 +78,11 @@ onMounted((): void => {
   <Loader v-if="isLoading"></Loader>
   <NuxtErrorBoundary>
     <header class="relative mx-auto max-w-7xl">
-      <LangToggle @language-changed="handleLanguageChange" class="" />
-      <!-- <ThemeToggle @theme-changed="handleThemeChange" class="" /> -->
+      <div
+        class="absolute z-50 flex flex-row-reverse gap-0 w-full sm:justify-start justify-between sm:gap-4 p-0 top-2.5 px-1 sm:flex-row">
+        <ThemeToggle @theme-changed="handleThemeChange" />
+        <LangToggle @language-changed="handleLanguageChange" />
+      </div>
     </header>
     <main class="">
       <NuxtLayout>

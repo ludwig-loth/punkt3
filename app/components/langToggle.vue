@@ -57,7 +57,7 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="absolute z-50 p-0 rounded-sm top-1 left-1">
+  <div class=" p-0 rounded-sm">
     <div ref="dropdownRef" class="relative inline-block">
       <Transition name="v-scale">
         <button type="button" tabindex="0"
@@ -65,7 +65,8 @@ onMounted(() => {
           :class="{ 'w-25 outline-2 outline-primary border-2 border-base-conent bg-base-100 h-25 shadow-lg ': isOpen, 'w-fit hover:scale-105': !isOpen }"
           @click="toggleDropdown" @keydown="handleKeydown" :aria-expanded="isOpen"
           aria-haspopup="listbox" aria-label="Sprache auswählen">
-          <div class="relative bg-primary *:relative *:z-20 *:p-1 *:size-7 *:stroke-accent-content"
+          <div
+            class="relative bg-primary *:relative *:z-20 *:p-1 *:size-7 *:stroke-base-content ring-2 ring-base-content"
             :class="{ 'rounded-l-xs': isOpen, 'rounded-sm': !isOpen }">
             <svg width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
               fill="none">

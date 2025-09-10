@@ -1,9 +1,9 @@
 <script setup lang="ts">
 const designStore = useDesignStore()
 
-const emit = defineEmits < {
+const emit = defineEmits<{
   (e: 'themeChanged', theme: 'light' | 'dark'): void
-}> ()
+}>()
 
 function toggleTheme(): void {
   designStore.toggleTheme()
@@ -15,39 +15,28 @@ onMounted(() => {
 })
 </script>
 <template>
-  <div class="absolute z-50 p-0 rounded-sm top-1 right-1">
-    <button @click="toggleTheme"
-      class="flex items-center gap-1 p-1 text-sm font-semibold transition-all rounded-sm cursor-pointer text-accent-content group hover:text-base-content focus:text-base-content active:scale-97 bg-accent hover:bg-primary focus:bg-primary"
-      :title="designStore.isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
-      aria-label="Toggle theme">
-      <div
-        class="relative bg-primary *:relative *:z-20 *:p-1 *:size-6 *:stroke-accent-content rounded-sm">
-        <!-- Sun icon for light mode -->
-        <svg v-if="!designStore.isDarkMode" width="100%" height="100%" viewBox="0 0 24 24"
-          fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g stroke-width="0"></g>
-          <g stroke-linecap="round" stroke-linejoin="round"></g>
-          <g>
-            <path
-              d="M12 3V4M12 20V21M4 12H3M6.31412 6.31412L5.5 5.5M17.6859 6.31412L18.5 5.5M6.31412 17.69L5.5 18.5M17.6859 17.69L18.5 18.5M21 12H20M16 12C16 14.2091 14.2091 16 12 16C9.79086 16 8 14.2091 8 12C8 9.79086 9.79086 8 12 8C14.2091 8 16 9.79086 16 12Z"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </g>
-        </svg>
-
-        <!-- Moon icon for dark mode -->
-        <svg v-else width="100%" height="100%" viewBox="0 0 24 24" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <g stroke-width="0"></g>
-          <g stroke-linecap="round" stroke-linejoin="round"></g>
-          <g>
-            <path
-              d="M3.32031 11.6835C3.32031 16.6541 7.34975 20.6835 12.3203 20.6835C16.1075 20.6835 19.3483 18.3443 20.6768 15.032C19.6402 15.4486 18.5059 15.6834 17.3203 15.6834C12.3497 15.6834 8.32031 11.654 8.32031 6.68342C8.32031 5.50338 8.55165 4.36259 8.96453 3.32996C5.65605 4.66028 3.32031 7.89912 3.32031 11.6835Z"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round" />
-          </g>
-        </svg>
+  <div class="p-0">
+    <label class="relative inline-flex items-center cursor-pointer group" @click="toggleTheme">
+      <input class="hidden peer" id="toggle" type="checkbox" />
+      <div class="relative w-16 h-7 bg-primary rounded-sm ring-2 ring-base-content
+                  after:absolute after:content-[''] after:w-6 after:h-6 after:bg-secondary
+                  after:rounded-sm after:top-0.5 after:left-0.5
+                  active:after:w-4 group-[:hover]:after:w-8
+                  peer-checked:after:left-[calc(100%-2px)] peer-checked:after:translate-x-[-100%]
+                  duration-100 peer-checked:after:bg-accent after:duration-300">
       </div>
-    </button>
+      <svg viewBox="0 0 24 24"
+        class="absolute w-4 h-4 fill-base-content peer-checked:opacity-40 left-1.5">
+        <path
+          d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z">
+        </path>
+      </svg>
+      <svg viewBox="0 0 24 24"
+        class="absolute w-4 h-4 fill-base-content peer-not-checked:opacity-40 right-1.5">
+        <path
+          d="M12.009,24A12.067,12.067,0,0,1,.075,10.725,12.121,12.121,0,0,1,10.1.152a13,13,0,0,1,5.03.206,2.5,2.5,0,0,1,1.8,1.8,2.47,2.47,0,0,1-.7,2.425c-4.559,4.168-4.165,10.645.807,14.412h0a2.5,2.5,0,0,1-.7,4.319A13.875,13.875,0,0,1,12.009,24Zm.074-22a10.776,10.776,0,0,0-1.675.127,10.1,10.1,0,0,0-8.344,8.8A9.928,9.928,0,0,0,4.581,18.7a10.473,10.473,0,0,0,11.093,2.734.5.5,0,0,0,.138-.856h0C9.883,16.1,9.417,8.087,14.865,3.124a.459.459,0,0,0,.127-.465.491.491,0,0,0-.356-.362A10.68,10.68,0,0,0,12.083,2ZM20.5,12a1,1,0,0,1-.97-.757l-.358-1.43L17.74,9.428a1,1,0,0,1,.035-1.94l1.4-.325.351-1.406a1,1,0,0,1,1.94,0l.355,1.418,1.418.355a1,1,0,0,1,0,1.94l-1.418.355-.355,1.418A1,1,0,0,1,20.5,12ZM16,14a1,1,0,0,0,2,0A1,1,0,0,0,16,14Zm6,4a1,1,0,0,0,2,0A1,1,0,0,0,22,18Z">
+        </path>
+      </svg>
+    </label>
   </div>
 </template>
