@@ -144,17 +144,23 @@ h2 {
     z-index: 1;
 }
 
+.link-highlight:hover {
+    @apply scale-103;
+    transition: all 0.1s;
+}
+
 .link-highlight::after {
     content: "";
-    height: 5px;
-    width: calc(100% + 6px);
+    height: 0.275rem;
+    width: calc(100% + 0.4rem);
     position: absolute;
-    left: calc(-3px);
+    left: calc(-0.2rem);
     bottom: 0%;
     color: var(--color-primary-content);
     background-color: var(--color-primary);
     z-index: -1;
     transition: all 0.1s;
+    border-radius: 0.1rem;
 }
 
 .link-highlight:hover::after {
@@ -266,6 +272,7 @@ h2 {
     background-color: var(--color-primary);
     z-index: -1;
     transition: all 0.1s;
+    border-radius: 0.1rem;
 }
 
 .post-content a:not(.post-content-none):hover::after {
