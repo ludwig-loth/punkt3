@@ -2,7 +2,7 @@
 const designStore = useDesignStore();
 </script>
 <template>
-  <div class="relative flex flex-col min-h-screen overflow-hidden">
+  <div class="relative flex flex-col min-h-dvh overflow-hidden">
     <div class="flex-grow m-auto">
       <div class="absolute flex flex-col items-center justify-center w-full max-w-5xl">
         <div class="self-start hidden w-1/2 dots-border-right justify-self-start sm:block"
@@ -62,7 +62,7 @@ const designStore = useDesignStore();
             <div
               class="self-end h-10 mb-1 ml-0.5 w-[calc(50%-2rem)] sm:w-23/100 dots-border-bottom dots-border-left">
             </div>
-            <div class="relative h-screen -ml-1 top-180 dots-border-right">
+            <div class="relative h-dvh -ml-1 top-180 dots-border-right">
             </div>
           </div>
         </div>

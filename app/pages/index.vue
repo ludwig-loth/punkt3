@@ -3,6 +3,7 @@ definePageMeta({
     layout: 'default',
     scrollToTop: true,
 })
+const router = useRouter()
 const config = useRuntimeConfig()
 const API_URL: string = config.public.apiURL
 
@@ -17,19 +18,45 @@ const opening_line: Ref<HTMLElement | null> = ref(null);
 const about_me: Ref<HTMLElement | null> = ref(null);
 const menu_items: Ref<HTMLElement | null> = ref(null);
 
-const saveDimensions = (entries: ReadonlyArray<ResizeObserverEntry>, key: keyof LandingPageDesign): void => {
-    const entry = entries[0]
-    if (!entry) return
-    const { width, height, x: left, y: top } = entry.contentRect
-    designStore.setLandingPageDesign(key, { width, height, top, left })
-}
+// const saveDimensions = (entries: ReadonlyArray<ResizeObserverEntry>, key: keyof LandingPageDesign): void => {
+//     const entry = entries[0]
+//     if (!entry) return
+//     const { width, height, x: left, y: top } = entry.contentRect
+//     designStore.setLandingPageDesign(key, { width, height, top, left })
+// }
+type DimensionKey = 'opening_line' | 'about_me' | 'menu_items'
+const { saveDimensions } = useElementDimensions<DimensionKey>({
+    set: designStore.setLandingPageDesign
+})
 
-useResizeObserver(opening_line, (entries) => saveDimensions(entries, 'opening_line'))
-useResizeObserver(about_me, (entries) => saveDimensions(entries, 'about_me'))
-useResizeObserver(menu_items, (entries) => saveDimensions(entries, 'menu_items'))
+saveDimensions(opening_line, 'opening_line')
+saveDimensions(about_me, 'about_me')
+saveDimensions(menu_items, 'menu_items')
+
+// useResizeObserver(opening_line, (entries) => saveDimensions(entries, 'opening_line'))
+// useResizeObserver(about_me, (entries) => saveDimensions(entries, 'about_me'))
+// useResizeObserver(menu_items, (entries) => saveDimensions(entries, 'menu_items'))
 
 const mainMenuItems = computed((): Array<MenuItem> => landingData.value?.menu_items ?? [])
 
+const htmlLink = ref<HTMLElement | null>(null)
+
+function isInternalLink(href: string): boolean {
+    return !!href && href.startsWith('/') && !href.startsWith('//') && !href.startsWith('mailto') && !href.startsWith('www.')
+}
+
+function handleHtmlClick(e: MouseEvent) {
+    //converting all internal links (that will come throught v-html from WYSIWYG) to NuxtLink for SPA navigation
+    // might be good to outsource this into a composable
+    const target = e.target as HTMLElement | null
+    if (!target) return
+    const link = target.closest('a')
+    if (!link) return
+    const href = (link.getAttribute('href') || '').trim()
+    if (!isInternalLink(href)) return
+    e.preventDefault()
+    router.push(href)
+}
 </script>
 <template>
     <div v-if="landingData" class="relative">
@@ -50,14 +77,9 @@ const mainMenuItems = computed((): Array<MenuItem> => landingData.value?.menu_it
                         :alt="`Portrait of ${landingData.my_name}`"
                         class="object-cover ml-4 w-22 h-22 sm:w-32 sm:h-32 outline-2 rounded-xs" />
                 </picture>
-                <div class="flex px-3 rounded-sm bg-base-100 mt-9 sm:mt-0">
-                    <p v-if="landingData" class="text-xl text-left md:text-2xl">
-                        {{ t(landingData, 'about_me_prefix') }}
-                        <NuxtLink to="/about-me"
-                            class="relative inline-block font-bold transition-all cursor-pointer md:text-2xl link-highlight hover:scale-103 active:scale-95">
-                            {{ landingData.my_name }}
-                        </NuxtLink>
-                        {{ t(landingData, 'about_me_summary') }}
+                <div class="post-content flex px-3 rounded-sm bg-base-100 mt-9 sm:mt-0">
+                    <p v-if="landingData" ref="htmlLink" class="text-xl text-left md:text-2xl"
+                        v-html="t(landingData, 'about_me_short')" @click="handleHtmlClick">
                     </p>
                 </div>
             </div>

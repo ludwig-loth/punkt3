@@ -1,47 +1,34 @@
-<script setup>
+<script setup lang="ts">
+interface Props {
+  submenu: SubMenu | [];
+  hasSubMenu: boolean;
+  mobile: boolean;
+}
 const landingStore = useLandingStore();
 const designStore = useDesignStore();
 const route = useRoute()
-const { tMenuItem, tStatic } = await useTranslation()
+const { tMenuItem, tStatic } = useTranslation()
 
-const props = defineProps({
-  submenu: {
-    type: Object,
-    default: () => ({
-      items: []
-    })
-  },
-  hasSubMenu: {
-    type: Boolean,
-    default: false,
-  },
-  mobile: {
-    type: Boolean,
-    default: false
-  }
-})
-const isActiveOrChild = (menuItemPath) => {
-  return route.fullPath === menuItemPath || route.fullPath.startsWith(menuItemPath + '/');
-};
-
-const menuItems = computed(() => {
-  return landingStore.landingData?.menu_items || []
+const props = withDefaults(defineProps<Props>(), {
+  submenu: () => ({ items: [], heading: '' }),
+  hasSubMenu: false,
+  mobile: false
 })
 
+const menuItems = computed<MenuItem[]>(() => landingStore.landingData?.menu_items || [])
 
-const menuRef = ref(null)
-const mainMenuRef = useTemplateRef('mainMenuRef')
+const isActiveOrChild = (menuItemPath: string): boolean =>
+  route.fullPath === menuItemPath || route.fullPath.startsWith(menuItemPath + '/')
 
-const saveDimensions = (entries, observerName) => {
-  const entry = entries[0]
-  const { width, height } = entry.contentRect
-  designStore.setSidebarDesign(observerName, { width, height });
-}
+const menuRef = ref<HTMLElement | null>(null)
+const mainMenuRef = useTemplateRef<HTMLElement | null>('mainMenuRef')
 
-onMounted(() => {
-  useResizeObserver(mainMenuRef, (entries) => saveDimensions(entries, 'main_menu'))
-
+type DimensionKey = 'main_menu'
+const { saveDimensions } = useElementDimensions<DimensionKey>({
+  set: designStore.setSidebarDesign
 })
+saveDimensions(mainMenuRef, 'main_menu')
+
 </script>
 <template>
   <div v-if="hasSubMenu && designStore.sidebarDesign.main_menu"

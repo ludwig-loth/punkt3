@@ -1,13 +1,13 @@
 <script setup lang="ts">
+interface Props {
+  item: Tag
+}
 const config = useRuntimeConfig()
-const API_URL = config.public.apiURL
-const props = defineProps({
-  item: {
-    type: Object,
-    required: true
-  }
-})
-const { t } = await useTranslation()
+const API_URL: string = config.public.apiURL
+const { t } = useTranslation()
+const props = defineProps<Props>()
+
+
 </script>
 <template>
   <span

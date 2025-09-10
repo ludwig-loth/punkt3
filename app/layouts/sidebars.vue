@@ -19,80 +19,33 @@ const mobileMenuRef = useTemplateRef<HTMLElement | null>('mobileMenuRef')
 const section_heading = ref<HTMLElement | null>(null)
 const section_content = ref<HTMLElement | null>(null)
 
-type SidebarDimensionKey = 'section_heading' | 'section_content'
-
-const saveDimensions = (entries: ReadonlyArray<ResizeObserverEntry>, key: SidebarDimensionKey): void => {
-  const entry = entries[0]
-  if (!entry) return
-  const { width, height, x: left, y: top } = entry.contentRect
-  designStore.setSidebarDesign(key, { width, height, top, left })
-}
-
-useResizeObserver(section_heading, e => saveDimensions(e, 'section_heading'))
-useResizeObserver(section_content, e => saveDimensions(e, 'section_content'))
+type DimensionKey = 'section_heading' | 'section_content'
+const { saveDimensions } = useElementDimensions<DimensionKey>({
+  set: designStore.setSidebarDesign
+})
+saveDimensions(section_heading, 'section_heading')
+saveDimensions(section_content, 'section_content')
 
 onClickOutside(mobileMenuRef, () => { mobileMenu.value = false })
 
-type SubMenuSource = 'projects' | 'menu' | 'custom'
-interface SubMenuMeta {
-  type: SubMenuSource
-  headingSlug?: string
-  excludeCurrent?: boolean
-  items?: Array<{ slug: string; title: string; icon?: string | null }>
-}
-
-// Flat shape consumed by the UI
-interface SubMenuFlat {
-  slug: string
-  title: string
-  icon: string | null
-  source: SubMenuSource
-}
-
-interface SubMenu {
-  items: SubMenuFlat[]
-  heading: string | null
-}
-
-const subMenuItemsPortfolio = ref<SubMenu>({ items: [], heading: null })
-
-const rootSlug = computed(() => route.path.split('/').filter(Boolean)[0] ?? '')
 const subMenuMeta = computed<SubMenuMeta | undefined>(() => (route.meta as any).subMenu)
+const subMenuItemsPortfolio = ref<SubMenu>({ heading: null, items: [] })
 
-function buildProjectItems(): SubMenuFlat[] {
+function buildProjectItems(): SubMenuItem[] {
   if (!projects.value) return []
   return [...projects.value]
     .sort((a, b) => (b.year ?? 0) - (a.year ?? 0))
     .map(p => ({
       slug: p.slug,
       title: t(p, 'title'),
-      icon: (p as any).icon ?? null,
-      original: p,
-      source: 'projects' as const
+      icon: (p as any).icon ?? null
     }))
 }
 
-function buildMenuItems(excludeCurrent: boolean | undefined): SubMenuFlat[] {
-  if (!landingData.value?.menu_items) return []
-  return landingData.value.menu_items
-    .filter(mi => !excludeCurrent || mi.slug !== rootSlug.value)
-    .map(mi => ({
-      slug: mi.slug,
-      title: tMenuItem(mi, 'heading'),
-      icon: (mi as any).icon ?? null,
-      original: mi,
-      source: 'menu' as const
-    }))
-}
-
-function buildCustomItems(custom: NonNullable<SubMenuMeta['items']>): SubMenuFlat[] {
-  return custom.map(it => ({
-    slug: it.slug,
-    title: it.title,
-    icon: it.icon ?? null,
-    original: { slug: it.slug, title: it.title, icon: it.icon ?? null },
-    source: 'custom' as const
-  }))
+// Placeholder for future blog articles
+function buildBlogItems(): SubMenuItem[] {
+  // TODO implement when blog data is available
+  return []
 }
 
 function setSubMenu(): void {
@@ -100,32 +53,21 @@ function setSubMenu(): void {
     subMenuItemsPortfolio.value = { items: [], heading: null }
     return
   }
-
   const meta = subMenuMeta.value
   if (!meta) {
     subMenuItemsPortfolio.value = { items: [], heading: null }
     return
   }
 
-  let items: SubMenuFlat[] = []
-  if (meta.type === 'projects') {
-    items = buildProjectItems()
-  } else if (meta.type === 'menu') {
-    items = buildMenuItems(meta.excludeCurrent)
-  } else if (meta.type === 'custom') {
-    items = buildCustomItems(meta.items ?? [])
-  }
+  let items: SubMenuItem[] = []
+  if (meta.type === 'projects') items = buildProjectItems()
+  else if (meta.type === 'blog') items = buildBlogItems()
 
-  const headingSlug =
-    meta.headingSlug ||
-    (meta.type === 'projects' ? 'portfolio' : rootSlug.value)
-
+  const headingSlug = meta.headingSlug || (meta.type === 'projects' ? 'portfolio' : 'blog')
   const headingMenuItem = landingData.value.menu_items?.find(m => m.slug === headingSlug)
   const heading = headingMenuItem ? tMenuItem(headingMenuItem, 'heading') : null
 
   subMenuItemsPortfolio.value = { items, heading }
-
-  if (import.meta.dev) console.debug('[submenu]', meta, subMenuItemsPortfolio.value)
 }
 
 watch(

@@ -1,69 +1,78 @@
-<script setup>
+<script setup lang="ts">
 const landingStore = useLandingStore();
 const cvStore = useCvStore();
 const config = useRuntimeConfig()
-const API_URL = config.public.apiURL
+const API_URL: string = config.public.apiURL
 definePageMeta({
   layout: 'sidebars',
-  hasSubMenu: false,
   hasHeader: true,
-  scrollToTop: true
+  scrollToTop: true,
+  hasSubMenu: false,
 })
 
-const { t, tStatic } = await useTranslation()
+interface GroupedSkillSubsection {
+  subsection: string
+  tags: Tag[]
+}
+interface GroupedSkillSection {
+  section: Section
+  subsections: GroupedSkillSubsection[]
+}
 
-const age = computed(() => {
-  if (!cvStore.cvData.birthdate) return null;
-  const birth = new Date(cvStore.cvData.birthdate);
-  const today = new Date();
-  let years = today.getFullYear() - birth.getFullYear();
-  const m = today.getMonth() - birth.getMonth();
-  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-    years--;
-  }
-  return years;
-});
+const { t, tStatic } = useTranslation()
 
-const cvImage = computed(() => {
-  if (cvStore.cvData.image)
-    return cvStore.cvData.image
-  else
-    return landingStore.landingData.image
+const age = computed<number | null>(() => {
+  if (!cvStore.cvData?.birthdate) return null
+  const birth = new Date(cvStore.cvData.birthdate)
+  const today = new Date()
+  let years = today.getFullYear() - birth.getFullYear()
+  const m = today.getMonth() - birth.getMonth()
+  if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) years--
+  return years
+})
+
+const cvImage = computed<string | null>(() => {
+  return cvStore.cvData?.image || landingStore.landingData?.image || null
 })
 
 
-const groupedSkills = computed(() => {
-  if (!cvStore.cvData.skills) return [];
+const groupedSkills = computed<GroupedSkillSection[]>(() => {
+  if (!cvStore.cvData?.skills) return []
 
-  const sections = new Map();
+  const sections = new Map<
+    string,
+    {
+      section: Section
+      subsections: Map<string, GroupedSkillSubsection>
+    }
+  >()
 
   cvStore.cvData.skills.forEach(skill => {
-    const sectionId = skill.section.id;
-
+    const sectionId = skill.section.id
     if (!sections.has(sectionId)) {
       sections.set(sectionId, {
         section: skill.section,
         subsections: new Map()
-      });
+      })
     }
-
-    const section = sections.get(sectionId);
-    const subsectionName = t(skill, 'subsection');
-
+    const section = sections.get(sectionId)!
+    const subsectionName = t(skill, 'subsection') || ''
     if (!section.subsections.has(subsectionName)) {
       section.subsections.set(subsectionName, {
         subsection: subsectionName,
         tags: []
-      });
+      })
     }
-    section.subsections.get(subsectionName).tags.push(...skill.tags);
-  });
+    if (skill.tags?.length) {
+      section.subsections.get(subsectionName)!.tags.push(...skill.tags)
+    }
+  })
 
-  return Array.from(sections.values()).map(section => ({
-    section: section.section,
-    subsections: Array.from(section.subsections.values())
-  }));
-});
+  return Array.from(sections.values()).map(s => ({
+    section: s.section,
+    subsections: Array.from(s.subsections.values())
+  }))
+})
 
 
 </script>
@@ -112,7 +121,7 @@ const groupedSkills = computed(() => {
         </div>
         <div class="flex flex-col items-start justify-end gap-2 p-3 w-42 shrink-0">
           <div class="relative w-full">
-            <light-box v-if="landingStore.landingData.image_me || cvStore.cvData.image"
+            <light-box v-if="cvStore.cvData.image"
               :img-src="`${API_URL}/assets/${cvImage}`" class="">
               <template #trigger="{ openLightbox }">
                 <picture class="self-center mt-0 shrink-0">
@@ -163,7 +172,7 @@ const groupedSkills = computed(() => {
                   }}</h4>
                 <div
                   class="flex flex-wrap gap-2 p-2 ml-1 md:ml-3 relative before:absolute before:-ml-4 before:-mt-2 before:h-full before:w-1 before:rounded-full before:bg-secondary">
-                  <skill-card v-for="tag in subsectionGroup.tags" :key="tag.id" :item="tag" />
+                  <skill-badge v-for="tag in subsectionGroup.tags" :key="tag.id" :item="tag" />
                 </div>
               </div>
             </div>

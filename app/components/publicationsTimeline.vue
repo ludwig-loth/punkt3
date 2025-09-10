@@ -1,12 +1,13 @@
 <script lang="ts" setup>
+interface Props {
+  items: Publication[]
+  milestoneStyle?: 'square' | 'circle' | 'diamond' | 'triangle'
+}
 /*  Attention!:
 * 'triangle' is an experimantal feature and it is just ok in firefox based browsers
 * I don't know about Safari
 */
-const props = withDefaults(defineProps<{
-  items: Publication[],
-  milestoneStyle?: 'square' | 'circle' | 'diamond' | 'triangle'
-}>(), {
+const props = withDefaults(defineProps<Props>(), {
   milestoneStyle: 'circle'
 })
 </script>

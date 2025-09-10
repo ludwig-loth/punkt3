@@ -13,11 +13,11 @@ const route = useRoute()
 
 const { t, tMenuItem } = useTranslation()
 
-const getFirstLetter = computed < (heading: string | null | undefined) => string > (
+const getFirstLetter = computed<(heading: string | null | undefined) => string>(
   () => (heading) => (heading ? heading.charAt(0) : '')
 )
 
-const headerData = computed < HeaderData > (() => {
+const headerData = computed<HeaderData>(() => {
   const empty: HeaderData = { heading: '', subheading: null, icon: null, group: null }
   const slug = route.params.slug as string | undefined
   const projects = projectStore.projects || []
@@ -51,19 +51,15 @@ const headerData = computed < HeaderData > (() => {
   return empty
 })
 
-const section_heading = ref < HTMLElement | null > (null)
+const section_heading = ref<HTMLElement | null>(null)
+type DimensionKey = 'section_heading'
 
-type SidebarDimensionKey = 'section_heading'
-
-const saveDimensions = (entries: ReadonlyArray<ResizeObserverEntry>, key: SidebarDimensionKey): void => {
-  const entry = entries[0]
-  if (!entry) return
-  const { width, height, x: left, y: top } = entry.contentRect
-  designStore.setSidebarDesign(key, { width, height, top, left })
-}
+const { saveDimensions } = useElementDimensions<DimensionKey>({
+  set: designStore.setSidebarDesign
+})
 
 onMounted(() => {
-  useResizeObserver(section_heading, (entries) => saveDimensions(entries, 'section_heading'))
+  saveDimensions(section_heading, 'section_heading')
 })
 </script>
 

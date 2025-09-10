@@ -123,7 +123,7 @@ const sortedProjects: ComputedRef<Project[]> = computed(() => {
               </div>
               <div v-if="project.tags && project.tags.length" class="flex flex-wrap gap-2 ml-4">
                 <div v-for="tag in project.tags" :key="tag.id">
-                  <tag-pill :item="tag" />
+                  <tag-badge :item="tag" />
                 </div>
               </div>
             </div>

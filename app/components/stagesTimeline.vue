@@ -2,15 +2,16 @@
 const languageStore = useLanguageStore();
 const { t, tStatic } = await useTranslation()
 
+interface Props {
+  type: 'career' | 'educational' | 'publication'
+  items: (CareerStage | EducationalStage)[] | [] | null
+  milestoneStyle?: 'square' | 'circle' | 'diamond' | 'triangle'
+}
 /*  Attention!:
 * 'triangle' is an experimantal feature and it is just ok in firefox based browsers
 * I don't know about Safari
 */
-const props = withDefaults(defineProps<{
-  type: 'career' | 'educational' | 'publication',
-  items: (CareerStage | EducationalStage)[] | [] | null,
-  milestoneStyle?: 'square' | 'circle' | 'diamond' | 'triangle'
-}>(), {
+const props = withDefaults(defineProps<Props>(), {
   milestoneStyle: 'circle'
 })
 </script>
@@ -99,7 +100,7 @@ const props = withDefaults(defineProps<{
                   <div>{{ t(stage, 'final_thesis_title') }}</div>
                   <div v-if="t(stage, 'final_thesis_grade')">({{ tStatic('grading') }}: {{
                     t(stage, 'final_thesis_grade')
-                  }})
+                    }})
                   </div>
                 </div>
                 <div v-if="t(stage, 'final_grade')" class="font-medium ">

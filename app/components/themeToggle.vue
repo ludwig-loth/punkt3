@@ -1,18 +1,19 @@
-<script setup>
-const designStore = useDesignStore();
+<script setup lang="ts">
+const designStore = useDesignStore()
 
-const emit = defineEmits(['themeChanged']);
+const emit = defineEmits < {
+  (e: 'themeChanged', theme: 'light' | 'dark'): void
+}> ()
 
-const toggleTheme = () => {
-  designStore.toggleTheme();
-  emit('themeChanged', designStore.isDarkMode ? 'dark' : 'light');
-};
+function toggleTheme(): void {
+  designStore.toggleTheme()
+  emit('themeChanged', designStore.isDarkMode ? 'dark' : 'light')
+}
 
 onMounted(() => {
-  designStore.initTheme();
-});
+  designStore.initTheme()
+})
 </script>
-
 <template>
   <div class="absolute z-50 p-0 rounded-sm top-1 right-1">
     <button @click="toggleTheme"

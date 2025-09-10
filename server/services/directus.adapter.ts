@@ -19,6 +19,7 @@ class DirectusAdapter {
             id: directusData.id,
             status: directusData.status,
             date_updated: directusData.date_updated,
+            initials: directusData.initials,
             my_name: directusData.my_name,
             image: directusData.image_me,
             menu_items: directusData.page_menu_items_v2?.map((item: any) => ({
@@ -34,8 +35,7 @@ class DirectusAdapter {
             })) || [],
             translations: directusData.translations?.map((translation: any) => ({
                 languages_code: translation.languages_code,
-                about_me_summary: translation.about_me,
-                about_me_prefix: translation.about_me_prefix,
+                about_me_short: translation.about_me_short,
                 opening_line: translation.hookup_line
             })) || []
         }

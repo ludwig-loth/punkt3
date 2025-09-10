@@ -1,35 +1,43 @@
-<script setup>
+<script setup lang="ts">
+interface Props {
+  animation?: boolean;
+  interval?: number;
+}
+const { animation = false, interval = 9000 } = defineProps<Props>();
+
 const blingActive = ref(false);
 const starWobble = ref(false);
 
-const props = defineProps({
-  animation: {
-    type: Boolean,
-    default: false
-  },
-  interval: {
-    type: Number,
-    default: 9000
-  }
-});
+const ANIM_DURATION_MS = 1500
+let intervalId: number | null = null
+let timeoutId: number | null = null
 
-function triggerBling() {
-  blingActive.value = true;
-  starWobble.value = true;
-  setTimeout(() => {
-    starWobble.value = false;
-    blingActive.value = false;
-  }, 1500); // match animation duration
+function clearTimers() {
+  if (intervalId !== null) clearInterval(intervalId)
+  if (timeoutId !== null) clearTimeout(timeoutId)
+  intervalId = null
+  timeoutId = null
+}
+
+function triggerBling(): void {
+  blingActive.value = true
+  starWobble.value = true
+  timeoutId = window.setTimeout(() => {
+    starWobble.value = false
+    blingActive.value = false
+  }, ANIM_DURATION_MS)
 }
 
 onMounted(() => {
-  if (props.animation) {
-    triggerBling();
-    setInterval(triggerBling, props.interval);
-    return;
-  }
+  if (!animation) return
+  triggerBling()
+  const intervalMs = Math.max(interval, ANIM_DURATION_MS + 250)
+  intervalId = window.setInterval(triggerBling, intervalMs)
+})
 
-});
+onBeforeUnmount(() => {
+  clearTimers()
+})
 </script>
 <template>
   <div>
@@ -41,9 +49,8 @@ onMounted(() => {
           d="M12 20V17.6M12 6.4V4M20 12H17.6M6.4 12H4M17.6569 6.34315L15.9598 8.0402M8.0402 15.9598L6.34315 17.6569M6.34293 6.34332L8.03999 8.04038M15.9596 15.96L17.6566 17.657"
           stroke-width="1.25" stroke-linecap="round" />
       </svg>
-      <svg class="z-10 stroke-secondary fill-secondary"
-        :class="{ 'star-wobble': starWobble }" viewBox="0 -0.5 25 25"
-        xmlns="http://www.w3.org/2000/svg">
+      <svg class="z-10 stroke-secondary fill-secondary" :class="{ 'star-wobble': starWobble }"
+        viewBox="0 -0.5 25 25" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" clip-rule="evenodd"
           d="M14.349 8.515L12.5 5L10.651 8.515C10.5204 8.77186 10.3313 8.99449 10.099 9.165C9.86556 9.33638 9.59543 9.45107 9.31 9.5L5.5 10.247L8.16 13.428C8.52377 13.8267 8.69542 14.3643 8.63 14.9L8.124 19L11.632 17.3C11.9026 17.1689 12.1993 17.1006 12.5 17.1C12.7821 17.1009 13.0599 17.1694 13.31 17.3L16.9 18.895L16.394 14.844C16.33 14.3095 16.502 13.7736 16.865 13.376L19.5 10.247L15.69 9.5C15.4042 9.45122 15.1337 9.33652 14.9 9.165C14.6681 8.99438 14.4793 8.77175 14.349 8.515Z"
           stroke-width="1" stroke-linecap="round" stroke-linejoin="round" />

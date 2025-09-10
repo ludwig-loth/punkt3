@@ -1,5 +1,4 @@
-<script setup>
-// const route = useRoute()
+<script setup >
 const landingStore = useLandingStore();
 const { tStatic } = await useTranslation()
 
@@ -27,17 +26,11 @@ const mobileMenuOpen = ref(false)
 const mobileMenuRef = useTemplateRef('mobileMenuRef')
 onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
 
-
-// Function to check if the path is active or a child of the active path
-// const isActiveOrChild = (menuItemPath) => {
-//   return route.fullPath === menuItemPath || route.fullPath.startsWith(menuItemPath + '/');
-// };
-
 </script>
 <template>
   <Transition>
     <div v-if="mobileMenuOpen"
-      class="fixed top-0 left-0 w-full h-screen transition-all opacity-50 z-100 bg-neutral">
+      class="fixed inset-0 min-w-[100dvw] min-h-[100dvh] transition-all opacity-50 z-100 bg-neutral">
     </div>
   </Transition>
   <div v-if="landingStore.landingData" ref="mobileMenuRef"

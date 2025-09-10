@@ -1,40 +1,37 @@
-<script setup>
+<script setup lang="ts">
+interface Props {
+  tailwindClasses?: string;
+}
 const designStore = useDesignStore();
 const landingStore = useLandingStore();
 const route = useRoute()
 const { tMenuItem, tStatic } = useTranslation()
 
-const props = defineProps({
-  tailwindClasses: {
-    type: String,
-    default: 'max-w-5xl'
-  }
+const { tailwindClasses = 'max-w-5xl' } = defineProps<Props>()
+
+
+const getParentRoute = computed<string>(() => {
+  const fullPath = route.fullPath || '/'
+  const segments = fullPath.split('/').filter(Boolean)
+
+  if (segments.length === 0) return tStatic('home')
+
+  // We want the segment before the current (parent). If only one, it's home.
+  const parentSlug = segments.length > 1 ? segments[segments.length - 2] : ''
+  if (!parentSlug) return tStatic('home')
+
+  const menuItems = landingStore.landingData?.menu_items
+  if (!menuItems || menuItems.length === 0) return tStatic('home')
+
+  const parent = menuItems.find(item => item.slug === parentSlug)
+  return parent ? tMenuItem(parent, 'heading') : tStatic('home')
 })
-
-const getParentRoute = () => {
-  const pathSegments = route.fullPath.split('/').filter(Boolean);
-  pathSegments.pop();
-
-  const menuItems = landingStore.landingData.menu_items;
-  if (!menuItems) return tStatic('home');
-
-  const parentRoute = menuItems.find(
-    item => item.slug === pathSegments[pathSegments.length - 1]
-  );
-
-  if (!parentRoute || pathSegments[pathSegments.length - 1] === '/') {
-    return tStatic('home');
-  }
-
-  return tMenuItem(parentRoute, 'heading');
-};
 </script>
 <template>
   <div v-if="landingStore.landingData && designStore.sidebarDesign"
-    class="absolute flex flex-col items-center justify-center w-full"
-    :class="props.tailwindClasses">
+    class="absolute flex flex-col items-center justify-center w-full" :class="tailwindClasses">
     <div></div>
-    <link-button class="z-50 border-t-0 rounded-t-none" :link-text="`${getParentRoute()}`"
+    <link-button class="z-50 border-t-0 rounded-t-none" :link-text="`${getParentRoute}`"
       icon-position="right" icon="arrow-up" back-btn>
     </link-button>
     <div class="self-start block w-1/2 h-6 dots-border-right justify-self-start">
