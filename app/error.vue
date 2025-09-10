@@ -49,7 +49,7 @@ const t = (key: string): string => {
 </script>
 
 <template>
-  <div class="flex items-center justify-center w-full h-screen">
+  <div class="flex items-center justify-center w-full h-dvh">
     <div class="relative w-full max-w-4xl">
       <div v-if="error && error.statusCode !== 404"
         class="relative z-20 flex flex-col items-center justify-center p-5 rounded-sm gap-15 bg-base-200">
