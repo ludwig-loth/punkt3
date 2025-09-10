@@ -28,9 +28,7 @@ Submenus in PUNKT3 allow you to add contextual navigation to your pages with the
 
 2. **Choose a submenu type:**  
     - `projects`: Shows a list of projects, optionally filtered by `headingSlug`.
-    - `menu`: Displays a submenu based on your main navigation, with options like `excludeCurrent`.
-    - `custom`: Define your own submenu items with titles, slugs, and optional icons.
-
+    - blog: Shows a list of blog posts, optionally filtered by `headingSlug`.
 3. **Customize as needed:**  
     Adjust the submenu configuration to fit the context of your page.
 
@@ -50,32 +48,30 @@ definePageMeta({
 })
 ```
 
-*Or for a top-level menu based submenu:*
-```
-definePageMeta({
-  layout: 'sidebars',
-  hasHeader: true,
-  hasSubMenu: true,
-  subMenu: {
-    type: 'menu',
-    excludeCurrent: true
-  }
-})
-```
 
-*Custom list:*
-```
-definePageMeta({
-  layout: 'sidebars',
-  hasHeader: true,
-  hasSubMenu: true,
-  subMenu: {
-    type: 'custom',
-    headingSlug: 'blog',
-    items: [
-      { slug: 'foo', title: 'Foo', icon: null },
-      { slug: 'bar', title: 'Bar', icon: null }
-    ]
-  }
-})
-```
+---
+# ToDos for the Docs
+
+###  Environment Setup
+- [ ] Define all environment variables
+
+###  Backend Integration
+- [ ] Explain how to add more backend adapters
+
+###  PageMeta Functionality
+- [ ] Explain how the whole `pageMeta` system works
+  - [ ] `scrollToTop` (standard in Nuxt?)
+  - [ ] `hasHeader`
+  - [ ] `hasSubMenu`
+  - [ ] `subMenu`
+    - [ ] type: `projects`
+    - [ ] type: `menu`
+    - [ ] type: `custom`
+  - [ ] `layout: sidebar`
+  - [ ] `underConstruction`
+
+###  HTML Click Handling
+- [ ] Explain how `handleHtmlClick` works
+  - [ ] On `landingPage` for now
+  - [ ] Internal links in WYSIWYG content should be used (`/about-me`)
+  - [ ] External links should start with `mailto`, `//`, or `www.`
