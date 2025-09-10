@@ -15,6 +15,6 @@ export const useLegalNoticeStore = defineStore('LegalNotice', () => {
   return {
     setData,
     clearStore,
-    legalNoticeData
+    legalNoticeData,
   } as const;
 })

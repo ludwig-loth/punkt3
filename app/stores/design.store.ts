@@ -16,6 +16,7 @@ export const useDesignStore = defineStore('Design', () => {
   const sidebarDesign: Ref<SidebarDesign> = ref({
     section_heading: { width: 0, height: 0, top: 0, left: 0 },
     section_content: { width: 0, height: 0, top: 0, left: 0 },
+    main_menu: { width: 0, height: 0, top: 0, left: 0 },
   });
 
   const mobileMenuOpen: Ref<boolean> = ref(false);

@@ -11,26 +11,17 @@ export interface MenuItemTranslation {
     description: string;
 }
 
-export interface SidebarMenu {
-    translations: SidebarMenuTranslation[];
-    items: MenuItem[] | SubMenuItem[];
-    buttons:{
-        show: boolean;
-        position: 'top' | 'bottom';
-    }
-}
-export interface SidebarMenuTranslation {
-    languages_code: string;
-    heading: string | null;
+export interface SubMenuMeta {
+    type: 'projects' | 'blog',
+    headingSlug?: string
 }
 
 export interface SubMenuItem {
     slug: string;
-    icon?: string | null;
-    translations: SubMenuItemTranslation[];
+    title: string;
+    icon: string | null;
 }
-
-export interface SubMenuItemTranslation {
-    languages_code: string;
+export interface SubMenu {
     heading: string | null;
+    items: SubMenuItem[] | [];
 }

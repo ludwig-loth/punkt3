@@ -14,4 +14,5 @@ export interface LandingPageDesign {
 export interface SidebarDesign {
     section_heading: ElementDimensions;
     section_content: ElementDimensions;
+    main_menu: ElementDimensions;
 }

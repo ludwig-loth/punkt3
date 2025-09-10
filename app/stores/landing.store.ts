@@ -1,8 +1,7 @@
 import { defineStore } from 'pinia'
-import { type Ref } from "vue";
 
 export const useLandingStore = defineStore('LandingPage', () => {
-  const landingData: Ref<Landing | null> = ref(null);
+  const landingData = ref<Landing | null>(null)
 
   function setLandingData(data: Landing) {
     landingData.value = data;
