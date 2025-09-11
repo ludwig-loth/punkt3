@@ -1,132 +1,177 @@
 <script lang="ts" setup>
-
+// Improved accessible animated language dropdown keeping original emit + store usage
 const languageStore = useLanguageStore()
-const emit = defineEmits<{
-  languageChanged: [value: string]
-}>()
-const selected: Ref<string> = ref('')
-const isOpen: Ref<boolean> = ref(false)
 
-const options: Ref<Array<{ text: string; value: string; label: string }>> = ref([
+const emit = defineEmits<{ languageChanged: [value: string] }>()
+
+interface LangOption { text: string; value: string; label: string }
+const selected: Ref<string> = ref('')
+const isOpen = ref(false)
+const highlightedIndex = ref(0)
+
+const options: Ref<LangOption[]> = ref([
   { text: 'de', value: 'de-DE', label: 'deutsch' },
-  { text: 'en', value: 'en-US', label: 'english' },
+  { text: 'en', value: 'en-US', label: 'english' }
 ])
 
-const selectedOption = computed(() => {
-  return options.value.find(option => option.value === selected.value)
-})
-
-const toggleDropdown = () => {
-  isOpen.value = !isOpen.value
-}
-
-const selectOption = (option: any) => {
-  selected.value = option.value
-  isOpen.value = false
-  emit('languageChanged', option.value)
-}
-
-const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Escape') {
-    isOpen.value = false
-  } else if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault()
-    toggleDropdown()
-  } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
-    event.preventDefault()
-    if (!isOpen.value) {
-      isOpen.value = true
-    }
-  }
-}
-
-const handleOptionKeydown = (event: KeyboardEvent, option: any) => {
-  if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault()
-    selectOption(option)
-  }
-}
+const selectedOption = computed(() => options.value.find(o => o.value === selected.value) || null)
 
 const dropdownRef = ref<HTMLElement | null>(null)
-onClickOutside(dropdownRef, () => {
-  isOpen.value = false
-})
+const optionRefs = ref<HTMLElement[]>([])
 
-onMounted(() => {
-  selected.value = languageStore.getCurrentLanguage()
-})
+function openDropdown() {
+  if (isOpen.value) return
+  isOpen.value = true
+  highlightedIndex.value = Math.max(0, options.value.findIndex(o => o.value === selected.value))
+  nextTick(() => { optionRefs.value[highlightedIndex.value]?.focus() })
+}
+function closeDropdown() { if (!isOpen.value) return; isOpen.value = false }
+function toggleDropdown() { isOpen.value ? closeDropdown() : openDropdown() }
+
+function selectOption(option: LangOption) {
+  if (!option) return
+  selected.value = option.value
+  emit('languageChanged', option.value)
+  closeDropdown()
+}
+
+function moveHighlight(delta: number) {
+  if (!isOpen.value) openDropdown()
+  const len = options.value.length
+  highlightedIndex.value = (highlightedIndex.value + delta + len) % len
+  nextTick(() => optionRefs.value[highlightedIndex.value]?.focus())
+}
+
+function handleButtonKeydown(e: KeyboardEvent) {
+  switch (e.key) {
+    case 'Enter':
+    case ' ': e.preventDefault(); toggleDropdown(); break
+    case 'ArrowDown': e.preventDefault(); moveHighlight(1); break
+    case 'ArrowUp': e.preventDefault(); moveHighlight(-1); break
+    case 'Escape': closeDropdown(); break
+  }
+}
+function handleOptionKeydown(e: KeyboardEvent, option: LangOption, idx: number) {
+  switch (e.key) {
+    case 'Enter':
+    case ' ': e.preventDefault(); selectOption(option); break
+    case 'ArrowDown': e.preventDefault(); highlightedIndex.value = (idx + 1) % options.value.length; optionRefs.value[highlightedIndex.value]?.focus(); break
+    case 'ArrowUp': e.preventDefault(); highlightedIndex.value = (idx - 1 + options.value.length) % options.value.length; optionRefs.value[highlightedIndex.value]?.focus(); break
+    case 'Home': e.preventDefault(); highlightedIndex.value = 0; optionRefs.value[0]?.focus(); break
+    case 'End': e.preventDefault(); highlightedIndex.value = options.value.length - 1; optionRefs.value.at(-1)?.focus(); break
+    case 'Escape': e.preventDefault(); closeDropdown(); break
+  }
+}
+
+onClickOutside(dropdownRef, () => closeDropdown())
+
+onMounted(() => { selected.value = languageStore.getCurrentLanguage() })
 </script>
+
 <template>
-  <div class=" p-0 rounded-sm">
-    <div ref="dropdownRef" class="relative inline-block">
-      <Transition name="v-scale">
-        <button type="button" tabindex="0"
-          class="flex flex-row items-start gap-1 p-0 text-sm font-semibold rounded-sm cursor-pointer text-accent-content group hover:text-base-content focus:text-base-content active:scale-97"
-          :class="{ 'w-25 outline-2 outline-primary border-2 border-base-conent bg-base-100 h-25 shadow-lg ': isOpen, 'w-fit hover:scale-105': !isOpen }"
-          @click="toggleDropdown" @keydown="handleKeydown" :aria-expanded="isOpen"
-          aria-haspopup="listbox" aria-label="Sprache auswählen">
-          <div
-            class="relative bg-primary *:relative *:z-20 *:p-1 *:size-7 *:stroke-base-content ring-2 ring-base-content"
-            :class="{ 'rounded-l-xs': isOpen, 'rounded-sm': !isOpen }">
-            <svg width="100%" height="100%" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"
-              fill="none">
-              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-              <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-              <g id="SVGRepo_iconCarrier">
-                <path
-                  d="M12 2C15 4 15.9228 8.29203 16 12C15.9228 15.708 15 20 12 22M12 2C9 4 8.07725 8.29203 8 12C8.07725 15.708 9 20 12 22M12 2C6.47715 2 2 6.47715 2 12M12 2C17.5228 2 22 6.47715 22 12M12 22C17.5229 22 22 17.5228 22 12M12 22C6.47716 22 2 17.5228 2 12M22 12C20 15 15.708 15.9228 12 16C8.29203 15.9228 4 15 2 12M22 12C20 9 15.708 8.07725 12 8C8.29203 8.07725 4 9 2 12"
-                  stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-              </g>
-            </svg>
-          </div>
-          <span
-            class="mt-1 text-sm font-medium text-primary-content group-hover:text-primary-content">
-            {{ selectedOption?.text }}
-          </span>
-        </button>
-      </Transition>
-      <div v-if="isOpen" role="listbox" :aria-activedescendant="`option-${selected}`"
-        class="absolute z-20 mt-1.5  right-1.5 top-7 bg-base-100 w-22 space-y-1 group/option">
-        <div v-for="option in options" :key="option.value" :id="`option-${option.value}`"
-          role="option" :aria-selected="option.value === selected" :tabindex="0"
-          @click="selectOption(option)" @keydown="handleOptionKeydown($event, option)"
-          class="flex items-center gap-2 px-1.5 py-1 text-sm font-semibold cursor-pointer  focus:bg-primary focus:outline-none hover:bg-primary hover:outline-primary rounded-xs"
-          :class="{
-            'bg-base-300 text-base-content outline-3 outline-secondary': option.value === selected,
-            'text-base-content': option.value !== selected
-          }">
-          <span
-            class="flex items-center rounded-full outline-2 size-4 outline-base-content shrink-0 -left-0.5 relative">
-            <svg v-if="option.text === 'en'" xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512">
-              <mask id="circleFlagsLangEn0">
-                <circle cx="256" cy="256" r="256" fill="#fff" />
-              </mask>
-              <g mask="url(#circleFlagsLangEn0)">
-                <path fill="#eee"
-                  d="m0 0l8 22l-8 23v23l32 54l-32 54v32l32 48l-32 48v32l32 54l-32 54v68l22-8l23 8h23l54-32l54 32h32l48-32l48 32h32l54-32l54 32h68l-8-22l8-23v-23l-32-54l32-54v-32l-32-48l32-48v-32l-32-54l32-54V0l-22 8l-23-8h-23l-54 32l-54-32h-32l-48 32l-48-32h-32l-54 32L68 0z" />
-                <path fill="#0052b4"
-                  d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z" />
-                <path fill="#d80027"
-                  d="M0 0v45l131 131h45zm208 0v208H0v96h208v208h96V304h208v-96H304V0zm259 0L336 131v45L512 0zM176 336L0 512h45l131-131zm160 0l176 176v-45L381 336z" />
-              </g>
-            </svg>
-            <svg v-else-if="option.text === 'de'" xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512">
-              <mask id="circleFlagsDe0">
-                <circle cx="256" cy="256" r="256" fill="#fff" />
-              </mask>
-              <g mask="url(#circleFlagsDe0)">
-                <path fill="#ffda44" d="m0 345l256.7-25.5L512 345v167H0z" />
-                <path fill="#d80027" d="m0 167l255-23l257 23v178H0z" />
-                <path fill="#333" d="M0 0h512v167H0z" />
-              </g>
-            </svg>
-          </span>
-          {{ option.label }}
-        </div>
+  <div class="relative inline-block" ref="dropdownRef">
+    <!-- Trigger Button -->
+    <button type="button" tabindex="0"
+      class="group relative flex items-center gap-1 rounded-sm bg-primary h-7 pl-1.5 pr-1 font-semibold text-sm ring-2 ring-base-content transition-all duration-200 hover:scale-[1.03] focus:scale-[1.02] active:scale-[0.97] focus:outline-none"
+      :aria-expanded="isOpen" aria-haspopup="listbox" aria-label="Sprache auswählen"
+      @click="toggleDropdown" @keydown="handleButtonKeydown">
+
+      <!-- Flag/Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg"
+        class="relative z-10 flex items-center justify-center size-5 stroke-base-content"
+        viewBox="0 0 24 24">
+        <path fill="none" stroke-width="2"
+          d="M12 23c6.075 0 11-4.925 11-11S18.075 1 12 1S1 5.925 1 12s4.925 11 11 11Zm0 0c3 0 4-5 4-11S15 1 12 1S8 6 8 12s1 11 4 11ZM2 16h20M2 8h20" />
+      </svg>
+
+      <!-- Language short code -->
+      <div
+        class="relative z-10 px-0.5 tracking-wide uppercase rounded-sm bg-secondary text-secondary-content ring-2 ring-secondary-content ">
+        {{ selectedOption?.text }}</div>
+
+      <!-- Caret -->
+      <span class="relative z-10 transition-transform duration-200"
+        :class="{ 'rotate-180': isOpen }">
+        <svg viewBox="0 0 24 24" class="size-4 fill-primary-content">
+          <path d="M12 15.5 5 8.5l1.4-1.4L12 12.7l5.6-5.6L19 8.5z" />
+        </svg>
+      </span>
+    </button>
+
+    <!-- Dropdown -->
+    <Transition enter-active-class="transition duration-150 ease-out"
+      enter-from-class="scale-95 -translate-y-1 opacity-0"
+      enter-to-class="scale-100 translate-y-0 opacity-100"
+      leave-active-class="transition ease-in duration-120"
+      leave-from-class="scale-100 translate-y-0 opacity-100"
+      leave-to-class="scale-95 -translate-y-1 opacity-0">
+      <div v-if="isOpen"
+        class="absolute left-0 mt-1.5 z-30 min-w-36 rounded-sm bg-base-200 shadow-lg border-2 border-base-content ring-2 ring-primary p-1"
+        role="listbox" :aria-activedescendant="`lang-option-${options[highlightedIndex]?.value}`">
+        <ul class="flex flex-col gap-1">
+          <li v-for="(option, idx) in options" :key="option.value"
+            :id="`lang-option-${option.value}`">
+            <button ref="optionRefs" type="button"
+              class="flex items-center w-full gap-2 px-2 py-1 text-sm font-semibold transition-all duration-100 outline-none group rounded-xs text-base-content focus:ring-2 focus:ring-base-content ring-2 ring-base-content hover:bg-primary"
+              :class="{
+                'bg-secondary text-secondary-content ring-2 ring-secondary relative': option.value === selected,
+                'ring-2 ring-transparent': option.value !== selected
+              }" role="option" :aria-selected="option.value === selected"
+              @click="selectOption(option)" @keydown="e => handleOptionKeydown(e, option, idx)">
+              <!-- Flag -->
+              <span
+                class="relative flex items-center justify-center size-6 rounded-xs ring-2 ring-base-content bg-base-100 shrink-0">
+                <svg v-if="option.text === 'en'" viewBox="0 0 512 512" class="size-5">
+                  <mask id="miniEn">
+                    <circle cx="256" cy="256" r="256" fill="#fff" />
+                  </mask>
+                  <g mask="url(#miniEn)">
+                    <path fill="#eee"
+                      d="m0 0l8 22l-8 23v23l32 54l-32 54v32l32 48l-32 48v32l32 54l-32 54v68l22-8l23 8h23l54-32l54 32h32l48-32l48 32h32l54-32l54 32h68l-8-22l8-23v-23l-32-54l32-54v-32l-32-48l32-48v-32l-32-54l32-54V0l-22 8l-23-8h-23l-54 32l-54-32h-32l-48 32l-48-32h-32l-54 32L68 0z" />
+                    <path fill="#0052b4"
+                      d="M336 0v108L444 0Zm176 68L404 176h108zM0 176h108L0 68ZM68 0l108 108V0Zm108 512V404L68 512ZM0 444l108-108H0Zm512-108H404l108 108Zm-68 176L336 404v108z" />
+                    <path fill="#d80027"
+                      d="M0 0v45l131 131h45zm208 0v208H0v96h208v208h96V304h208v-96H304V0zm259 0L336 131v45L512 0zM176 336L0 512h45l131-131zm160 0l176 176v-45L381 336z" />
+                  </g>
+                </svg>
+                <svg v-else-if="option.text === 'de'" viewBox="0 0 512 512" class="size-5">
+                  <mask id="miniDe">
+                    <circle cx="256" cy="256" r="256" fill="#fff" />
+                  </mask>
+                  <g mask="url(#miniDe)">
+                    <path fill="#ffda44" d="m0 345l256.7-25.5L512 345v167H0z" />
+                    <path fill="#d80027" d="m0 167l255-23l257 23v178H0z" />
+                    <path fill="#333" d="M0 0h512v167H0z" />
+                  </g>
+                </svg>
+              </span>
+              <span class="flex-1 text-left capitalize">{{ option.label }}</span>
+              <!-- Animated focus marker for highlighted (not selected) -->
+              <span v-if="idx === highlightedIndex && option.value !== selected"
+                class="w-1 h-4 rounded-full bg-accent animate-pulse" />
+            </button>
+          </li>
+        </ul>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
-<style></style>
+
+<style scoped>
+/* Subtle selected animation */
+[role="option"][aria-selected="true"] {
+  animation: langFade .15s ease-out;
+}
+
+@keyframes langFade {
+  from {
+    opacity: 0;
+    transform: translateY(-2px) scale(.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+</style>
