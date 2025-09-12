@@ -72,11 +72,11 @@ onMounted(() => { selected.value = languageStore.getCurrentLanguage() })
   <div class="relative inline-block" ref="dropdownRef">
     <!-- Trigger Button -->
     <button type="button" tabindex="0"
-      class="group relative flex items-center gap-1 rounded-sm bg-primary h-7 pl-1.5 pr-1 font-semibold text-sm ring-2 ring-base-content transition-all duration-200 hover:scale-[1.03] focus:scale-[1.02] active:scale-[0.97] focus:outline-none"
+      class="group relative flex items-center gap-2 rounded-sm bg-primary h-7 pl-1.5 pr-1 font-semibold text-sm ring-2 ring-base-content transition-all duration-200 hover:scale-[1.03] focus:scale-[1.02] active:scale-[0.97] focus:outline-none cursor-pointer"
       :aria-expanded="isOpen" aria-haspopup="listbox" aria-label="Sprache auswählen"
       @click="toggleDropdown" @keydown="handleButtonKeydown">
 
-      <!-- Flag/Icon -->
+      <!-- Icon -->
       <svg xmlns="http://www.w3.org/2000/svg"
         class="relative z-10 flex items-center justify-center size-5 stroke-base-content"
         viewBox="0 0 24 24">
@@ -86,19 +86,10 @@ onMounted(() => { selected.value = languageStore.getCurrentLanguage() })
 
       <!-- Language short code -->
       <div
-        class="relative z-10 px-0.5 tracking-wide uppercase rounded-sm bg-secondary text-secondary-content ring-2 ring-secondary-content ">
+        class="relative z-10 px-0.5 tracking-wide uppercase rounded-xs bg-secondary text-secondary-content ring-2 ring-secondary-content ">
         {{ selectedOption?.text }}</div>
-
-      <!-- Caret -->
-      <span class="relative z-10 transition-transform duration-200"
-        :class="{ 'rotate-180': isOpen }">
-        <svg viewBox="0 0 24 24" class="size-4 fill-primary-content">
-          <path d="M12 15.5 5 8.5l1.4-1.4L12 12.7l5.6-5.6L19 8.5z" />
-        </svg>
-      </span>
     </button>
 
-    <!-- Dropdown -->
     <Transition enter-active-class="transition duration-150 ease-out"
       enter-from-class="scale-95 -translate-y-1 opacity-0"
       enter-to-class="scale-100 translate-y-0 opacity-100"
@@ -106,7 +97,7 @@ onMounted(() => { selected.value = languageStore.getCurrentLanguage() })
       leave-from-class="scale-100 translate-y-0 opacity-100"
       leave-to-class="scale-95 -translate-y-1 opacity-0">
       <div v-if="isOpen"
-        class="absolute left-0 mt-1.5 z-30 min-w-36 rounded-sm bg-base-200 shadow-lg border-2 border-base-content ring-2 ring-primary p-1"
+        class="absolute right-0 sm:!left-0 mt-1.5 z-30 min-w-36 rounded-sm bg-base-200 shadow-lg border-2 border-base-content ring-2 ring-primary p-1"
         role="listbox" :aria-activedescendant="`lang-option-${options[highlightedIndex]?.value}`">
         <ul class="flex flex-col gap-1">
           <li v-for="(option, idx) in options" :key="option.value"
@@ -117,11 +108,11 @@ onMounted(() => { selected.value = languageStore.getCurrentLanguage() })
                 'bg-secondary text-secondary-content ring-2 ring-secondary relative': option.value === selected,
                 'ring-2 ring-transparent': option.value !== selected
               }" role="option" :aria-selected="option.value === selected"
-              @click="selectOption(option)" @keydown="e => handleOptionKeydown(e, option, idx)">
+              @click="selectOption(option)" @keydown="(e: KeyboardEvent) => handleOptionKeydown(e, option, idx)">
               <!-- Flag -->
               <span
-                class="relative flex items-center justify-center size-6 rounded-xs ring-2 ring-base-content bg-base-100 shrink-0">
-                <svg v-if="option.text === 'en'" viewBox="0 0 512 512" class="size-5">
+                class="relative flex items-center justify-center size-6 rounded-xs ring-2 ring-base-content bg-base-100 shrink-0 *:rounded-full *:size-5.5 *:border-1 *:border-base-content">
+                <svg v-if="option.text === 'en'" viewBox="0 0 512 512">
                   <mask id="miniEn">
                     <circle cx="256" cy="256" r="256" fill="#fff" />
                   </mask>
