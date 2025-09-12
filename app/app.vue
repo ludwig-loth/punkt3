@@ -1,4 +1,9 @@
 <script setup lang="ts">
+useHead({
+  bodyAttrs: {
+    class: { 'dots-magnify': true },
+  },
+})
 const landingStore = useLandingStore()
 const projectStore = useProjectStore()
 const designStore = useDesignStore()
@@ -43,20 +48,15 @@ const handleLanguageChange = (newLanguage: string): void => {
   languageStore.setLanguage(newLanguage)
 }
 
-const handleThemeChange = (newTheme: string): void => {
-  console.log('Theme changed to:', newTheme)
-}
-
 onBeforeMount((): void => {
   languageStore.initLanguage()
-  designStore.initTheme()
+  // designStore.initTheme()
   language.value = languageStore.getCurrentLanguage()
 })
 
 onMounted((): void => {
   languageStore.initLanguage()
   language.value = languageStore.getCurrentLanguage()
-
   if (!projectStore.projects) {
     projectStore.setProjectsData(projectPosts.value ?? [])
   }
@@ -80,11 +80,11 @@ onMounted((): void => {
     <header class="relative mx-auto max-w-7xl">
       <div
         class="absolute z-50 flex flex-row-reverse gap-0 w-full sm:justify-start justify-between sm:gap-4 p-0 top-2.5 px-1 sm:flex-row">
-        <ThemeToggle @theme-changed="handleThemeChange" />
+        <!-- <ThemeToggle /> -->
         <LangToggle @language-changed="handleLanguageChange" />
       </div>
     </header>
-    <main class="">
+    <main>
       <NuxtLayout>
         <NuxtPage />
       </NuxtLayout>
