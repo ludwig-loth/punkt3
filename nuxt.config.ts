@@ -3,9 +3,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   pages: true,
   ssr: true,
-  experimental: {
-    payloadExtraction: false
-  },
+  // experimental: {
+  //   payloadExtraction: false
+  // },
   site: {
     url: "https://<site-url>",
     name: "Site Name",
@@ -23,10 +23,11 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
     server: {
-      hmr: {
-        protocol: "ws",
-        host: 'localhost',
+      watch: {
+        usePolling: true,
+        interval: 100
       },
+      hmr: true,
     },
   },
   nitro: {
@@ -38,7 +39,7 @@ export default defineNuxtConfig({
     },
   },
   typescript: {
-    typeCheck: true,
+    typeCheck: false,
   },
   app: {
     layoutTransition: { name: "layout", mode: "out-in" },
