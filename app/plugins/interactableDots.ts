@@ -10,7 +10,7 @@ export default defineNuxtPlugin(() => {
         const body = document.body
 
         const GAP = 25
-        const OFFSET = GAP / 2
+        const OFFSET = 9
         const BASE_RADIUS = GAP * 0.12
 
         const { x: mx, y: my } = useMouse({ type: 'client' })

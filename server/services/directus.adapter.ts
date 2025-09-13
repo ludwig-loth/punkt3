@@ -33,10 +33,18 @@ class DirectusAdapter {
                     description: translation.subheading,
                 })) || []
             })) || [],
-            translations: directusData.translations?.map((translation: any) => ({
-                languages_code: translation.languages_code,
-                about_me_short: translation.about_me_short,
-                opening_line: translation.hookup_line
+            translations: directusData.translations?.map((trans: any) => ({
+                languages_code: trans.languages_code,
+                about_me_short: trans.about_me_short,
+                opening_line: trans.hookup_line,
+                seo: {
+                    title: trans.seo.title,
+                    meta_description: trans.seo.meta_description,
+                    keywords: trans.seo.keywords,
+                    no_index: trans.seo.no_index,
+                    no_follow: trans.seo.no_follow,
+                    og_image: trans.seo.og_image
+                }
             })) || []
         }
     }

@@ -33,6 +33,7 @@ export const useDesignStore = defineStore('Design', () => {
     if (import.meta.client && !isThemeInitialized.value) {
       try {
         const savedTheme: string | null = localStorage?.getItem('theme');
+        console.log('Saved theme from localStorage:', savedTheme);
 
         if (savedTheme) {
           isDarkMode.value = savedTheme === 'dark';
@@ -40,6 +41,7 @@ export const useDesignStore = defineStore('Design', () => {
           isDarkMode.value = false;
         }
 
+        console.log('Setting isDarkMode to:', isDarkMode.value);
         applyTheme();
         isThemeInitialized.value = true;
       } catch (error) {
@@ -53,13 +55,17 @@ export const useDesignStore = defineStore('Design', () => {
 
   function toggleTheme(): void {
     isDarkMode.value = !isDarkMode.value;
-    localStorage.setItem('theme', isDarkMode.value ? 'dark' : 'light');
-    applyTheme();
-  }
+    const themeValue = isDarkMode.value ? 'dark' : 'light';
 
-  function setTheme(theme: ThemeMode): void {
-    isDarkMode.value = theme === 'dark';
-    localStorage.setItem('theme', theme);
+    console.log('Setting localStorage theme to:', themeValue);
+    try {
+      localStorage.setItem('theme', themeValue);
+      console.log('localStorage updated successfully');
+    } catch (error) {
+      console.error('Failed to update localStorage:', error);
+    }
+
+    console.log('Calling applyTheme');
     applyTheme();
   }
 
@@ -69,14 +75,24 @@ export const useDesignStore = defineStore('Design', () => {
         const html: HTMLElement = document.documentElement;
         if (isDarkMode.value) {
           html.classList.add('dark');
+          console.log('Added dark class to html');
         } else {
           html.classList.remove('dark');
+          console.log('Removed dark class from html');
         }
+        console.log('HTML classes:', html.classList.toString());
       } catch (error) {
         console.warn('Failed to apply theme:', error);
       }
     }
   }
+
+  function setTheme(theme: ThemeMode): void {
+    isDarkMode.value = theme === 'dark';
+    localStorage.setItem('theme', theme);
+    applyTheme();
+  }
+
 
   return {
     isDarkMode,

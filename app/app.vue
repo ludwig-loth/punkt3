@@ -79,7 +79,7 @@ onMounted((): void => {
   <NuxtErrorBoundary>
     <header class="relative mx-auto max-w-7xl">
       <div
-        class="absolute z-50 flex flex-row-reverse gap-0 w-full sm:justify-start justify-between sm:gap-4 p-0 top-2.5 px-1 sm:flex-row">
+        class="absolute z-50 flex flex-row-reverse justify-between w-full gap-0 p-0 px-1 sm:justify-start sm:gap-4 top-1 sm:flex-row">
         <!-- <ThemeToggle /> -->
         <LangToggle @language-changed="handleLanguageChange" />
       </div>

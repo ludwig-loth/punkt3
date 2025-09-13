@@ -1,23 +1,24 @@
 <script setup lang="ts">
 const designStore = useDesignStore()
+const isDark = computed(() => designStore.isDarkMode)
 
-const emit = defineEmits<{
-  (e: 'themeChanged', theme: 'light' | 'dark'): void
-}>()
-
-function toggleTheme(): void {
+function handleToggle() {
+  console.log('Toggle clicked, current isDark:', isDark.value)
   designStore.toggleTheme()
-  emit('themeChanged', designStore.isDarkMode ? 'dark' : 'light')
-}
+  console.log('After toggle, isDark:', designStore.isDarkMode)
 
-onMounted(() => {
-  designStore.initTheme()
-})
+  setTimeout(() => {
+    const html = document.documentElement
+    console.log('HTML classes after toggle:', html.classList.toString())
+    console.log('Computed style base-100:', getComputedStyle(html).getPropertyValue('--color-base-100'))
+  }, 100)
+}
 </script>
 <template>
   <div class="p-0">
-    <label class="relative inline-flex items-center cursor-pointer group" @click="toggleTheme">
-      <input class="hidden peer" id="toggle" type="checkbox" />
+    <label class="relative inline-flex items-center cursor-pointer group">
+      <input class="hidden peer" id="toggle" type="checkbox" :checked="isDark"
+        @click="handleToggle" />
       <div class="relative w-16 h-7 bg-primary rounded-sm ring-2 ring-base-content
                   after:absolute after:content-[''] after:w-6 after:h-6 after:bg-secondary
                   after:rounded-sm after:top-0.5 after:left-0.5 after:inset-ring-2 after:inset-ring-secondary-content peer-checked:after:inset-ring-accent-content
