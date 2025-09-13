@@ -45,16 +45,6 @@ const isLoading = computed((): boolean => {
 })
 
 const { locale } = useI18n()
-
-// const handleLanguageChange = (newLanguage: string): void => {
-//   if (newLanguage === 'de-DE' || newLanguage === 'en-US') {
-//     locale.value = newLanguage
-//   } else {
-//     // fallback
-//     locale.value = 'en-US'
-//   }
-//   languageStore.setLanguage(newLanguage)
-// }
 const handleLanguageChange = (newLanguage: string): void => {
   if (newLanguage === 'de-DE' || newLanguage === 'en-US') {
     languageStore.setLanguage(newLanguage)
@@ -66,7 +56,6 @@ const handleLanguageChange = (newLanguage: string): void => {
 
 onBeforeMount((): void => {
   // designStore.initTheme()
-  languageStore.initLanguage()
   language.value = languageStore.getCurrentLanguage()
   if (language.value === 'de-DE' || language.value === 'en-US') {
     locale.value = language.value

@@ -23,10 +23,6 @@ export const useLanguageStore = defineStore('Language', () => {
   const { locale } = useI18n()
   const currentLanguage = computed<string>(() => locale.value)
 
-  function initLanguage(): void {
-    // no-op: @nuxtjs/i18n übernimmt Erkennung & Cookie
-  }
-
   function setLanguage(data: string): void {
     if (data === 'de-DE' || data === 'en-US') {
       locale.value = data
@@ -60,7 +56,6 @@ export const useLanguageStore = defineStore('Language', () => {
   }
 
   return {
-    initLanguage,
     setLanguage,
     getCurrentLanguage,
     getTranslation,
