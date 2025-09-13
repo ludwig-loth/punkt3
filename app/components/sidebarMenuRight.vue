@@ -6,6 +6,7 @@ interface Props {
   mobile?: boolean;
   active?: boolean;
 }
+const localePath = useLocalePath()
 const landingStore = useLandingStore();
 const route = useRoute()
 
@@ -63,7 +64,8 @@ const navigationLinks = computed(() => {
       </h2>
       <div v-if="btns"
         class="flex flex-row items-center justify-between w-full h-[38px] gap-4 p-1 rounded-sm bg-base-200">
-        <NuxtLink v-if="navigationLinks.prev" :href="`${getParentRoute()}/${navigationLinks.prev}`"
+        <NuxtLink v-if="navigationLinks.prev"
+          :to="localePath(`${getParentRoute()}/${navigationLinks.prev}`)"
           class="flex flex-row items-center text-sm transition-all w-9 h-7 rounded-xs bg-accent outline-2 outline-base-content hover:scale-105 active:scale-95 group/btnPrev">
           <div
             class="flex items-center justify-center h-5 mx-auto transition-all w-7 rounded-xs bg-primary group-hover/btnPrev:h-7 group-hover/btnPrev:w-9">
@@ -92,7 +94,8 @@ const navigationLinks = computed(() => {
             </svg>
           </div>
         </NuxtLink>
-        <NuxtLink v-if="navigationLinks.next" :href="`${getParentRoute()}/${navigationLinks.next}`"
+        <NuxtLink v-if="navigationLinks.next"
+          :to="localePath(`${getParentRoute()}/${navigationLinks.next}`)"
           class="flex flex-row items-center ml-auto text-sm transition-all w-9 h-7 rounded-xs bg-accent outline-2 outline-base-content hover:scale-105 active:scale-95 group/btnNext">
           <div
             class="flex items-center justify-center h-5 mx-auto transition-all w-7 rounded-xs bg-primary group-hover/btnNext:h-7 group-hover/btnNext:w-9">

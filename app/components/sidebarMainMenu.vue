@@ -4,6 +4,7 @@ interface Props {
   hasSubMenu: boolean;
   mobile: boolean;
 }
+const localePath = useLocalePath()
 const landingStore = useLandingStore();
 const designStore = useDesignStore();
 const route = useRoute()
@@ -61,7 +62,7 @@ saveDimensions(mainMenuRef, 'main_menu')
       </h2>
       <div class="flex flex-col gap-2 py-1 px-1.5 mb-1 overflow-y-auto max-h-72 custom-scrollbar"
         :class="menuItems.length > 5 ? 'w-41.5 pr-2.5' : 'w-full'">
-        <NuxtLink href="/">
+        <NuxtLink :to="localePath('/')">
           <div class="relative transition-all active:scale-97 hover:scale-103 ">
             <div
               class="flex p-1 transition-all border-2 rounded-sm cursor-pointer hover:outline-0 outline-primary bg-base-100 peer">
@@ -79,7 +80,7 @@ saveDimensions(mainMenuRef, 'main_menu')
           </div>
         </NuxtLink>
         <div v-for="item in menuItems" :key="item.slug">
-          <NuxtLink :href="`/${item.slug}`">
+          <NuxtLink  :to="localePath(`/${item.slug}`)">
             <div class="relative transition-all"
               :class="{ 'active:scale-97 hover:scale-103': !isActiveOrChild(`/${item.slug}`), 'hover:scale-103': (isActiveOrChild(`/${item.slug}`) && hasSubMenu) }">
               <div

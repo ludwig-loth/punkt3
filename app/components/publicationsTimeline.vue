@@ -37,7 +37,7 @@ const props = withDefaults(defineProps<Props>(), {
             <template v-for="(author, idx) in pub.authors">
               <span class="font-semibold">
                 <template v-if="author.first_name">
-                  {{author.first_name.split(' ').map(n => n[0] + '.').join(' ')}}
+                  {{author.first_name.split(' ').map((n: string) => n[0] + '.').join(' ')}}
                 </template>
                 {{ author.last_name }}
               </span>

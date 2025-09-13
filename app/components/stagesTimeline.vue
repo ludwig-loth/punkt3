@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const languageStore = useLanguageStore();
-const { t, tStatic } = await useTranslation()
-
+const { t, tStatic } = useTranslation()
+const { locale } = useI18n()
 interface Props {
   type: 'career' | 'educational' | 'publication'
   items: (CareerStage | EducationalStage)[] | [] | null
@@ -45,29 +45,29 @@ const props = withDefaults(defineProps<Props>(), {
               <div class="flex">
                 <div v-if="stage.date_display === 'year'" class="flex flex-row items-center gap-1">
                   <nuxt-time v-if="stage.from" :datetime="stage.from" year="numeric"
-                    :locale="languageStore.getCurrentLanguage()"></nuxt-time>
+                    :locale="locale"></nuxt-time>
                   <span>-</span>
                   <nuxt-time v-if="stage.to" :datetime="stage.to" year="numeric"
-                    :locale="languageStore.getCurrentLanguage()"></nuxt-time>
+                    :locale="locale"></nuxt-time>
                   <div v-else-if="stage.until_today">{{ tStatic('today') }}</div>
                   <div></div>
                 </div>
                 <div v-else-if="stage.date_display === 'month_year'"
                   class="flex flex-row items-center gap-1">
                   <nuxt-time v-if="stage.from" :datetime="stage.from" month="long" year="numeric"
-                    :locale="languageStore.getCurrentLanguage()"></nuxt-time>
+                    :locale="locale"></nuxt-time>
                   <span>-</span>
                   <nuxt-time v-if="stage.to" :datetime="stage.to" month="long" year="numeric"
-                    :locale="languageStore.getCurrentLanguage()"></nuxt-time>
+                    :locale="locale"></nuxt-time>
                   <div v-else-if="stage.until_today">{{ tStatic('today') }}</div>
                 </div>
                 <div v-else-if="stage.date_display === 'full'"
                   class="flex flex-row items-center gap-1">
                   <nuxt-time v-if="stage.from" :datetime="stage.from" day="numeric" month="long"
-                    year="numeric" :locale="languageStore.getCurrentLanguage()"></nuxt-time>
+                    year="numeric" :locale="locale"></nuxt-time>
                   <span>-</span>
                   <nuxt-time v-if="stage?.to" :datetime="stage.to" day="numeric" month="long"
-                    year="numeric" :locale="languageStore.getCurrentLanguage()"></nuxt-time>
+                    year="numeric" :locale="locale"></nuxt-time>
                   <div v-else-if="stage.until_today">{{ tStatic('today') }}</div>
                 </div>
                 <span v-if="t(stage, 'employment_level') && type === 'career'" class="text-sm">

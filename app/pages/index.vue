@@ -3,6 +3,7 @@ definePageMeta({
     layout: 'default',
     scrollToTop: true,
 })
+const localePath = useLocalePath()
 const router = useRouter()
 const config = useRuntimeConfig()
 const API_URL: string = config.public.apiURL
@@ -45,7 +46,7 @@ function handleHtmlClick(e: MouseEvent) {
     const href = (link.getAttribute('href') || '').trim()
     if (!isInternalLink(href)) return
     e.preventDefault()
-    router.push(href)
+    router.push(localePath(href))
 }
 </script>
 <template>

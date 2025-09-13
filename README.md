@@ -75,3 +75,29 @@ definePageMeta({
   - [ ] On `landingPage` for now
   - [ ] Internal links in WYSIWYG content should be used (`/about-me`)
   - [ ] External links should start with `mailto`, `//`, or `www.`
+
+### Internationalization
+- [ ] localized URLs (Localized URLs and hreflang If/when you want language-prefixed URLs and automatic alternate links, switch strategy and update links)
+  1. In nuxt.config.ts:
+      - i18n.strategy: 'prefix_except_default'
+      - i18n.defaultLocale: 'de-DE'
+  2. Use localePath for internal links.
+      ```typescript
+      <script setup lang="ts">
+        // ...
+        const localePath = useLocalePath()
+        // ...
+        </script>
+        <template>
+          <!-- ... -->
+          <div v-for="item in menuItems" :key="item.slug">
+            <NuxtLink :to="localePath(`/${item.slug}`)">
+              <!-- ... -->
+            </NuxtLink>
+          </div>
+          <!-- ...-->
+      </template>
+      ```
+  Also replace other hard-coded links like:
+      - index.vue and index.vue NuxtLink to="/portfolio"
+      - index.vue internal links created from WYSIWYG can map through localePath before router.push.

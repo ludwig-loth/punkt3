@@ -1,6 +1,6 @@
 <script setup lang="ts">
 const route = useRoute()
-
+const { locale } = useI18n()
 const designStore = useDesignStore();
 const landingStore = useLandingStore();
 const projectStore = useProjectStore();
@@ -71,7 +71,7 @@ function setSubMenu(): void {
 }
 
 watch(
-  [landingData, projects, hasSubMenu, () => languageStore.currentLanguage, subMenuMeta],
+  [landingData, projects, hasSubMenu, () => locale.value, subMenuMeta],
   () => setSubMenu(),
   { immediate: true }
 )
@@ -118,8 +118,7 @@ onMounted(() => {
       </div>
     </div>
     <div>
-      <sidebarMobileMenu :submenu="subMenuItemsPortfolio" :hasSubMenu="hasSubMenu"
-        :open="false" />
+      <sidebarMobileMenu :submenu="subMenuItemsPortfolio" :hasSubMenu="hasSubMenu" :open="false" />
     </div>
   </div>
 </template>

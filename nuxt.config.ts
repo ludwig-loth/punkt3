@@ -3,9 +3,20 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   pages: true,
   ssr: true,
-  // experimental: {
-  //   payloadExtraction: false
-  // },
+  i18n: {
+    strategy: 'no_prefix', // start without changing URLs
+    defaultLocale: 'en-US',
+    locales: [
+      { code: 'de-DE', iso: 'de-DE', name: 'Deutsch', file: 'de.json' },
+      { code: 'en-US', iso: 'en-US', name: 'English', file: 'en.json' }
+    ],
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_redirected',
+      redirectOn: 'root',
+      fallbackLocale: 'en-US'
+    }
+  },
   site: {
     url: "https://<site-url>",
     name: "Site Name",
@@ -101,5 +112,11 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: ["@pinia/nuxt", "@vueuse/nuxt", "@nuxt/image", "@nuxtjs/seo"],
+  modules: [
+    "@pinia/nuxt",
+    "@vueuse/nuxt",
+    "@nuxt/image",
+    "@nuxtjs/seo",
+    "@nuxtjs/i18n",
+  ],
 });

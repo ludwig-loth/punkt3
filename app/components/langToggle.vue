@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-// Improved accessible animated language dropdown keeping original emit + store usage
-const languageStore = useLanguageStore()
+const { locale, setLocale } = useI18n()
 
 const emit = defineEmits<{ languageChanged: [value: string] }>()
-
 interface LangOption { text: string; value: string; label: string }
-const selected: Ref<string> = ref('')
+
+const selected: Ref<'de-DE' | 'en-US'> = ref(locale.value as 'de-DE' | 'en-US')
 const isOpen = ref(false)
 const highlightedIndex = ref(0)
 
@@ -15,7 +14,6 @@ const options: Ref<LangOption[]> = ref([
 ])
 
 const selectedOption = computed(() => options.value.find(o => o.value === selected.value) || null)
-
 const dropdownRef = ref<HTMLElement | null>(null)
 const optionRefs = ref<HTMLElement[]>([])
 
@@ -30,7 +28,8 @@ function toggleDropdown() { isOpen.value ? closeDropdown() : openDropdown() }
 
 function selectOption(option: LangOption) {
   if (!option) return
-  selected.value = option.value
+  selected.value = option.value as 'de-DE' | 'en-US'
+  setLocale(option.value as 'de-DE' | 'en-US')
   emit('languageChanged', option.value)
   closeDropdown()
 }
@@ -64,8 +63,7 @@ function handleOptionKeydown(e: KeyboardEvent, option: LangOption, idx: number) 
 }
 
 onClickOutside(dropdownRef, () => closeDropdown())
-
-onMounted(() => { selected.value = languageStore.getCurrentLanguage() })
+onMounted(() => { selected.value = locale.value as 'de-DE' | 'en-US' })
 </script>
 
 <template>
@@ -108,7 +106,8 @@ onMounted(() => { selected.value = languageStore.getCurrentLanguage() })
                 'bg-secondary text-secondary-content ring-2 ring-secondary relative': option.value === selected,
                 'ring-2 ring-transparent': option.value !== selected
               }" role="option" :aria-selected="option.value === selected"
-              @click="selectOption(option)" @keydown="(e: KeyboardEvent) => handleOptionKeydown(e, option, idx)">
+              @click="selectOption(option)"
+              @keydown="(e: KeyboardEvent) => handleOptionKeydown(e, option, idx)">
               <!-- Flag -->
               <span
                 class="relative flex items-center justify-center size-6 rounded-xs ring-2 ring-base-content bg-base-100 shrink-0 *:rounded-full *:size-5.5 *:border-1 *:border-base-content">
@@ -137,9 +136,9 @@ onMounted(() => { selected.value = languageStore.getCurrentLanguage() })
                 </svg>
               </span>
               <span class="flex-1 text-left capitalize">{{ option.label }}</span>
-              <!-- Animated focus marker for highlighted (not selected) -->
+              <!-- focus marker -->
               <span v-if="idx === highlightedIndex && option.value !== selected"
-                class="w-1 h-4 rounded-full bg-accent animate-pulse" />
+                class="w-1 h-4 rounded-full bg-primary" />
             </button>
           </li>
         </ul>
@@ -148,21 +147,4 @@ onMounted(() => { selected.value = languageStore.getCurrentLanguage() })
   </div>
 </template>
 
-<style scoped>
-/* Subtle selected animation */
-[role="option"][aria-selected="true"] {
-  animation: langFade .15s ease-out;
-}
-
-@keyframes langFade {
-  from {
-    opacity: 0;
-    transform: translateY(-2px) scale(.96);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-</style>
+<style scoped></style>
