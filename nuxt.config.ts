@@ -7,8 +7,8 @@ export default defineNuxtConfig({
     strategy: 'no_prefix', // start without changing URLs
     defaultLocale: 'en-US',
     locales: [
-      { code: 'de-DE', iso: 'de-DE', name: 'Deutsch', file: 'de.json' },
-      { code: 'en-US', iso: 'en-US', name: 'English', file: 'en.json' }
+      { code: 'de-DE', iso: 'de-DE', name: 'Deutsch', file: { path: 'de.json', cache: true } },
+      { code: 'en-US', iso: 'en-US', name: 'English', file: { path: 'en.json', cache: true } }
     ],
     detectBrowserLanguage: {
       useCookie: true,
@@ -18,11 +18,24 @@ export default defineNuxtConfig({
     }
   },
   site: {
-    url: "https://<site-url>",
+    url: process.env.NUXT_PUBLIC_SITE_URL,
     name: "Site Name",
-    description:
-      "This is the site description.",
-    defaultLocale: "de",
+    description: "This is the site description.",
+    defaultLocale: "en-US",
+  },
+  sitemap: {
+    enabled: true,
+    autoI18n: false,
+  },
+  schemaOrg: {
+    identity: {
+      type: 'Person',
+      name: 'Site Name',
+      url: process.env.NUXT_PUBLIC_SITE_URL,
+    },
+  },
+  ogImage: {
+    enabled: true,
   },
   robots: {
     blockNonSeoBots: true,
@@ -47,6 +60,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       apiURL: process.env.NUXT_PUBLIC_API_URL,
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },
   },
   typescript: {

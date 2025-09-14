@@ -11,9 +11,10 @@ const API_URL: string = config.public.apiURL
 const designStore = useDesignStore();
 const landingStore = useLandingStore();
 
-
 const { t, tMenuItem } = useTranslation()
 const { landingData } = storeToRefs(landingStore) as { landingData: Ref<Landing | null> }
+
+useLandingSeo(landingData)
 
 const opening_line: Ref<HTMLElement | null> = ref(null);
 const about_me: Ref<HTMLElement | null> = ref(null);

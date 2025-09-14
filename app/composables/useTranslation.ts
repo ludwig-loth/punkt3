@@ -1,5 +1,3 @@
-// import { useI18n } from '#imports'
-
 interface TranslationComposable {
     t: (item: any, field: string) => string
     tMenuItem: (menuItem: any, field: string) => string
