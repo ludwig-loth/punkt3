@@ -1,3 +1,6 @@
+<script setup lang="ts">
+
+</script>
 <template>
   <div class="fixed top-0 left-0 z-[999] w-dvw h-dvh bg-base-100 overflow-hidden dots-background">
     <div class="flex items-center justify-center w-full h-full">
@@ -17,7 +20,7 @@
           <div
             class="absolute flex items-center justify-center text-lg font-league-spartan text-secondary-content">
             <span
-              class="size-9 bg-secondary rounded-full flex items-center justify-center ring ring-secondary"><span
+              class="flex items-center justify-center rounded-full size-9 bg-secondary ring ring-secondary"><span
                 class="mt-1 ">P3</span></span>
           </div>
         </div>

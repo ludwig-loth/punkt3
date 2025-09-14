@@ -31,25 +31,18 @@ export const useDesignStore = defineStore('Design', () => {
 
   function initTheme(): void {
     if (import.meta.client && !isThemeInitialized.value) {
-      try {
-        const savedTheme: string | null = localStorage?.getItem('theme');
-        console.log('Saved theme from localStorage:', savedTheme);
+      const savedTheme: string | null = localStorage?.getItem('theme');
+      console.log('Saved theme from localStorage:', savedTheme);
 
-        if (savedTheme) {
-          isDarkMode.value = savedTheme === 'dark';
-        } else {
-          isDarkMode.value = false;
-        }
-
-        console.log('Setting isDarkMode to:', isDarkMode.value);
-        applyTheme();
-        isThemeInitialized.value = true;
-      } catch (error) {
-        console.warn('Failed to initialize theme:', error);
+      if (savedTheme) {
+        isDarkMode.value = savedTheme === 'dark';
+      } else {
         isDarkMode.value = false;
-        applyTheme();
-        isThemeInitialized.value = true;
       }
+
+      console.log('Setting isDarkMode to:', isDarkMode.value);
+      applyTheme();
+      isThemeInitialized.value = true;
     }
   }
 
@@ -58,14 +51,8 @@ export const useDesignStore = defineStore('Design', () => {
     const themeValue = isDarkMode.value ? 'dark' : 'light';
 
     console.log('Setting localStorage theme to:', themeValue);
-    try {
-      localStorage.setItem('theme', themeValue);
-      console.log('localStorage updated successfully');
-    } catch (error) {
-      console.error('Failed to update localStorage:', error);
-    }
+    localStorage.setItem('theme', themeValue);
 
-    console.log('Calling applyTheme');
     applyTheme();
   }
 
@@ -75,23 +62,20 @@ export const useDesignStore = defineStore('Design', () => {
         const html: HTMLElement = document.documentElement;
         if (isDarkMode.value) {
           html.classList.add('dark');
-          console.log('Added dark class to html');
         } else {
           html.classList.remove('dark');
-          console.log('Removed dark class from html');
         }
-        console.log('HTML classes:', html.classList.toString());
       } catch (error) {
         console.warn('Failed to apply theme:', error);
       }
     }
   }
 
-  function setTheme(theme: ThemeMode): void {
-    isDarkMode.value = theme === 'dark';
-    localStorage.setItem('theme', theme);
-    applyTheme();
-  }
+  // function setTheme(theme: ThemeMode): void {
+  //   isDarkMode.value = theme === 'dark';
+  //   localStorage.setItem('theme', theme);
+  //   applyTheme();
+  // }
 
 
   return {
@@ -104,7 +88,7 @@ export const useDesignStore = defineStore('Design', () => {
     mobileMenuOpen,
     initTheme,
     toggleTheme,
-    setTheme,
+    // setTheme,
     applyTheme
   } as const;
 })

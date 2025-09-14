@@ -132,5 +132,6 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/seo",
     "@nuxtjs/i18n",
+    "@nuxtjs/color-mode",
   ],
 });

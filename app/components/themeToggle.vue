@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const colorMode = useColorMode()
+
 const designStore = useDesignStore()
 const isDark = computed(() => designStore.isDarkMode)
 
@@ -15,14 +17,34 @@ function handleToggle() {
 }
 </script>
 <template>
+  <ColorScheme placeholder="..." tag="span">
+    Color mode: <b>{{ $colorMode.preference }}</b>
+    <span v-if="$colorMode.preference === 'system'">(<i>{{ $colorMode.value }}</i> mode
+      detected)</span>
+  </ColorScheme>
+  <div>
+    <h1>Color mode: {{ $colorMode.value }}</h1>
+    <select v-model="$colorMode.preference">
+      <option value="system">System</option>
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="sepia">Sepia</option>
+    </select>
+  </div>
+  <select v-model="colorMode.preference"
+    class="w-24 h-8 border dark:bg-gray-900 dark:text-white dark:border-gray-700">
+    <option value="system">System</option>
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
   <div class="p-0">
     <label class="relative inline-flex items-center cursor-pointer group">
       <input class="hidden peer" id="toggle" type="checkbox" :checked="isDark"
         @click="handleToggle" />
-      <div class="relative w-16 h-7 bg-primary rounded-sm ring-2 ring-base-content
+      <div class="relative w-16 h-7 bg-primary rounded-sm ring-2 ring-base-content 
                   after:absolute after:content-[''] after:w-6 after:h-6 after:bg-secondary
                   after:rounded-sm after:top-0.5 after:left-0.5 after:inset-ring-2 after:inset-ring-secondary-content peer-checked:after:inset-ring-accent-content
-                  active:after:w-4 group-[:hover]:after:w-8
+                  active:after:w-4 group-[:hover]:after:w-8 dark:ring-base-300
                   peer-checked:after:left-[calc(100%-2px)] peer-checked:after:translate-x-[-100%]
                   duration-100 peer-checked:after:bg-accent after:duration-300">
       </div>

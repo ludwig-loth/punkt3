@@ -55,7 +55,7 @@ const handleLanguageChange = (newLanguage: string): void => {
 }
 
 onBeforeMount((): void => {
-  // designStore.initTheme()
+
   language.value = languageStore.getCurrentLanguage()
   if (language.value === 'de-DE' || language.value === 'en-US') {
     locale.value = language.value
@@ -65,6 +65,7 @@ onBeforeMount((): void => {
 })
 
 onMounted((): void => {
+  // designStore.initTheme()
   if (!projectStore.projects) {
     projectStore.setProjectsData(projectPosts.value ?? [])
   }
@@ -88,7 +89,7 @@ onMounted((): void => {
     <header class="relative mx-auto max-w-7xl">
       <div
         class="absolute z-50 flex flex-row-reverse justify-between w-full gap-0 p-0 px-1 sm:justify-start sm:gap-4 top-1 sm:flex-row">
-        <!-- <ThemeToggle /> -->
+        <ThemeToggle />
         <LangToggle @language-changed="handleLanguageChange" />
       </div>
     </header>
