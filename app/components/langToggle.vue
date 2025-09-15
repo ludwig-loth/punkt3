@@ -74,9 +74,9 @@ onMounted(() => { selected.value = locale.value as 'de-DE' | 'en-US' })
       :aria-expanded="isOpen" aria-haspopup="listbox" aria-label="Sprache auswählen"
       @click="toggleDropdown" @keydown="handleButtonKeydown">
 
-      <!-- Icon -->
+      <!-- Icon globe -->
       <svg xmlns="http://www.w3.org/2000/svg"
-        class="relative z-10 flex items-center justify-center size-5 stroke-base-content"
+        class="relative z-10 flex items-center justify-center size-5 !stroke-primary-content"
         viewBox="0 0 24 24">
         <path fill="none" stroke-width="2"
           d="M12 23c6.075 0 11-4.925 11-11S18.075 1 12 1S1 5.925 1 12s4.925 11 11 11Zm0 0c3 0 4-5 4-11S15 1 12 1S8 6 8 12s1 11 4 11ZM2 16h20M2 8h20" />
@@ -111,6 +111,7 @@ onMounted(() => { selected.value = locale.value as 'de-DE' | 'en-US' })
               <!-- Flag -->
               <span
                 class="relative flex items-center justify-center size-6 rounded-xs ring-2 ring-base-content bg-base-100 shrink-0 *:rounded-full *:size-5.5 *:border-1 *:border-base-content">
+                <!-- uk -->
                 <svg v-if="option.text === 'en'" viewBox="0 0 512 512">
                   <mask id="miniEn">
                     <circle cx="256" cy="256" r="256" fill="#fff" />
@@ -124,6 +125,7 @@ onMounted(() => { selected.value = locale.value as 'de-DE' | 'en-US' })
                       d="M0 0v45l131 131h45zm208 0v208H0v96h208v208h96V304h208v-96H304V0zm259 0L336 131v45L512 0zM176 336L0 512h45l131-131zm160 0l176 176v-45L381 336z" />
                   </g>
                 </svg>
+                <!-- german -->
                 <svg v-else-if="option.text === 'de'" viewBox="0 0 512 512" class="size-5">
                   <mask id="miniDe">
                     <circle cx="256" cy="256" r="256" fill="#fff" />
@@ -136,9 +138,6 @@ onMounted(() => { selected.value = locale.value as 'de-DE' | 'en-US' })
                 </svg>
               </span>
               <span class="flex-1 text-left capitalize">{{ option.label }}</span>
-              <!-- focus marker -->
-              <span v-if="idx === highlightedIndex && option.value !== selected"
-                class="w-1 h-4 rounded-full bg-primary" />
             </button>
           </li>
         </ul>

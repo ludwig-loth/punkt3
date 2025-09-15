@@ -41,7 +41,7 @@ const props = withDefaults(defineProps<Props>(), {
           </div>
           <div class="flex flex-col w-full gap-2 -mt-1">
             <div
-              class="flex flex-col flex-wrap items-start justify-between gap-2 text-sm font-medium md:flex-row text-secondary-content">
+              class="flex flex-col flex-wrap items-start justify-between gap-2 text-sm font-medium md:flex-row text-secondary-content dark:text-secondary-content-dark">
               <div class="flex">
                 <div v-if="stage.date_display === 'year'" class="flex flex-row items-center gap-1">
                   <nuxt-time v-if="stage.from" :datetime="stage.from" year="numeric"

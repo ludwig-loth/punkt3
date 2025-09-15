@@ -15,9 +15,9 @@ const API_URL = config.public.apiURL
       style="text-decoration: none;" tabindex="0">
       <div class="flex items-center w-full gap-2 p-0 group-hover:bg-accent group-hover:rounded-xs">
         <div
-          class="relative flex-shrink-0 p-1 rounded-l-xs bg-primary group-hover:bg-transparent group-hover:scale-112">
+          class="relative flex-shrink-0 p-1 rounded-l-xs bg-primary group-hover:bg-transparent group-hover:scale-112 light">
           <NuxtImg :src="`${API_URL}/assets/${item.icon}`" alt="icon"
-            class="object-contain p-0.5 size-8 bg-base-100 rounded-[100%] transition-[border-radius]  group-hover:rounded-[2px] group-hover:outline-2 group-hover:outline-accent" />
+            class="object-contain p-0.5 size-8 bg-white rounded-[100%] transition-[border-radius] group-hover:rounded-[2px] group-hover:outline-2 group-hover:outline-accent" />
         </div>
         <div
           class="flex flex-col items-start w-full h-full gap-0 pr-4 transition-all group-hover:text-secondary-content text-accent-content">

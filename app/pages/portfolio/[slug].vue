@@ -15,7 +15,7 @@ definePageMeta({
     scrollToTop: true
 })
 
-const { t, tStatic } = await useTranslation()
+const { t, tStatic } = useTranslation()
 
 const project: Ref<Project | null> = ref(null)
 
@@ -41,7 +41,7 @@ watchEffect(() => {
                         <div class="flex flex-col justify-between gap-4 md:basis-1/2">
                             <div class="border-2 rounded-sm border-base-100 w-fit">
                                 <table
-                                    class="text-left border-collapse rounded-sm table-auto text-secondary-content **:border-base-100 w-fit font-medium">
+                                    class="text-left border-collapse rounded-sm table-auto text-secondary-content dark:text-secondary-content-dark **:border-base-100 w-fit font-medium">
                                     <tbody class="">
                                         <tr class="border-b-2">
                                             <td class="p-1">
@@ -145,7 +145,7 @@ watchEffect(() => {
                                                 </template>
                                             </light-box>
                                             <caption v-if="block.translations?.[0]?.image_caption"
-                                                class="mt-2 text-sm italic font-semibold text-secondary-content ">
+                                                class="mt-2 text-sm italic font-semibold text-secondary-content dark:text-secondary-content-dark">
                                                 {{ t(block, 'image_caption') }}
                                             </caption>
                                         </picture>

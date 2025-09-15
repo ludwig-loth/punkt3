@@ -30,7 +30,6 @@ export default defineNuxtPlugin(() => {
         body.appendChild(canvas)
         body.classList.add('dots-with-canvas')
 
-        // Vorberechnete Spalten/Zeilen
         let colXs: number[] = []
         let rowYs: number[] = []
         function rebuildGrid() {

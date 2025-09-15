@@ -1,46 +1,41 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
     --color-base-100: oklch(92.65% 0.0156 67.63);
-    /* #eee5dc */
     --color-base-200: oklch(87.61% 0.026 63.7);
-    /* #e3d3c5 */
     --color-base-300: oklch(79.3% 0.0417 61.09);
-    /* #d0b6a1 */
     --color-base-content: oklch(25.56% 0.0275 30.23);
-    /* #2f1e1b */
+
     --color-primary: oklch(65.13% 0.124957 15.3947);
-    /* #d06d76 */
     --color-primary-content: oklch(27.95% 0.124957 15.3947);
-    /* #560013 */
+
     --color-secondary: oklch(75.27% 0.1509 60.03);
-    /* #f3953c */
     --color-secondary-content: oklch(33.79% 0.0913 38.47);
-    /* #5d220f */
+    --color-secondary-content-dark: oklch(62% 0.1509 60.03);
+
     --color-accent: oklch(77.84% 0.0672 192.24);
-    /* #83c5c2 */
     --color-accent-content: oklch(23.38% 0.023 205.3);
-    /* #102123 */
+
     --color-neutral: oklch(25.56% 0.0275 30.23);
-    /* #2f1e1b */
     --color-neutral-content: oklch(97.46% 0.0051 67.76);
-    /* #f9f6f3 */
+
     --color-info: oklch(58% 0.158 241.966);
-    /* #0082ce */
     --color-info-content: oklch(96% 0.059 95.617);
-    /* #fef2c6 */
+
     --color-success: oklch(62% 0.194 149.214);
-    /* #00a43b */
     --color-success-content: oklch(98% 0.018 155.826);
-    /* #effcf3 */
+
     --color-warning: oklch(64% 0.222 41.116);
-    /* #f34700 */
     --color-warning-content: oklch(96% 0.059 95.617);
-    /* #fef2c6 */
+
     --color-error: oklch(50% 0.213 27.518);
-    /* #bf0005 */
     --color-error-content: oklch(97% 0.013 17.38);
-    /* #fef2f2 */
+
+
+    --dot-color: oklch(90% 0.0199 65.13);
+    --dot-zoom: 1.8;
+    --mag-radius: 100px;
 
     --breakpoint-xs: 28rem;
     --breakpoint-2xl: 100rem;
@@ -49,37 +44,13 @@
 
 /* Dark overrides */
 html.dark {
-    --color-base-100: oklch(31.97% 0.019 18.2);
-    --color-base-200: oklch(28% 0.018 30);
-    --color-base-300: oklch(36% 0.022 30);
+    --color-base-100: oklch(0.2389 0.0184 35.76);
+    --color-base-200: oklch(0.2996 0.0278 35.18);
+    --color-base-300: oklch(0.3978 0.0278 35.18);
+    --color-base-content: oklch(85.56% 0.0275 30.23);
 
-    --color-base-content: oklch(0.7667 0.0312 36.72);
-
-    --color-primary: oklch(70% 0.14 15);
-    --color-primary-content: oklch(20% 0.05 15);
-
-    --color-secondary: oklch(72% 0.15 60);
-    --color-secondary-content: oklch(18% 0.04 60);
-
-    --color-accent: oklch(78% 0.07 192);
-    --color-accent-content: oklch(18% 0.02 192);
-
-    --color-neutral: oklch(18% 0.01 30);
-    --color-neutral-content: oklch(92% 0.015 67);
-
-    --color-info: oklch(70% 0.18 240);
-    --color-info-content: oklch(20% 0.04 240);
-
-    --color-success: oklch(65% 0.20 150);
-    --color-success-content: oklch(18% 0.04 150);
-
-    --color-warning: oklch(68% 0.24 50);
-    --color-warning-content: oklch(18% 0.05 50);
-
-    --color-error: oklch(60% 0.22 25);
-    --color-error-content: oklch(15% 0.04 25);
+    --dot-color: oklch(27% 0.0184 35.76)
 }
-
 
 @utility dots-border {
     outline: 4px dotted var(--color-base-content);
@@ -104,13 +75,6 @@ html.dark {
 #__nuxt {
     position: relative;
     z-index: 1;
-}
-
-:root {
-    /* used in the interactableDots plugin */
-    --dot-zoom: 1.8;
-    --mag-radius: 100px;
-    --dot-color: #EADED3;
 }
 
 *::selection {
@@ -190,6 +154,7 @@ h2 {
 .link-highlight:hover {
     @apply scale-103;
     transition: all 0.1s;
+    color: var(--color-primary-content) !important;
 }
 
 .link-highlight::after {
@@ -199,7 +164,6 @@ h2 {
     position: absolute;
     left: calc(-0.2rem);
     bottom: 0%;
-    color: var(--color-primary-content);
     background-color: var(--color-primary);
     z-index: -1;
     transition: all 0.1s;
@@ -208,7 +172,7 @@ h2 {
 
 .link-highlight:hover::after {
     height: 100%;
-    color: var(--color-primary-content);
+
     border-radius: 2px;
 }
 
@@ -302,6 +266,7 @@ h2 {
 .post-content a:not(.post-content-none):hover {
     @apply scale-103;
     transition: all 0.1s;
+    color: var(--color-primary-content);
 }
 
 .post-content a:not(.post-content-none)::after {
@@ -311,7 +276,6 @@ h2 {
     position: absolute;
     left: calc(-3px);
     bottom: 0%;
-    color: var(--color-primary-content);
     background-color: var(--color-primary);
     z-index: -1;
     transition: all 0.1s;
@@ -320,7 +284,6 @@ h2 {
 
 .post-content a:not(.post-content-none):hover::after {
     height: 100%;
-    color: var(--color-primary-content);
     border-radius: 3px;
 }
 

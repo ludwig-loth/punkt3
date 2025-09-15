@@ -73,7 +73,7 @@ const navigationLinks = computed(() => {
               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
               xml:space="preserve" xmlns:serif="http://www.serif.com/"
               style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-              class="relative rotate-270 size-5 stroke-base-content fill-base-content">
+              class="relative rotate-270 size-5 stroke-primary-content fill-primary-content">
               <g transform="matrix(1,0,0,1,-105,4.08562e-14)">
                 <g transform="matrix(2.35986,0,0,2.44389,75.4983,208.739)">
                   <circle cx="73.946" cy="96.763" r="27.326" />
@@ -103,7 +103,7 @@ const navigationLinks = computed(() => {
               xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
               xml:space="preserve" xmlns:serif="http://www.serif.com/"
               style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-              class="relative rotate-90 size-5 stroke-base-content fill-base-content">
+              class="relative rotate-90 size-5 stroke-primary-content fill-primary-content">
               <g transform="matrix(1,0,0,1,-105,4.08562e-14)">
                 <g transform="matrix(2.35986,0,0,2.44389,75.4983,208.739)">
                   <circle cx="73.946" cy="96.763" r="27.326" />

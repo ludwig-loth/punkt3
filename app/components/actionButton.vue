@@ -6,7 +6,7 @@ interface Props {
   icon?: 'send' | 'globe';
 }
 
-const props = withDefaults(defineProps <Props> (), {
+const props = withDefaults(defineProps<Props>(), {
   type: 'button',
   buttonText: '',
   iconPosition: 'left',
@@ -15,18 +15,17 @@ const props = withDefaults(defineProps <Props> (), {
 </script>
 <template>
   <button :type="type" tabindex="0"
-    class="relative flex flex-row items-center p-1 text-sm font-semibold transition-all border-2 rounded-sm cursor-pointer bg-accent text-accent-content border-accent-content group/external hover:scale-105 hover:text-base-content focus:scale-103 focus:text-base-content active:scale-97 w-fit"
+    class="relative flex flex-row items-center p-1 text-sm font-semibold transition-all border-2 rounded-sm cursor-pointer bg-accent text-accent-content border-accent-content dark:border-base-content group/external hover:scale-105 hover:text-primary-content focus:scale-103 focus:text-primary-content active:scale-97 w-fit"
     :class="iconPosition === 'right' ? 'flex-row-reverse' : 'flex-row'">
     <div
       class="absolute z-10 size-7 transition-[width] origin-left  bg-primary group-hover/external:w-[calc(100%-.5rem)] group-focus/external:w-[calc(100%-.5rem)] group-hover/external:rounded-xs rounded-sm">
     </div>
     <div
-      class="relative rounded-sm bg-primary *:relative *:z-20 *:p-1 *:size-7 *:stroke-accent-content">
+      class="relative rounded-sm bg-primary *:relative *:z-20 *:p-1 *:size-7 *:fill-primary-content *:stroke-primary-content">
       <svg v-if="icon === 'send'" width="100%" height="100%" viewBox="0 0 800 718" version="1.1"
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
         xml:space="preserve" xmlns:serif="http://www.serif.com/"
-        style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-        class="">
+        style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
         <g transform="matrix(1,0,0,1,3.55271e-15,-56.821)">
           <g id="send" transform="matrix(1.23061,0,0,1.23061,-82.0109,-86.7005)">
             <path

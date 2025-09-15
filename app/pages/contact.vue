@@ -73,29 +73,29 @@ async function sendContactForm(): Promise<void> {
               class="flex flex-col w-full gap-4 py-5 pl-2 md:pr-10">
               <div class="flex flex-col gap-1 group/1">
                 <label
-                  class="text-sm font-semibold transition-all -translate-x-1.5 -translate-y-0.5 text-base-content group-focus-within/2:text-primary-content group-focus-within/1:-translate-x-0.5 group-focus-within/1:translate-y-0.5"
+                  class="text-sm font-semibold transition-all -translate-x-1.5 -translate-y-0.5 text-base-content group-focus-within/1:text-primary-content dark:group-focus-within/1:text-primary group-focus-within/1:-translate-x-0.5 group-focus-within/1:translate-y-0.5"
                   for="name">Name</label>
                 <input id="name" type="text" v-model="contactFrom.name"
                   :placeholder="tStatic('name_placeholder')"
-                  class="w-full px-4 py-2 text-base transition-all rounded-tl-[0px] bg-base-100 rounded-xs placeholder:text-base-400 outline-primary outline-3 outline-offset-4 group-focus-within/1:outline-offset-0 ring-1 ring-primary-content group-focus-within/1:bg-white/50"
+                  class="w-full px-4 py-2 text-base transition-all rounded-tl-[0px] bg-base-100 rounded-xs placeholder:text-base-400 outline-primary outline-3 outline-offset-4 group-focus-within/1:outline-offset-0 ring-1 ring-base-content group-focus-within/1:bg-primary/10"
                   required />
               </div>
               <div class="flex flex-col gap-1 group/2">
                 <label
-                  class="text-sm font-semibold transition-all -translate-x-1.5 -translate-y-0.5 text-base-content group-focus-within/2:text-primary-content group-focus-within/2:-translate-x-0.5 group-focus-within/2:translate-y-0.5"
+                  class="text-sm font-semibold transition-all -translate-x-1.5 -translate-y-0.5 text-base-content group-focus-within/2:text-primary-content dark:group-focus-within/2:text-primary group-focus-within/2:-translate-x-0.5 group-focus-within/2:translate-y-0.5"
                   for="mail">E-Mail</label>
                 <input id="mail" type="email" v-model="contactFrom.mail"
                   :placeholder="tStatic('mail_placeholder')"
-                  class="w-full px-4 py-2 text-base transition-all rounded-tl-none bg-base-100 rounded-xs placeholder:text-base-400 outline-primary outline-3 outline-offset-4 group-focus-within/2:outline-offset-0 ring-1 ring-primary-content group-focus-within/2:bg-white/50"
+                  class="w-full px-4 py-2 text-base transition-all rounded-tl-none bg-base-100 rounded-xs placeholder:text-base-400 outline-primary outline-3 outline-offset-4 group-focus-within/2:outline-offset-0 ring-1 ring-base-content group-focus-within/2:bg-primary/10"
                   required />
               </div>
               <div class="flex flex-col gap-1 group/3">
                 <label
-                  class="text-sm font-semibold transition-all -translate-x-1.5 -translate-y-0.5 text-base-content group-focus-within/3:text-primary-content group-focus-within/3:-translate-x-0.5 group-focus-within/3:translate-y-0.5"
+                  class="text-sm font-semibold transition-all -translate-x-1.5 -translate-y-0.5 text-base-content group-focus-within/3:text-primary-content dark:group-focus-within/3:text-primary group-focus-within/3:-translate-x-0.5 group-focus-within/3:translate-y-0.5"
                   for="text">{{ tStatic('message') }}</label>
                 <textarea id="text" ref="textarea" v-model="input"
                   :placeholder="tStatic('message_placeholder')" rows="5"
-                  class="w-full px-4 py-2 text-base resize-none transition-[outline-offset] transition-color rounded-tl-none bg-base-100 rounded-xs placeholder:text-base-400 outline-primary outline-3 outline-offset-4 group-focus-within/3:outline-offset-0 ring-1 ring-primary-content group-focus-within/3:bg-white/50"
+                  class="w-full px-4 py-2 text-base resize-none transition-[outline-offset] transition-color rounded-tl-none bg-base-100 rounded-xs placeholder:text-base-400 outline-primary outline-3 outline-offset-4 group-focus-within/3:outline-offset-0 ring-1ring-base-content group-focus-within/3:bg-primary/10"
                   required></textarea>
               </div>
               <div class="flex flex-row flex-wrap items-center gap-2">
@@ -106,7 +106,8 @@ async function sendContactForm(): Promise<void> {
               </div>
             </form>
           </div>
-          <div class="flex flex-row items-start gap-2 p-2 text-xs text-accent-content">
+          <div
+            class="flex flex-row items-start gap-2 p-2 text-xs text-base-content/80">
             <div>
               <svg width="800px" height="800px" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg" class="size-5 fill-info">
@@ -114,7 +115,7 @@ async function sendContactForm(): Promise<void> {
                   d="M10 3a7 7 0 100 14 7 7 0 000-14zm-9 7a9 9 0 1118 0 9 9 0 01-18 0zm8-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1zm.01 8a1 1 0 102 0V9a1 1 0 10-2 0v5z" />
               </svg>
             </div>
-            <div v-html="t(contactStore.contactData, 'gdpr_info')"></div>
+            <div class="" v-html="t(contactStore.contactData, 'gdpr_info')"></div>
           </div>
         </div>
       </div>

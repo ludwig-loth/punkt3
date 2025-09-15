@@ -43,7 +43,8 @@ const sortedProjects: ComputedRef<Project[]> = computed(() => {
                     </span>
                   </h2>
                   <div
-                    class="flex flex-row items-center gap-2 ml-4 font-semibold transition-transform md:hidden text-base-content group-hover:-translate-x-1 group-hover:text-accent-content group-focus:-translate-x-1 group-focus:text-accent-content">
+                    class="flex flex-row items-center gap-2 ml-4 font-semibold transition-transform md:hidden text-base-content group-hover:-translate-x-1 group-hover:text-accent-content group-focus:-translate-x-1 group-focus:text-accent-content dark:group-hover:text-white">
+
                     <div> {{ t(project, 'type') }}</div>
                     <div class="size-2">
                       <div

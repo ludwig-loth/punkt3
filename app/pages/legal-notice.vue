@@ -19,7 +19,7 @@ definePageMeta({
           <div>{{ legalNoticeStore.legalNoticeData?.street_and_number }}</div>
           <div>{{ legalNoticeStore.legalNoticeData?.zipcode_and_town }}</div>
           <div>{{ t(legalNoticeStore.legalNoticeData, 'country') }}</div>
-          <div class="flex flex-row items-start gap-2 p-2 pl-0 text-xs text-accent-content">
+          <div class="flex flex-row items-center gap-2 p-2 pl-0 text-xs text-base-content/80">
             <div>
               <svg width="800px" height="800px" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg" class="size-5 fill-info">
@@ -36,7 +36,8 @@ definePageMeta({
               {{ legalNoticeStore.legalNoticeData?.contact_form_url }}
             </NuxtLink>
           </div>
-          <div v-html="t(legalNoticeStore.legalNoticeData, 'text')" class="pt-6"></div>
+          <div v-html="t(legalNoticeStore.legalNoticeData, 'text')"
+            class="pt-6"></div>
         </div>
       </div>
     </div>

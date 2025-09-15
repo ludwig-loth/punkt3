@@ -46,17 +46,18 @@ function openLink(li: string): void {
 </script>
 <template>
   <NuxtLink @click="openLink(link)"
-    class="relative flex flex-row items-center p-1 text-sm font-semibold transition-all border-2 rounded-sm cursor-pointer bg-accent text-accent-content border-accent-content group/external hover:scale-105 hover:text-base-content focus:scale-103 focus:text-base-content active:scale-97 w-fit"
+    class="relative flex flex-row items-center p-1 text-sm font-semibold transition-all border-2 rounded-sm cursor-pointer bg-accent text-accent-content border-accent-content dark:border-base-content group/external hover:scale-105 hover:text-primary-content focus:scale-103 focus:text-base-content active:scale-97 w-fit"
     tabindex="0" :class="iconPosition === 'right' ? 'flex-row-reverse' : 'flex-row'">
     <div
       class="absolute z-10 w-6 h-6 transition-[width] origin-left  bg-primary group-hover/external:w-[calc(100%-.5rem)] group-focus/external:w-[calc(100%-.5rem)] group-hover/external:rounded-xs rounded-sm">
     </div>
-    <div class="relative rounded-sm bg-primary">
+    <div
+      class="relative rounded-sm bg-primary *:fill-primary-content *:stroke-primary-content *:relative *:z-20 *:p-1 *:size-6">
+      <!-- icon external link -->
       <svg v-if="icon === 'external'" width="100%" height="100%" viewBox="0 0 514 512" version="1.1"
         xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
         xml:space="preserve" xmlns:serif="http://www.serif.com/"
-        style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;"
-        class="relative z-20 p-1 size-6 fill-accent-content stroke-accent-content">
+        style="fill-rule:evenodd;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:1.5;">
         <g transform="matrix(1,0,0,1,-0.0544218,1.23478e-14)">
           <g transform="matrix(2.35986,0,0,2.44389,5.49829,90.3025)">
             <circle cx="73.946" cy="96.763" r="27.326" />
@@ -70,12 +71,14 @@ function openLink(li: string): void {
             d="M505.397,7.694C496.744,-0.96 485.69,0.035 485.69,0.035L331.637,0.294C331.637,0.294 312.686,0.711 309.617,16.824C306.906,31.061 315.083,36.976 315.083,36.976L353.892,77.655C353.892,77.655 357.592,80.779 357.584,86.44C357.576,92.102 353.921,95.181 353.921,95.181L263.629,185.473C263.629,185.473 255.995,191.576 256,203.912C256.005,216.248 263.777,222.511 263.777,222.511L286.994,245.729C286.994,245.729 294.612,253.591 305.645,253.594C318.029,253.598 324.753,245.259 324.753,245.259L414.462,155.55C414.462,155.55 417.484,152.096 423.116,152.087C428.748,152.078 431.759,155.522 431.759,155.522L477.03,198.923C477.03,198.923 485.535,208.641 500.475,202.175C513.536,196.523 512.796,182.371 512.796,182.371L513.07,27.415C513.07,27.415 514.051,16.348 505.397,7.694Z" />
         </g>
       </svg>
+
+      <!-- icon arrow up/down -->
       <svg v-if="icon === 'arrow-up' || icon === 'arrow-down'" width="100%" height="100%"
         viewBox="0 0 290 512" version="1.1" xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve"
         xmlns:serif="http://www.serif.com/"
         style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-        class="relative z-20 p-1 size-6 fill-accent-content stroke-accent-content" :class="{
+        :class="{
           'rotate-180': icon === 'arrow-down',
           'rotate-0': icon === 'arrow-up'
         }">

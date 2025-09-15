@@ -37,10 +37,10 @@ const skillLevel = computed<string | null>(() => {
     :class="containerClasses" :style="containerStyle">
     <NuxtImg v-if="item.icon" :src="`${API_URL}/assets/${item.icon}`"
       :alt="`icon of ${t(item, 'name')}`"
-      class="self-center h-full mr-0 rounded-xs bg-base-100 min-w-5"
+      class="self-center h-full mr-0 rounded-xs bg-white min-w-5"
       :class="skillLevel ? 'p-0.5 pt-2' : 'p-0.5'" />
     <div v-else
-      class="flex justify-center h-full mr-1 text-xl rounded-xs bg-base-100 font-league-spartan size-7 "
+      class="flex justify-center h-full mr-1 text-xl rounded-xs bg-white font-league-spartan size-7 "
       :class="skillLevel ? 'p-0.5 pt-2' : 'p-0.5'">
       {{ t(item, 'name').charAt(0).toUpperCase() }}
     </div>

@@ -73,7 +73,7 @@ onBeforeUnmount(() => {
           xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
           xml:space="preserve" xmlns:serif="http://www.serif.com/"
           style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-          class="p-0 m-auto size-6 stroke-base-content fill-base-content">
+          class="p-0 m-auto size-6 stroke-primary-content fill-primary-content">
           <g transform="matrix(1,0,0,1,0.114903,0.114903)">
             <g transform="matrix(0.947669,-0.947669,1.28069,1.28069,-210.301,266.377)">
               <path
@@ -91,7 +91,7 @@ onBeforeUnmount(() => {
       </div>
     </button>
 
-    <div v-if="isOpen" class="fixed inset-0 transition-opacity duration-300 z-118 bg-base-content"
+    <div v-if="isOpen" class="fixed inset-0 transition-opacity duration-300 z-118 bg-[#2f1e1b]"
       :class="isOpen ? 'opacity-95' : 'opacity-0 pointer-events-none'">
     </div>
 
@@ -103,7 +103,7 @@ onBeforeUnmount(() => {
           <NuxtImg :src="imgSrc" :alt="caption"
             class="relative object-contain w-[95vw] max-h-[95vh] pb-1" />
           <caption v-if="caption"
-            class="p-1 text-sm italic font-semibold rounded-sm text-secondary-content bg-base-200">
+            class="p-1 text-sm italic font-semibold rounded-sm text-secondary-content bg-base-200 dark:bg-[#e3d3c5]">
             {{ caption }}
           </caption>
         </div>

@@ -65,8 +65,7 @@ definePageMeta({
   - [ ] `hasSubMenu`
   - [ ] `subMenu`
     - [ ] type: `projects`
-    - [ ] type: `menu`
-    - [ ] type: `custom`
+    - [ ] type: `blog` (noot implemented yet)
   - [ ] `layout: sidebar`
   - [ ] `underConstruction`
 

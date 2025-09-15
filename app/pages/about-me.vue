@@ -81,7 +81,7 @@ const groupedSkills = computed<GroupedSkillSection[]>(() => {
       <div
         class="flex flex-col items-center w-full gap-2 border-2 border-dotted rounded-sm md:justify-between md:flex-row border-base-200">
         <div
-          class="flex flex-col w-fit *:flex *:flex-row *:items-center *:p-2 *:justify-start text-secondary-content font-medium">
+          class="flex flex-col w-fit *:flex *:flex-row *:items-center *:p-2 *:justify-start text-secondary-content dark:text-secondary-content-dark font-medium">
           <h2>{{ t(cvStore.cvData, 'welcome_heading') }}</h2>
           <div>
             <div class="basis-32 shrink-0">{{ tStatic('age') }}</div>
