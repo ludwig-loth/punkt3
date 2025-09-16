@@ -31,7 +31,7 @@ onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
     <div class="flex flex-col items-end justify-end gap-4">
       <Transition name="v-scale">
         <div v-if="mobileMenuOpen"
-          class="absolute flex flex-row items-center justify-center gap-4 p-4 pr-6 rounded-tl-sm max-w-96 min-w-50 -bottom-4 -right-4 pb-15 bg-base-100 ring-4 ring-primary outline-2 outline-base-content shrink-0 dots-background">
+          class="absolute flex flex-row items-center justify-center gap-4 p-4 pr-6 rounded-tl-sm max-w-96 min-w-50 -bottom-4 -right-4 pb-15 bg-base-100 ring-4 ring-primary outline-2 outline-base-content shrink-0 dots-static-background ">
           <sidebarMainMenu :submenu="submenu" :has-sub-menu="hasSubMenu" mobile>
           </sidebarMainMenu>
           <sidebarMenuRight :active="hasSubMenu" :submenu="submenu" class="z-10" :icon="false"
@@ -39,7 +39,7 @@ onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
         </div>
       </Transition>
       <button :title="tStatic('menu')"
-        class="relative flex flex-row-reverse items-center justify-between h-8 p-1 text-xl transition-all duration-300 cursor-pointer rounded-xs ring-2 ring-base-content w-28 bg-accent z-90 font-league-spartan text-base-content group"
+        class="relative flex flex-row-reverse items-center justify-between h-8 p-1 text-xl transition-all duration-300 cursor-pointer rounded-xs ring-2 ring-base-content w-28 bg-accent z-90 font-league-spartan text-accent-content group"
         @click="mobileMenuOpen = !mobileMenuOpen"
         :class="{ 'w-44': mobileMenuOpen, 'w-86': hasSubMenu && mobileMenuOpen }">
         <div
@@ -50,7 +50,7 @@ onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
             xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
             xml:space="preserve" xmlns:serif="http://www.serif.com/"
             style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;"
-            class="relative z-20 size-4 stroke-base-content fill-base-content right-1">
+            class="relative z-20 size-4 stroke-primary-content fill-primary-content right-1">
             <g :class="{ 'scale-0': mobileMenuOpen }" class="transition-all origin-center">
               <g transform=" matrix(8.2064e-17,-1.34021,1.4382,8.80645e-17,-3.79787e-14,784.062)">
                 <path
@@ -85,7 +85,7 @@ onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
           </svg>
         </div>
 
-        <div class="z-20 px-1 mt-1">{{ tStatic('menu') }}</div>
+        <div class="z-20 px-1 mt-1 group-hover:text-primary-content">{{ tStatic('menu') }}</div>
       </button>
     </div>
   </div>
@@ -95,10 +95,4 @@ onClickOutside(mobileMenuRef, () => mobileMenuOpen.value = false)
     @click="mobileMenuOpen = !mobileMenuOpen">
   </div>
 </template>
-<style>
-.dots-background {
-  background-image: radial-gradient(rgba(208, 182, 161, 0.15) 2px, transparent 0);
-  background-size: 20px 20px;
-  background-position: 0px 0px;
-}
-</style>
+<style></style>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { NuxtError } from '#app'
+import { useTranslation } from '@/composables/useTranslation'
 
 const props = defineProps({
   error: {
@@ -12,40 +13,7 @@ async function nav(): Promise<void> {
   await navigateTo('/')
 }
 
-// Simple fallback translations for error page
-const errorTranslations: Record<string, Record<string, string>> = {
-  'en-US': {
-    error_server_problem: 'Server Problem',
-    error_try_again: 'Please try again later',
-    error_apology: 'Sorry for the inconvenience',
-    error_heading_404: 'Page Not Found',
-    error_404_message: 'The page you are looking for does not exist',
-    home: 'Home'
-  },
-  'de-DE': {
-    error_server_problem: 'Server Problem',
-    error_try_again: 'Bitte versuchen Sie es später erneut',
-    error_apology: 'Entschuldigung für die Unannehmlichkeiten',
-    error_heading_404: 'Seite nicht gefunden',
-    error_404_message: 'Die gesuchte Seite existiert nicht',
-    home: 'Startseite'
-  }
-}
-
-// Get browser language or fallback
-const getLanguage = (): string => {
-  if (import.meta.client && typeof navigator !== 'undefined') {
-    const browserLang = navigator.language || 'en-US'
-    return browserLang.startsWith('de') ? 'de-DE' : 'en-US'
-  }
-  return 'en-US'
-}
-
-// Simple translation function that doesn't rely on stores
-const t = (key: string): string => {
-  const lang = getLanguage()
-  return errorTranslations[lang]?.[key] || errorTranslations['en-US']?.[key] || key
-}
+const { tStatic } = useTranslation()
 </script>
 
 <template>
@@ -54,11 +22,11 @@ const t = (key: string): string => {
       <div v-if="error && error.statusCode !== 404"
         class="relative z-20 flex flex-col items-center justify-center p-5 rounded-sm gap-15 bg-base-200">
         <h2 class="flex flex-col items-center justify-center w-full text-4xl text-center">
-          <p>{{ t('error_server_problem') }}</p>
+          <p>{{ tStatic('error_server_problem') }}</p>
         </h2>
         <div class="flex flex-col items-center justify-center w-full text-2xl text-center">
-          <p>{{ t('error_try_again') }}</p>
-          <p>{{ t('error_apology') }}</p>
+          <p>{{ tStatic('error_try_again') }}</p>
+          <p>{{ tStatic('error_apology') }}</p>
         </div>
         <div class="flex flex-row justify-center w-full gap-8 text-xs">
           <div
@@ -71,10 +39,10 @@ const t = (key: string): string => {
       <div v-if="error && error.statusCode === 404"
         class="relative z-20 flex flex-col items-center justify-center p-5 rounded-sm gap-15 bg-base-200">
         <h2 class="flex flex-col items-center justify-center w-full text-4xl text-center">
-          <p>{{ t('error_heading_404') }}</p>
+          <p>{{ tStatic('error_heading_404') }}</p>
         </h2>
         <div class="flex flex-col items-center justify-center w-full text-2xl text-center">
-          <p>{{ t('error_404_message') }}</p>
+          <p>{{ tStatic('error_404_message') }}</p>
         </div>
         <div class="flex flex-col items-center justify-center w-full gap-8 text-xs">
           <div
@@ -82,7 +50,8 @@ const t = (key: string): string => {
             <div>Code: {{ error?.statusCode }}</div>
           </div>
           <div>
-            <link-button :link-text="`${t('home')}`" icon-position="left" icon="arrow-up" back-btn>
+            <link-button class="max-h-8" :link-text="`${tStatic('home')}`" icon-position="left"
+              back-btn>
             </link-button>
           </div>
         </div>

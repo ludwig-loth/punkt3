@@ -18,7 +18,7 @@ export default defineNuxtConfig({
     }
   },
   site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL,
+    url: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
     name: process.env.NUXT_PUBLIC_SITE_NAME || 'Site Name',
     description: process.env.NUXT_PUBLIC_SITE_DESCRIPTION || 'This is the site description.',
     defaultLocale: 'en-US',
@@ -42,7 +42,7 @@ export default defineNuxtConfig({
     blockAiBots: true,
   },
   colorMode: {
-    preference: 'light', 
+    preference: 'light',
     fallback: 'light',
     classSuffix: '',
     storage: 'localStorage', // or 'sessionStorage' or 'cookie'

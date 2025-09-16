@@ -36,33 +36,31 @@ const sortedProjects: ComputedRef<Project[]> = computed(() => {
             <div class="md:pr-4">
               <div class="flex flex-col flex-wrap justify-between gap-3">
                 <div class="flex flex-row flex-wrap justify-between gap-1">
-                  <h2 class="text-xl">
-                    <span
-                      class="relative inline-block z-10 after:h-[8px] after:w-[calc(100%+8px)] after:absolute after:-left-[4px] after:bottom-0 after:text-primary-content after:bg-primary after:transition-all after:-z-10 after:rounded-xs group-hover:after:h-[32px] group-hover:after:rounded-sm group-focus:after:h-[32px] group-focus:after:rounded-sm">
+                  <h2
+                    class="text-xl relative inline-block z-10 after:h-[8px] after:w-[calc(100%+8px)] after:absolute after:-left-[4px] after:bottom-0 after:bg-primary after:transition-all after:-z-10 after:rounded-xs group-hover:after:h-[32px] group-hover:after:rounded-sm group-focus:after:h-[32px] group-focus:after:rounded-sm group-hover:!text-primary-content">
+                    <span class="h-fit relative transition-all group-hover:top-[1.5px]">
                       {{ t(project, 'title') }}
                     </span>
                   </h2>
                   <div
-                    class="flex flex-row items-center gap-2 ml-4 font-semibold transition-transform md:hidden text-base-content group-hover:-translate-x-1 group-hover:text-accent-content group-focus:-translate-x-1 group-focus:text-accent-content dark:group-hover:text-white">
-
-                    <div> {{ t(project, 'type') }}</div>
+                    class="flex flex-row items-center gap-2 ml-4 font-semibold transition-transform md:hidden text-base-content group-hover:-translate-x-1 group-hover:text-accent-content group-focus:-translate-x-1 group-focus:text-accent-content dark:group-hover:text-accent/80">
+                    <div>{{ t(project, 'type') }}</div>
                     <div class="size-2">
                       <div
                         class="size-1 mt-0.5 transition-all rounded-full bg-base-content flex-shrink-0 group-hover:size-2 group-hover:bg-accent group-focus:size-2 group-focus:bg-accent">
                       </div>
+
                     </div>
                     <div class="float-right font-semibold transition-transform">
                       {{ project.year }}
                     </div>
                   </div>
                 </div>
-                <div
-                  class="flex flex-row items-center h-auto gap-1 transition-transform text-base-content group-hover:text-secondary-content group-focus:text-secondary-content">
+                <div class="flex flex-row items-center h-auto gap-1 transition-transform ">
                   <div
                     class="flex-shrink-0 w-2 h-0.5 transition-all rounded-[3px] bg-base-content group-hover:h-5 group-hover:w-1 group-hover:bg-primary group-focus:h-5 group-focus:w-1 group-focus:bg-primary">
                   </div>
-                  <h2
-                    class="text-sm ml-1 group-hover:!text-primary-content group-focus:!text-primary-content">
+                  <h2 class="text-sm ml-1">
                     {{ t(project, 'subtitle') }}
                   </h2>
                 </div>
@@ -80,10 +78,10 @@ const sortedProjects: ComputedRef<Project[]> = computed(() => {
             <div
               class="relative flex flex-col-reverse items-start flex-shrink-0 gap-6 mb-4 md:gap-2 md:items-end md:flex-col md:-right-2 md:mb-0">
               <div
-                class="flex-row items-center hidden gap-2 ml-4 font-semibold transition-transform md:flex md:ml-1 text-base-content group-hover:-translate-x-4 group-hover:text-accent-content group-focus:-translate-x-4 group-focus:text-accent-content">
-                <div> {{ t(project, 'type') }}</div>
+                class="flex-row items-center hidden gap-2 ml-4 font-semibold transition-transform md:flex md:ml-1 text-base-content group-hover:-translate-x-4  group-focus:-translate-x-4 group-focus:text-accent-content group-hover:text-accent-content dark:group-hover:text-accent/80">
+                <div>{{ t(project, 'type') }}</div>
                 <div
-                  class="size-1 mt-0.5 transition-all rounded-full bg-base-content flex-shrink-0 group-hover:size-2 group-hover:bg-accent group-focus:size-2 group-focus:bg-accent">
+                  class="size-1 mt-0.5 transition-all rounded-full bg-base-content flex-shrink-0 group-hover:size-2 group-hover:!bg-accent group-focus:size-2 group-focus:bg-accent">
                 </div>
                 <div class="float-right font-semibold transition-transform">
                   {{ project.year }}
@@ -109,14 +107,13 @@ const sortedProjects: ComputedRef<Project[]> = computed(() => {
           </div>
           <div class="flex items-end justify-between mt-2">
             <div class="flex flex-col gap-2 ">
-              <div class="transition-all w-fit text-base-content">
+              <div class="transition-all w-fit ">
                 <div class="mt-1">
                   <div class="relative flex flex-row items-center gap-1">
                     <div
                       class="flex-shrink-0 w-0.5 h-3 bg-base-content transition-all absolute origin-left rounded-[3px] group-hover:w-full group-hover:h-1 group-hover:bg-secondary group-hover:-translate-y-4 group-focus:w-full group-focus:h-1 group-focus:bg-secondary group-focus:-translate-y-4">
                     </div>
-                    <h2
-                      class="text-sm ml-4 transition-all group-hover:!text-secondary-content group-hover:ml-3 group-focus:!text-secondary-content group-focus:ml-3">
+                    <h2 class="text-sm ml-4 transition-all group-hover:ml-3 group-focus:ml-3 ">
                       {{ tStatic('primary_technologies') }}
                     </h2>
                   </div>

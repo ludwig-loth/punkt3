@@ -95,7 +95,7 @@ async function sendContactForm(): Promise<void> {
                   for="text">{{ tStatic('message') }}</label>
                 <textarea id="text" ref="textarea" v-model="input"
                   :placeholder="tStatic('message_placeholder')" rows="5"
-                  class="w-full px-4 py-2 text-base resize-none transition-[outline-offset] transition-color rounded-tl-none bg-base-100 rounded-xs placeholder:text-base-400 outline-primary outline-3 outline-offset-4 group-focus-within/3:outline-offset-0 ring-1ring-base-content group-focus-within/3:bg-primary/10"
+                  class="w-full px-4 py-2 text-base resize-none transition-[outline-offset] transition-color rounded-tl-none bg-base-100 rounded-xs placeholder:text-base-400 outline-primary outline-3 outline-offset-4 group-focus-within/3:outline-offset-0 ring-1 ring-base-content group-focus-within/3:bg-primary/10"
                   required></textarea>
               </div>
               <div class="flex flex-row flex-wrap items-center gap-2">
