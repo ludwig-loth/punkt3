@@ -95,7 +95,7 @@ onMounted(() => { selected.value = locale.value as 'de-DE' | 'en-US' })
       leave-from-class="scale-100 translate-y-0 opacity-100"
       leave-to-class="scale-95 -translate-y-1 opacity-0">
       <div v-if="isOpen"
-        class="absolute right-0 sm:!left-0 mt-1.5 z-30 min-w-36 rounded-sm bg-base-200 shadow-lg border-2 border-base-content ring-2 ring-primary p-1"
+        class="absolute left-0 mt-1.5 z-30 min-w-36 rounded-sm bg-base-200 shadow-lg border-2 border-base-content ring-2 ring-primary p-1"
         role="listbox" :aria-activedescendant="`lang-option-${options[highlightedIndex]?.value}`">
         <ul class="flex flex-col gap-1">
           <li v-for="(option, idx) in options" :key="option.value"
