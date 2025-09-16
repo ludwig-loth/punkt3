@@ -1,21 +1,28 @@
 <script setup lang="ts">
 const colorMode = useColorMode()
+const isReady = ref(false)
+const isDark = ref(false)
 
-function handleToggle() {
-  if (colorMode.preference === 'dark') {
-    colorMode.preference = 'light'
-  } else {
-    colorMode.preference = 'dark'
+onMounted(() => {
+  isDark.value = colorMode.value === 'dark'
+  isReady.value = true
+})
+
+watch(
+  () => colorMode.value,
+  (val) => {
+    isDark.value = val === 'dark'
   }
-}
-const isDark = computed(() => colorMode.value === 'dark')
+)
 
+watch(isDark, (val) => {
+  colorMode.preference = val ? 'dark' : 'light'
+})
 </script>
 <template>
-  <div class="p-0">
+  <div class="p-0" v-if="isReady">
     <label class="relative inline-flex items-center cursor-pointer group">
-      <input class="hidden peer" id="toggle" type="checkbox" :checked="isDark"
-        @click="handleToggle" />
+      <input class="hidden peer" id="toggle" type="checkbox" v-model="isDark" />
       <div class="relative w-16 h-7 bg-primary rounded-sm ring-2 ring-base-content 
                   after:absolute after:content-[''] after:w-6 after:h-6 after:bg-secondary
                   after:rounded-sm after:top-0.5 after:left-0.5 after:inset-ring-2 after:inset-ring-secondary-content peer-checked:after:inset-ring-accent-content

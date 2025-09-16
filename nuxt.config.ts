@@ -46,7 +46,7 @@ export default defineNuxtConfig({
     fallback: 'light',
     classSuffix: '',
     storage: 'localStorage', // or 'sessionStorage' or 'cookie'
-    storageKey: 'color-mode:v2'
+    storageKey: 'color-mode'
   },
   compatibilityDate: '2024-11-01',
   devtools: { enabled: true },
