@@ -7,10 +7,7 @@ services:
       dockerfile: Dockerfile
     ports:
       - "${PORT:-3000}:3000"
-    environment:
-      - NODE_ENV
-      - HOST
-      - PORT
-      - NUXT_PUBLIC_API_URL
+    env_file:
+      - .env
     restart: unless-stopped
-    container_name: podinu
+    container_name: punkte3
