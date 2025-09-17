@@ -5,98 +5,545 @@
 Punkte is the german word for "points" or "dots".
 The whole design philosophy of this frontend template is based on dots.
 The number 3 represents the three main aspects of the framework:
-- Personal website
 - Portfolio
-- Blog
+- About me
+- Contact
 
-## Configuration
+This frontend template is designed to be backend-agnostic. Data access is handled through adapters (e.g., Directus). The UI is based on Tailwind CSS with a consistent dot/points design system.
 
-### Backend Adapter
-To configure PUNKT3, you can modify the environment variables in the `.env` file. Here are the available variables:
+---
 
-- `NUXT_BACKEND_ADAPTER`: Choose the backend service [directus] (more adapters in development)
-- `NUXT_API_URL`: The URL of your API endpoint.
+## Features
 
-### Sub menus
+- **Nuxt 4** with SSR, Pinia, SEO, i18n
+- **Backend-agnostic** adapter system (Directus implemented, more coming)
+- **Pages**:
+  - Landing: [app/pages/index.vue](app/pages/index.vue)
+  - Portfolio listing: [app/pages/portfolio/index.vue](app/pages/portfolio/index.vue)
+  - Portfolio detail: [app/pages/portfolio/[slug].vue](app/pages/portfolio/%5Bslug%5D.vue)
+  - About me: [app/pages/about-me.vue](app/pages/about-me.vue)
+  - Contact: [app/pages/contact.vue](app/pages/contact.vue)
+  - Blog (WIP): [app/pages/blog/index.vue](app/pages/blog/index.vue)
+  - Other Projects (WIP): [app/pages/other-projects/index.vue](app/pages/other-projects/index.vue)
+  - Legal Notice: [app/pages/legal-notice.vue](app/pages/legal-notice.vue)
+- **Layouts** 
+  - Default [app/layouts/default.vue](app/layouts/default.vue)
+    - Layout for the Landing Page
+    - honestly it is not used elsewhere
+  - Sidebars [app/layouts/sidebars.vue](app/layouts/sidebars.vue)
+    - layout for all Pages where a sidebar is needed
+    - Projects/Portfolio
+    - About me
+    - Contact
+    - Legal Notice
+- **Submenus** for "sidebars" layout: [app/layouts/sidebars.vue](app/layouts/sidebars.vue)
+- **Design system** via Tailwind and custom CSS: [app/assets/css/main.css](app/assets/css/main.css)
+- **Interactive dots background**: [app/plugins/interactableDots.ts](app/plugins/interactableDots.ts) 
+  - (just a little fun animation based on your mouse position)
+- **SEO composables**: [app/composables/useSeo.ts](app/composables/useSeo.ts)
+- **Translation helpers**: [app/composables/useTranslation.ts](app/composables/useTranslation.ts)
 
-Submenus in PUNKT3 allow you to add contextual navigation to your pages with the layout `sidebars`, making it easier for users to explore related content. You can configure submenus to display project lists, top-level menus, or custom links, depending on your needs.
+---
 
-#### How to use submenus
+## Architecture Overview
 
-1. **Enable the submenu:**  
-    In your page component, set `hasSubMenu: true` in the `definePageMeta` block.
+**Data Flow (simplified):**
+- **Server APIs** (Nitro) call the configured adapter:
+  - Landing: [server/api/landingPage.get.ts](server/api/landingPage.get.ts)
+  - Projects: [server/api/projects.get.ts](server/api/projects.get.ts)
+  - CV: [server/api/cv.get.ts](server/api/cv.get.ts)
+  - Contact: [server/api/contact.get.ts](server/api/contact.get.ts)
+  - Legal Notice: [server/api/legalNotice.get.ts](server/api/legalNotice.get.ts)
+- **Adapter selection**: [server/services/index.ts](server/services/index.ts) via `NUXT_BACKEND_ADAPTER` env
+- **Directus adapter**: [server/services/directus.adapter.ts](server/services/directus.adapter.ts)
+- **Stores** (Pinia) initialize data at app level:
+  - App bootstrap: [app/app.vue](app/app.vue) loads data via `useAsyncData()` and populates stores (Landing, CV, Projects, Contact, LegalNotice)
+- **Rendering** via pages + components:
+  - Timeline components: [app/components/stagesTimeline.vue](app/components/stagesTimeline.vue), [app/components/publicationsTimeline.vue](app/components/publicationsTimeline.vue)
+  - Lightbox: [app/components/lightBox.vue](app/components/lightBox.vue)
+  - Buttons: [app/components/linkButton.vue](app/components/linkButton.vue), [app/components/actionButton.vue](app/components/actionButton.vue)
+  - and much more
 
-2. **Choose a submenu type:**  
-    - `projects`: Shows a list of projects, optionally filtered by `headingSlug`.
-    - blog: Shows a list of blog posts, optionally filtered by `headingSlug`.
-3. **Customize as needed:**  
-    Adjust the submenu configuration to fit the context of your page.
+---
 
-See the examples below for typical usage.
+## Configuration (.env)
 
-*Example usage in any page:*
+Create a `.env` file (or use `example.env` as template):
+
+```env
+NUXT_BACKEND_ADAPTER=directus
+
+# Public URLs (needed on client-side)
+NUXT_PUBLIC_API_URL=https://your-directus.example.com
+NUXT_PUBLIC_SITE_URL=https://your-site.example.com
+NUXT_PUBLIC_SITE_NAME=Your Site Name
+NUXT_PUBLIC_SITE_DESCRIPTION=This is your site description.
+
+# Optional: Node/Host/Port for Docker/Server
+NODE_ENV=production
+HOST=0.0.0.0
+PORT=3000
 ```
-// in a page component script
+
+**Important:**
+- `NUXT_BACKEND_ADAPTER` must be set. Available values: see [server/services/index.ts](server/services/index.ts) (`directus`, `supabase`, `nuxt_content`). Currently implemented: `directus`.
+-  keep in mind that you can always implement new ones
+-  for now you have to add them to the TypeScript interface by hand
+- `NUXT_PUBLIC_API_URL` is required by the Directus adapter: [server/services/directus.adapter.ts](server/services/directus.adapter.ts).
+
+---
+
+## Backend Adapters
+
+- **Selection & Loading**: [server/services/index.ts](server/services/index.ts)
+- **Directus**:
+  - Initialization: [server/services/directus.adapter.ts](server/services/directus.adapter.ts) (requires `NUXT_PUBLIC_API_URL`)
+  - **Setup your Collections/Fields**:
+    - Example for projects: [`getProjectData()`](server/services/directus.adapter.ts) (replace placeholder `<your project endpoint>` and adapt fields/relations)
+    - Convert responses to shared types under `shared/types/*` (e.g., [shared/types/project.ts](shared/types/project.ts), [shared/types/cv.ts](shared/types/cv.ts), [shared/types/contact.ts](shared/types/contact.ts), [shared/types/legalNotice.ts](shared/types/legalNotice.ts))
+
+---
+
+## Internationalization (i18n)
+
+- **Configuration**: [nuxt.config.ts](nuxt.config.ts) under `i18n` (currently `strategy: 'no_prefix'`, locales `de-DE` and `en-US`)
+- **Usage in code**:
+  - Translation helpers: [`useTranslation().t`, `tMenuItem`, `tStatic`](app/composables/useTranslation.ts)
+  - Example: Portfolio listing reads `t(project, 'title')` etc.
+- **Internal links** from WYSIWYG content are transformed to SPA navigation via `handleHtmlClick` in [app/pages/index.vue](app/pages/index.vue)
+- **Optional: Language-prefixed URLs**:
+  1. In [nuxt.config.ts](nuxt.config.ts): set `strategy: 'prefix_except_default'` and adjust `defaultLocale`
+  2. Use `useLocalePath()` for internal links:
+     ```vue
+     <NuxtLink :to="localePath(`/${item.slug}`)">{{ ... }}</NuxtLink>
+     ```
+
+---
+
+## SEO
+
+- **Landing SEO**: [`useLandingSeo`](app/composables/useSeo.ts) sets title, description, canonical, OG image based on landing translations
+- **Project page extensions** are prepared (commented out in [app/composables/useSeo.ts](app/composables/useSeo.ts))
+
+---
+
+## Submenus (Sidebars Layout)
+
+Enable submenus on pages:
+```ts
 definePageMeta({
   layout: 'sidebars',
   hasHeader: true,
   hasSubMenu: true,
-  subMenu: {
-    type: 'projects',
-    headingSlug: 'portfolio'
-  }
+  subMenu: { type: 'projects', headingSlug: 'portfolio' }
 })
 ```
-
+- **Rendering/Logic**: [app/layouts/sidebars.vue](app/layouts/sidebars.vue) + [app/components/sidebarMenuRight.vue](app/components/sidebarMenuRight.vue)
 
 ---
-# ToDos for the Docs
 
-###  Environment Setup
-- [ ] Define all environment variables
+## Styling & Design
 
-###  Backend Integration
-- [ ] Explain how to add more backend adapters
+- **Tailwind** via Vite plugin: [nuxt.config.ts](nuxt.config.ts)
+- **Global styles & variables** (colors, dots, content styles): [app/assets/css/main.css](app/assets/css/main.css)
+- **Interactive dots** (canvas overlay): [app/plugins/interactableDots.ts](app/plugins/interactableDots.ts)
 
-###  PageMeta Functionality
-- [ ] Explain how the whole `pageMeta` system works
-  - [ ] `scrollToTop` (standard in Nuxt?)
-  - [ ] `hasHeader`
-  - [ ] `hasSubMenu`
-  - [ ] `subMenu`
-    - [ ] type: `projects`
-    - [ ] type: `blog` (noot implemented yet)
-  - [ ] `layout: sidebar`
-  - [ ] `underConstruction`
+---
 
-###  HTML Click Handling
-- [ ] Explain how `handleHtmlClick` works
-  - [ ] On `landingPage` for now
-  - [ ] Internal links in WYSIWYG content should be used (`/about-me`)
-  - [ ] External links should start with `mailto`, `//`, or `www.`
+## Local Development
 
-### Internationalization
-- [ ] localized URLs (Localized URLs and hreflang If/when you want language-prefixed URLs and automatic alternate links, switch strategy and update links)
-  1. In nuxt.config.ts:
-      - i18n.strategy: 'prefix_except_default'
-      - i18n.defaultLocale: 'de-DE'
-  2. Use localePath for internal links.
-      ```typescript
-      <script setup lang="ts">
-        // ...
-        const localePath = useLocalePath()
-        // ...
-        </script>
-        <template>
-          <!-- ... -->
-          <div v-for="item in menuItems" :key="item.slug">
-            <NuxtLink :to="localePath(`/${item.slug}`)">
-              <!-- ... -->
-            </NuxtLink>
-          </div>
-          <!-- ...-->
-      </template>
-      ```
-  Also replace other hard-coded links like:
-      - index.vue and index.vue NuxtLink to="/portfolio"
-      - index.vue internal links created from WYSIWYG can map through localePath before router.push.
+**Prerequisites:** Node 20+, PNPM/NPM/Yarn
+
+```bash
+# Install dependencies
+npm install
+
+# Development server
+npm run dev
+
+# Production build
+npm run build
+npm run start
+```
+
+---
+
+## Docker
+
+```bash
+# Build
+docker build -t punkt3 .
+
+# Run
+docker run -p 3000:3000 --env-file .env punkt3
+```
+
+See [Dockerfile](Dockerfile) and optional [docker-compose.yml](docker-compose.yml).
+
+---
+
+## Important Files & Locations
+
+**App Bootstrap & Data Loading:**
+- [app/app.vue](app/app.vue)
+
+**Stores:**
+- Landing: [app/stores/landing.store.ts](app/stores/landing.store.ts)
+- Projects: [app/stores/project.store.ts](app/stores/project.store.ts)  
+- CV: [app/stores/cv.store.ts](app/stores/cv.store.ts)
+- Contact: [app/stores/contact.store.ts](app/stores/contact.store.ts)
+- Legal Notice: [app/stores/legalNotice.store.ts](app/stores/legalNotice.store.ts)
+
+**Types:**
+- Landing: [shared/types/landing.ts](shared/types/landing.ts)
+- Projects: [shared/types/project.ts](shared/types/project.ts)
+- CV/Stages/Publications: [shared/types/cv.ts](shared/types/cv.ts)
+- Tags/Skills: [shared/types/tags.ts](shared/types/tags.ts)
+- Menus/Submenus: [shared/types/menus.ts](shared/types/menus.ts)
+- Page Meta Extensions: [shared/types/page-meta.d.ts](shared/types/page-meta.d.ts)
+
+---
+
+## Troubleshooting
+
+- **"Adapter implementation ... not found"**: Check `NUXT_BACKEND_ADAPTER` in `.env` (e.g., `directus`)
+- **Directus errors**: Verify `NUXT_PUBLIC_API_URL` and configure collections/fields correctly in [server/services/directus.adapter.ts](server/services/directus.adapter.ts)
+- **Empty pages**: Check if [app/app.vue](app/app.vue) populates stores after `useAsyncData` (see `onMounted`)
+
+---
+
+## Roadmap
+
+- [ ] Additional adapters (Supabase, Nuxt Content)
+- [ ] Enable project SEO
+
+---
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit issues and pull requests.
+
+## License
+
+This project is open source. Please check the license file for details.
+
+
+
+
+# PUNKT3
+
+*PUNKT3 (Punkte) [ˈpʊŋktə]* is a template for your personal website built with Nuxt and Tailwind CSS.
+
+Punkte is the german word for "points" or "dots".
+The whole design philosophy of this frontend template is based on dots.
+The number 3 represents the three main aspects of the framework:
+- Portfolio
+- About me
+- Contact
+
+This frontend template is designed to be backend-agnostic. Data access is handled through adapters (e.g., Directus). The UI is based on Tailwind CSS with a consistent dot/points design system.
+
+---
+
+## Features
+
+- **Nuxt 4** with SSR, Pinia, SEO, i18n
+- **Backend-agnostic** adapter system (Directus implemented, more coming)
+- **Pages**:
+  - Landing: [app/pages/index.vue](app/pages/index.vue)
+  - Portfolio listing: [app/pages/portfolio/index.vue](app/pages/portfolio/index.vue)
+  - Portfolio detail: [app/pages/portfolio/[slug].vue](app/pages/portfolio/%5Bslug%5D.vue)
+  - About me: [app/pages/about-me.vue](app/pages/about-me.vue)
+  - Contact: [app/pages/contact.vue](app/pages/contact.vue)
+  - Blog (WIP): [app/pages/blog/index.vue](app/pages/blog/index.vue)
+  - Other Projects (WIP): [app/pages/other-projects/index.vue](app/pages/other-projects/index.vue)
+  - Legal Notice: [app/pages/legal-notice.vue](app/pages/legal-notice.vue)
+- **Layouts** 
+  - Default [app/layouts/default.vue](app/layouts/default.vue)
+    - Layout for the Landing Page
+    - honestly it is not used elsewhere
+  - Sidebars [app/layouts/sidebars.vue](app/layouts/sidebars.vue)
+    - layout for all Pages where a sidebar is needed
+    - Projects/Portfolio
+    - About me
+    - Contact
+    - Legal Notice
+- **Submenus** for "sidebars" layout: [app/layouts/sidebars.vue](app/layouts/sidebars.vue)
+- **Design system** via Tailwind and custom CSS: [app/assets/css/main.css](app/assets/css/main.css)
+- **Interactive dots background**: [app/plugins/interactableDots.ts](app/plugins/interactableDots.ts) 
+  - (just a little fun animation based on your mouse position)
+- **SEO composables**: [app/composables/useSeo.ts](app/composables/useSeo.ts)
+- **Translation helpers**: [app/composables/useTranslation.ts](app/composables/useTranslation.ts)
+
+---
+
+## Architecture Overview
+
+**Data Flow (simplified):**
+- **Server APIs** (Nitro) call the configured adapter:
+  - Landing: [server/api/landingPage.get.ts](server/api/landingPage.get.ts)
+  - Projects: [server/api/projects.get.ts](server/api/projects.get.ts)
+  - CV: [server/api/cv.get.ts](server/api/cv.get.ts)
+  - Contact: [server/api/contact.get.ts](server/api/contact.get.ts)
+  - Legal Notice: [server/api/legalNotice.get.ts](server/api/legalNotice.get.ts)
+- **Adapter selection**: [server/services/index.ts](server/services/index.ts) via `NUXT_BACKEND_ADAPTER` env
+- **Directus adapter**: [server/services/directus.adapter.ts](server/services/directus.adapter.ts)
+- **Stores** (Pinia) initialize data at app level:
+  - App bootstrap: [app/app.vue](app/app.vue) loads data via `useAsyncData()` and populates stores (Landing, CV, Projects, Contact, LegalNotice)
+- **Rendering** via pages + components:
+  - Timeline components: [app/components/stagesTimeline.vue](app/components/stagesTimeline.vue), [app/components/publicationsTimeline.vue](app/components/publicationsTimeline.vue)
+  - Lightbox: [app/components/lightBox.vue](app/components/lightBox.vue)
+  - Buttons: [app/components/linkButton.vue](app/components/linkButton.vue), [app/components/actionButton.vue](app/components/actionButton.vue)
+  - and much more
+
+---
+
+## Configuration (.env)
+
+Create a `.env` file (or use `example.env` as template):
+
+```env
+NUXT_BACKEND_ADAPTER=directus
+
+# Public URLs (needed on client-side)
+NUXT_PUBLIC_API_URL=https://your-directus.example.com
+NUXT_PUBLIC_SITE_URL=https://your-site.example.com
+NUXT_PUBLIC_SITE_NAME=Your Site Name
+NUXT_PUBLIC_SITE_DESCRIPTION=This is your site description.
+
+# Optional: Node/Host/Port for Docker/Server
+NODE_ENV=production
+HOST=0.0.0.0
+PORT=3000
+```
+
+**Important:**
+- `NUXT_BACKEND_ADAPTER` must be set. Available values: see [server/services/index.ts](server/services/index.ts) (`directus`, `supabase`, `nuxt_content`). Currently implemented: `directus`.
+-  keep in mind that you can always implement new ones
+-  for now you have to add them to the TypeScript interface by hand
+- `NUXT_PUBLIC_API_URL` is required by the Directus adapter: [server/services/directus.adapter.ts](server/services/directus.adapter.ts).
+
+---
+
+## Backend Adapters
+
+- **Selection & Loading**: [server/services/index.ts](server/services/index.ts)
+- **Directus**:
+  - Initialization: [server/services/directus.adapter.ts](server/services/directus.adapter.ts) (requires `NUXT_PUBLIC_API_URL`)
+  - **Setup your Collections/Fields**:
+    - Example for projects: [`getProjectData()`](server/services/directus.adapter.ts) (replace placeholder `<your project endpoint>` and adapt fields/relations)
+    - Convert responses to shared types under `shared/types/*` (e.g., [shared/types/project.ts](shared/types/project.ts), [shared/types/cv.ts](shared/types/cv.ts), [shared/types/contact.ts](shared/types/contact.ts), [shared/types/legalNotice.ts](shared/types/legalNotice.ts))
+
+---
+
+## Creating a New Backend Adapter
+
+PUNKT3's adapter system allows you to connect to any headless CMS or API backend. Here's how to create your own adapter:
+
+### 1. Understanding the Adapter Interface
+
+Every adapter must implement these methods:
+
+**Get methods for fetching data from your CMS:**
+- `getAdapterName()` - Returns adapter name
+- `getLandingPageData()` - Returns [`Landing`](shared/types/landing.ts) data
+- `getContactData()` - Returns [`Contact`](shared/types/contact.ts) data  
+- `submitContactForm(formData)` - Handles contact form submissions
+- `getProjectData()` - Returns [`Project[]`](shared/types/project.ts) array
+- `getCVData()` - Returns [`CV`](shared/types/cv.ts) data
+- `getLegalNoticeData()` - Returns [`LegalNotice`](shared/types/legalNotice.ts) data
+
+**Private converter methods for transforming your CMS data to PUNKT3 structure:**
+- `convertToLanding(backendData)` - Transforms raw CMS data to [`Landing`](shared/types/landing.ts) interface
+- `convertToContact(backendData)` - Transforms raw CMS data to [`Contact`](shared/types/contact.ts) interface  
+- `convertToProject(backendData)` - Transforms raw CMS data to [`Project`](shared/types/project.ts) interface
+- `convertToCV(backendData)` - Transforms raw CMS data to [`CV`](shared/types/cv.ts) interface
+- `convertToLegalNotice(backendData)` - Transforms raw CMS data to [`LegalNotice`](shared/types/legalNotice.ts) interface
+
+**Why converter methods are important:**
+- They isolate the data transformation logic from API calls
+- Make your adapter easier to test and debug
+- Handle field mapping between your CMS structure and PUNKT3's expected types
+- Manage translation/i18n data formatting
+- Convert date formats, nested relationships, and media URLs
+
+**Example converter pattern:**
+```typescript
+private convertToLanding(cmsData: any): Landing {
+    return {
+        id: cmsData.id,
+        status: cmsData.status || 'published',
+        date_updated: cmsData.updatedAt,
+        initials: cmsData.user_initials,
+        my_name: cmsData.full_name,
+        image: cmsData.profile_image?.url,
+        menu_items: cmsData.navigation?.map(item => ({
+            slug: item.page_slug,
+            icon: item.icon_name,
+            sort: item.order,
+                translations: item.localizations?.map(loc => ({
+                    languages_code: loc.locale,
+                    heading: loc.title,
+                    description: loc.description
+                })) || []
+        })) || [],
+        translations: cmsData.localizations?.map(translation => ({
+            languages_code: translation.locale,
+            about_me_short: translation.bio_text,
+            opening_line: translation.intro_text,
+            seo: {
+                title: translation.meta_title,
+                meta_description: translation.meta_description,
+                keywords: translation.meta_keywords,
+                no_index: translation.no_index || false,
+                no_follow: translation.no_follow || false,
+                og_image: translation.social_image?.url
+            }
+        })) || []
+    }
+}
+```
+
+### 2. Create Your Adapter File
+
+Create a new file in [`server/services/`](server/services/) (e.g., `strapi.adapter.ts`):
+
+```typescript
+import type { Landing, Contact, Project, CV, LegalNotice } from '~/shared/types'
+
+class StrapiAdapter {
+    private apiUrl: string
+    
+    constructor() {
+        if (!process.env.NUXT_PUBLIC_API_URL) {
+            throw new Error('NUXT_PUBLIC_API_URL environment variable is required')
+        }
+        this.apiUrl = process.env.NUXT_PUBLIC_API_URL
+    }
+
+    async getAdapterName() {
+        return 'strapi'
+    }
+
+    async getLandingPageData(): Promise<Landing> {
+        // Fetch from your backend
+        const response = await fetch(`${this.apiUrl}/api/landing-page?populate=*`)
+        const data = await response.json()
+        
+        // Convert to PUNKT3's Landing type
+        return this.convertToLanding(data.data)
+    }
+
+    private convertToLanding(backendData: any): Landing {
+        // Transform your backend's data structure to PUNKT3's Landing interface
+        return {
+            id: backendData.id,
+            status: backendData.attributes.status,
+            // ... map all required Landing fields
+        }
+    }
+
+    // Implement all other required methods...
+}
+
+export default StrapiAdapter
+```
+
+### 3. Register Your Adapter
+
+Update [`server/services/index.ts`](server/services/index.ts):
+
+```typescript
+// Add your adapter to available types
+const AVAILABLE_ADAPTERS = ['directus', 'supabase', 'nuxt_content', 'strapi'] as const
+
+// Add case in loadAdapter() function
+case 'strapi':
+    const { default: StrapiAdapter } = await import('./strapi.adapter')
+    adapterCache = new StrapiAdapter()
+    break
+```
+
+### 4. Data Type Mapping
+
+The most crucial part is mapping your backend's data to PUNKT3's types. Study these interfaces:
+
+- [`Landing`](shared/types/landing.ts) - Homepage content with menu items
+- [`Project`](shared/types/project.ts) - Portfolio projects with content blocks  
+- [`CV`](shared/types/cv.ts) - Career stages, education, skills, publications
+- [`Contact`](shared/types/contact.ts) - Contact info and social links
+- [`LegalNotice`](shared/types/legalNotice.ts) - Legal information
+
+### 5. Multilingual Support
+
+PUNKT3 expects translations in this format:
+```typescript
+translations: [
+    {
+        languages_code: 'en-US',
+        title: 'English Title',
+        description: 'English description'
+    },
+    {
+        languages_code: 'de-DE', 
+        title: 'German Title',
+        description: 'German description'
+    }
+]
+```
+
+Map your CMS's i18n structure to this format in your conversion methods.
+
+### 6. Environment Configuration
+
+Update your `.env` file:
+```env
+NUXT_BACKEND_ADAPTER=strapi
+NUXT_PUBLIC_API_URL=https://your-strapi-instance.com
+# Add any adapter-specific environment variables
+```
+
+### 7. Testing Your Adapter
+
+1. Set your adapter in `.env`: `NUXT_BACKEND_ADAPTER=your-adapter`
+2. Run `npm run dev` 
+3. Check console output shows: `Using adapter: your-adapter`
+4. Verify all pages load with your backend data
+
+### 8. Error Handling Best Practices
+
+```typescript
+async getLandingPageData(): Promise<Landing> {
+    try {
+        const response = await fetch(`${this.apiUrl}/api/landing-page`)
+        if (!response.ok) {
+            throw new Error(`API error: ${response.status}`)
+        }
+        const data = await response.json()
+        return this.convertToLanding(data)
+    } catch (error) {
+        console.error('Error fetching landing page:', error)
+        throw error // Re-throw to let API endpoint handle it
+    }
+}
+```
+
+### 9. Common Pitfalls
+
+- **Missing environment variables** - Always validate required env vars in constructor
+- **Incorrect type mapping** - Ensure your conversion methods return exactly what PUNKT3 expects
+- **Missing translations** - All content should have proper language code mappings
+- **Async/await issues** - All adapter methods should be properly async
+- **Error boundaries** - Handle API failures gracefully
+
+### Example Adapters
+
+Check the existing implementations for guidance:
+- [`server/services/directus.adapter.ts`](server/services/directus.adapter.ts) - Full Directus implementation
+- more to follow
+
+### Getting Help
+
+If you create an adapter for a popular CMS, consider contributing it back to the project! Open an issue or pull request in the repository.
+
+---
