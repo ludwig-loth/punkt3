@@ -104,238 +104,6 @@ PORT=3000
 
 ---
 
-## Internationalization (i18n)
-
-- **Configuration**: [nuxt.config.ts](nuxt.config.ts) under `i18n` (currently `strategy: 'no_prefix'`, locales `de-DE` and `en-US`)
-- **Usage in code**:
-  - Translation helpers: [`useTranslation().t`, `tMenuItem`, `tStatic`](app/composables/useTranslation.ts)
-  - Example: Portfolio listing reads `t(project, 'title')` etc.
-- **Internal links** from WYSIWYG content are transformed to SPA navigation via `handleHtmlClick` in [app/pages/index.vue](app/pages/index.vue)
-- **Optional: Language-prefixed URLs**:
-  1. In [nuxt.config.ts](nuxt.config.ts): set `strategy: 'prefix_except_default'` and adjust `defaultLocale`
-  2. Use `useLocalePath()` for internal links:
-     ```vue
-     <NuxtLink :to="localePath(`/${item.slug}`)">{{ ... }}</NuxtLink>
-     ```
-
----
-
-## SEO
-
-- **Landing SEO**: [`useLandingSeo`](app/composables/useSeo.ts) sets title, description, canonical, OG image based on landing translations
-- **Project page extensions** are prepared (commented out in [app/composables/useSeo.ts](app/composables/useSeo.ts))
-
----
-
-## Submenus (Sidebars Layout)
-
-Enable submenus on pages:
-```ts
-definePageMeta({
-  layout: 'sidebars',
-  hasHeader: true,
-  hasSubMenu: true,
-  subMenu: { type: 'projects', headingSlug: 'portfolio' }
-})
-```
-- **Rendering/Logic**: [app/layouts/sidebars.vue](app/layouts/sidebars.vue) + [app/components/sidebarMenuRight.vue](app/components/sidebarMenuRight.vue)
-
----
-
-## Styling & Design
-
-- **Tailwind** via Vite plugin: [nuxt.config.ts](nuxt.config.ts)
-- **Global styles & variables** (colors, dots, content styles): [app/assets/css/main.css](app/assets/css/main.css)
-- **Interactive dots** (canvas overlay): [app/plugins/interactableDots.ts](app/plugins/interactableDots.ts)
-
----
-
-## Local Development
-
-**Prerequisites:** Node 20+, PNPM/NPM/Yarn
-
-```bash
-# Install dependencies
-npm install
-
-# Development server
-npm run dev
-
-# Production build
-npm run build
-npm run start
-```
-
----
-
-## Docker
-
-```bash
-# Build
-docker build -t punkt3 .
-
-# Run
-docker run -p 3000:3000 --env-file .env punkt3
-```
-
-See [Dockerfile](Dockerfile) and optional [docker-compose.yml](docker-compose.yml).
-
----
-
-## Important Files & Locations
-
-**App Bootstrap & Data Loading:**
-- [app/app.vue](app/app.vue)
-
-**Stores:**
-- Landing: [app/stores/landing.store.ts](app/stores/landing.store.ts)
-- Projects: [app/stores/project.store.ts](app/stores/project.store.ts)  
-- CV: [app/stores/cv.store.ts](app/stores/cv.store.ts)
-- Contact: [app/stores/contact.store.ts](app/stores/contact.store.ts)
-- Legal Notice: [app/stores/legalNotice.store.ts](app/stores/legalNotice.store.ts)
-
-**Types:**
-- Landing: [shared/types/landing.ts](shared/types/landing.ts)
-- Projects: [shared/types/project.ts](shared/types/project.ts)
-- CV/Stages/Publications: [shared/types/cv.ts](shared/types/cv.ts)
-- Tags/Skills: [shared/types/tags.ts](shared/types/tags.ts)
-- Menus/Submenus: [shared/types/menus.ts](shared/types/menus.ts)
-- Page Meta Extensions: [shared/types/page-meta.d.ts](shared/types/page-meta.d.ts)
-
----
-
-## Troubleshooting
-
-- **"Adapter implementation ... not found"**: Check `NUXT_BACKEND_ADAPTER` in `.env` (e.g., `directus`)
-- **Directus errors**: Verify `NUXT_PUBLIC_API_URL` and configure collections/fields correctly in [server/services/directus.adapter.ts](server/services/directus.adapter.ts)
-- **Empty pages**: Check if [app/app.vue](app/app.vue) populates stores after `useAsyncData` (see `onMounted`)
-
----
-
-## Roadmap
-
-- [ ] Additional adapters (Supabase, Nuxt Content)
-- [ ] Enable project SEO
-
----
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit issues and pull requests.
-
-## License
-
-This project is open source. Please check the license file for details.
-
-
-
-
-# PUNKT3
-
-*PUNKT3 (Punkte) [ˈpʊŋktə]* is a template for your personal website built with Nuxt and Tailwind CSS.
-
-Punkte is the german word for "points" or "dots".
-The whole design philosophy of this frontend template is based on dots.
-The number 3 represents the three main aspects of the framework:
-- Portfolio
-- About me
-- Contact
-
-This frontend template is designed to be backend-agnostic. Data access is handled through adapters (e.g., Directus). The UI is based on Tailwind CSS with a consistent dot/points design system.
-
----
-
-## Features
-
-- **Nuxt 4** with SSR, Pinia, SEO, i18n
-- **Backend-agnostic** adapter system (Directus implemented, more coming)
-- **Pages**:
-  - Landing: [app/pages/index.vue](app/pages/index.vue)
-  - Portfolio listing: [app/pages/portfolio/index.vue](app/pages/portfolio/index.vue)
-  - Portfolio detail: [app/pages/portfolio/[slug].vue](app/pages/portfolio/%5Bslug%5D.vue)
-  - About me: [app/pages/about-me.vue](app/pages/about-me.vue)
-  - Contact: [app/pages/contact.vue](app/pages/contact.vue)
-  - Blog (WIP): [app/pages/blog/index.vue](app/pages/blog/index.vue)
-  - Other Projects (WIP): [app/pages/other-projects/index.vue](app/pages/other-projects/index.vue)
-  - Legal Notice: [app/pages/legal-notice.vue](app/pages/legal-notice.vue)
-- **Layouts** 
-  - Default [app/layouts/default.vue](app/layouts/default.vue)
-    - Layout for the Landing Page
-    - honestly it is not used elsewhere
-  - Sidebars [app/layouts/sidebars.vue](app/layouts/sidebars.vue)
-    - layout for all Pages where a sidebar is needed
-    - Projects/Portfolio
-    - About me
-    - Contact
-    - Legal Notice
-- **Submenus** for "sidebars" layout: [app/layouts/sidebars.vue](app/layouts/sidebars.vue)
-- **Design system** via Tailwind and custom CSS: [app/assets/css/main.css](app/assets/css/main.css)
-- **Interactive dots background**: [app/plugins/interactableDots.ts](app/plugins/interactableDots.ts) 
-  - (just a little fun animation based on your mouse position)
-- **SEO composables**: [app/composables/useSeo.ts](app/composables/useSeo.ts)
-- **Translation helpers**: [app/composables/useTranslation.ts](app/composables/useTranslation.ts)
-
----
-
-## Architecture Overview
-
-**Data Flow (simplified):**
-- **Server APIs** (Nitro) call the configured adapter:
-  - Landing: [server/api/landingPage.get.ts](server/api/landingPage.get.ts)
-  - Projects: [server/api/projects.get.ts](server/api/projects.get.ts)
-  - CV: [server/api/cv.get.ts](server/api/cv.get.ts)
-  - Contact: [server/api/contact.get.ts](server/api/contact.get.ts)
-  - Legal Notice: [server/api/legalNotice.get.ts](server/api/legalNotice.get.ts)
-- **Adapter selection**: [server/services/index.ts](server/services/index.ts) via `NUXT_BACKEND_ADAPTER` env
-- **Directus adapter**: [server/services/directus.adapter.ts](server/services/directus.adapter.ts)
-- **Stores** (Pinia) initialize data at app level:
-  - App bootstrap: [app/app.vue](app/app.vue) loads data via `useAsyncData()` and populates stores (Landing, CV, Projects, Contact, LegalNotice)
-- **Rendering** via pages + components:
-  - Timeline components: [app/components/stagesTimeline.vue](app/components/stagesTimeline.vue), [app/components/publicationsTimeline.vue](app/components/publicationsTimeline.vue)
-  - Lightbox: [app/components/lightBox.vue](app/components/lightBox.vue)
-  - Buttons: [app/components/linkButton.vue](app/components/linkButton.vue), [app/components/actionButton.vue](app/components/actionButton.vue)
-  - and much more
-
----
-
-## Configuration (.env)
-
-Create a `.env` file (or use `example.env` as template):
-
-```env
-NUXT_BACKEND_ADAPTER=directus
-
-# Public URLs (needed on client-side)
-NUXT_PUBLIC_API_URL=https://your-directus.example.com
-NUXT_PUBLIC_SITE_URL=https://your-site.example.com
-NUXT_PUBLIC_SITE_NAME=Your Site Name
-NUXT_PUBLIC_SITE_DESCRIPTION=This is your site description.
-
-# Optional: Node/Host/Port for Docker/Server
-NODE_ENV=production
-HOST=0.0.0.0
-PORT=3000
-```
-
-**Important:**
-- `NUXT_BACKEND_ADAPTER` must be set. Available values: see [server/services/index.ts](server/services/index.ts) (`directus`, `supabase`, `nuxt_content`). Currently implemented: `directus`.
--  keep in mind that you can always implement new ones
--  for now you have to add them to the TypeScript interface by hand
-- `NUXT_PUBLIC_API_URL` is required by the Directus adapter: [server/services/directus.adapter.ts](server/services/directus.adapter.ts).
-
----
-
-## Backend Adapters
-
-- **Selection & Loading**: [server/services/index.ts](server/services/index.ts)
-- **Directus**:
-  - Initialization: [server/services/directus.adapter.ts](server/services/directus.adapter.ts) (requires `NUXT_PUBLIC_API_URL`)
-  - **Setup your Collections/Fields**:
-    - Example for projects: [`getProjectData()`](server/services/directus.adapter.ts) (replace placeholder `<your project endpoint>` and adapt fields/relations)
-    - Convert responses to shared types under `shared/types/*` (e.g., [shared/types/project.ts](shared/types/project.ts), [shared/types/cv.ts](shared/types/cv.ts), [shared/types/contact.ts](shared/types/contact.ts), [shared/types/legalNotice.ts](shared/types/legalNotice.ts))
-
----
-
 ## Creating a New Backend Adapter
 
 PUNKT3's adapter system allows you to connect to any headless CMS or API backend. Here's how to create your own adapter:
@@ -544,6 +312,33 @@ Check the existing implementations for guidance:
 
 ### Getting Help
 
-If you create an adapter for a popular CMS, consider contributing it back to the project! Open an issue or pull request in the repository.
+If you create an adapter for a popular CMS, consider contributing it back to the project! See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
 
+---
+
+## Contributing
+
+We welcome contributions! Whether you're fixing bugs, adding features, or creating new backend adapters, your help is appreciated.
+
+**Quick start for adapter contributions:**
+1. Fork the repository
+2. Create your working adapter
+3. Make a clean template version (no real API endpoints)
+4. Submit a PR with the template only
+
+See our detailed [Contributing Guide](CONTRIBUTING.md) for complete instructions.
+
+---
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+MIT License allows you to:
+- ✅ Use commercially 
+- ✅ Modify and distribute
+- ✅ Include in private projects
+- ✅ Sublicense
+
+The only requirement is to include the original copyright notice.
 ---

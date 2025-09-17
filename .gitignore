@@ -22,3 +22,9 @@ logs
 .env
 .env.*
 !.env.example
+
+# Personal/working adapter implementations
+# Keep your working adapters with real API endpoints private
+server/services/*.local.ts
+server/services/*-personal.adapter.ts
+server/services/*-working.adapter.ts
