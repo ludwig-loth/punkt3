@@ -11,7 +11,8 @@ The number 3 represents the three main aspects of the framework:
 
 This frontend template is designed to be backend-agnostic. Data access is handled through adapters (e.g., Directus). The UI is based on Tailwind CSS with a consistent dot/points design system.
 
-You can see it in action at my personal website: [https://ludwigloth.de/](https://ludwigloth.de/)
+> You can see it in action at my personal website: [https://ludwigloth.de/](https://ludwigloth.de/)
+
 ---
 
 ## Features
