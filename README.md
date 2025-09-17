@@ -314,13 +314,14 @@ Check the existing implementations for guidance:
 
 ### Getting Help
 
-If you create an adapter for a popular CMS, consider contributing it back to the project! See our [Contributing Guide](CONTRIBUTING.md) for detailed instructions.
+Feel free to open a discussion here on GitHub.
 
 ---
 
 ## Contributing
 
 We welcome contributions! Whether you're fixing bugs, adding features, or creating new backend adapters, your help is appreciated.
+If you create an adapter for a popular CMS, consider contributing it back to the project!
 
 **Quick start for adapter contributions:**
 1. Fork the repository
@@ -343,4 +344,3 @@ MIT License allows you to:
 - ✅ Sublicense
 
 The only requirement is to include the original copyright notice.
----
