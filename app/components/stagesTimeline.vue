@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-const languageStore = useLanguageStore();
 const { t, tStatic } = useTranslation()
 const { locale } = useI18n()
 interface Props {

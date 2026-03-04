@@ -2,8 +2,6 @@
 interface Props {
   item: Tag
 }
-const config = useRuntimeConfig()
-const API_URL: string = config.public.apiURL
 const { t } = useTranslation()
 const props = defineProps<Props>()
 
@@ -12,7 +10,7 @@ const props = defineProps<Props>()
 <template>
   <span
     class="flex items-center text-sm rounded-full bg-secondary text-secondary-content ring-2 ring-secondary">
-    <NuxtImg v-if="item.icon" :src="`${API_URL}/assets/${item.icon}`"
+    <NuxtImg v-if="item.icon" :src="item.icon"
       :alt="`icon of ${t(item, 'name')}`"
       class="inline-block h-5 p-0.5 mr-1 rounded-l-xl rounded-r-sm bg-white min-w-4" />
     <div v-else

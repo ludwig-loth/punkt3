@@ -9,8 +9,10 @@ const props = defineProps({
   }
 })
 
+const localePath = useLocalePath()
+
 async function nav(): Promise<void> {
-  await navigateTo('/')
+  await navigateTo(localePath('/'))
 }
 
 const { tStatic } = useTranslation()

@@ -6,7 +6,6 @@ interface Props {
   mobile?: boolean;
   active?: boolean;
 }
-const localePath = useLocalePath()
 const landingStore = useLandingStore();
 const route = useRoute()
 
@@ -65,7 +64,7 @@ const navigationLinks = computed(() => {
       <div v-if="btns"
         class="flex flex-row items-center justify-between w-full h-[38px] gap-4 p-1 rounded-sm bg-base-200">
         <NuxtLink v-if="navigationLinks.prev"
-          :to="localePath(`${getParentRoute()}/${navigationLinks.prev}`)"
+          :to="`${getParentRoute()}/${navigationLinks.prev}`"
           class="flex flex-row items-center text-sm transition-all w-9 h-7 rounded-xs bg-accent outline-2 outline-base-content hover:scale-105 active:scale-95 group/btnPrev">
           <div
             class="flex items-center justify-center h-5 mx-auto transition-all w-7 rounded-xs bg-primary group-hover/btnPrev:h-7 group-hover/btnPrev:w-9">
@@ -95,7 +94,7 @@ const navigationLinks = computed(() => {
           </div>
         </NuxtLink>
         <NuxtLink v-if="navigationLinks.next"
-          :to="localePath(`${getParentRoute()}/${navigationLinks.next}`)"
+          :to="`${getParentRoute()}/${navigationLinks.next}`"
           class="flex flex-row items-center ml-auto text-sm transition-all w-9 h-7 rounded-xs bg-accent outline-2 outline-base-content hover:scale-105 active:scale-95 group/btnNext">
           <div
             class="flex items-center justify-center h-5 mx-auto transition-all w-7 rounded-xs bg-primary group-hover/btnNext:h-7 group-hover/btnNext:w-9">
@@ -128,7 +127,7 @@ const navigationLinks = computed(() => {
       <div class="flex flex-col gap-0 pr-1 mb-1 overflow-y-auto max-h-62 custom-scrollbar"
         :class="submenu.items.length > 6 ? 'w-41.5' : 'w-full'">
         <div v-for="n in submenu.items" :key="n.slug">
-          <NuxtLink :href="`${n.slug}`">
+          <NuxtLink :to="`${getParentRoute()}/${n.slug}`">
             <div class="relative ml-2 mr-1 font-semibold transition-all active:scale-95"
               :class="{ 'hover:scale-105': route.params.slug !== n.slug }">
               <div

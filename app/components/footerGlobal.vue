@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { tStatic } = useTranslation()
+const localePath = useLocalePath()
 const legalNoticeStore = useLegalNoticeStore()
 </script>
 <template>
@@ -15,7 +16,7 @@ const legalNoticeStore = useLegalNoticeStore()
         {{ legalNoticeStore.legalNoticeData?.full_name }}
       </div>
       <div class="hidden sm:block">|</div>
-      <NuxtLink to="/legal-notice" class="text-sm font-medium text-base-content link-highlight">
+      <NuxtLink :to="localePath('/legal-notice')" class="text-sm font-medium text-base-content link-highlight">
         {{ tStatic('legal_notice') }}
       </NuxtLink>
       <div class="hidden sm:block">|</div>

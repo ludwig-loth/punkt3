@@ -78,6 +78,11 @@ html.dark {
     z-index: 1;
 }
 
+nuxt-studio {
+    position: relative;
+    z-index: 99999;
+}
+
 *::selection {
     background-color: var(--color-base-content);
     color: var(--color-base-100);
@@ -295,4 +300,38 @@ h2 {
 
 .single-dot-secondary {
     @apply mt-0.5 transition-all rounded-full bg-secondary size-2;
+}
+
+/* Prose styles for project detail pages */
+.prose-project img {
+    @apply object-cover max-h-96 w-full rounded-xs my-4;
+}
+
+.prose-project hr {
+    @apply my-6 mx-auto w-3/4;
+    border: none;
+    border-top: 4px dotted var(--color-base-300);
+}
+
+.prose-project p {
+    @apply leading-relaxed my-2;
+}
+
+/* Prose styles for landing page about-me */
+.prose-landing p {
+    @apply m-0;
+}
+
+/* Prose styles for legal notice page */
+.prose-legal h3 {
+    @apply not-first:mt-6 mb-2 text-lg font-bold text-base-content;
+}
+
+.prose-legal p {
+    @apply my-2 leading-relaxed;
+}
+
+/* Prose styles for contact GDPR info */
+.prose-contact-gdpr p {
+    @apply my-1 leading-relaxed;
 }

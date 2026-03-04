@@ -4,9 +4,6 @@ definePageMeta({
     scrollToTop: true,
 })
 const localePath = useLocalePath()
-const router = useRouter()
-const config = useRuntimeConfig()
-const API_URL: string = config.public.apiURL
 
 const designStore = useDesignStore();
 const landingStore = useLandingStore();
@@ -30,25 +27,6 @@ saveDimensions(about_me, 'about_me')
 saveDimensions(menu_items, 'menu_items')
 
 const mainMenuItems = computed((): Array<MenuItem> => landingData.value?.menu_items ?? [])
-
-const htmlLink = ref<HTMLElement | null>(null)
-
-function isInternalLink(href: string): boolean {
-    return !!href && href.startsWith('/') && !href.startsWith('//') && !href.startsWith('mailto') && !href.startsWith('www.')
-}
-
-function handleHtmlClick(e: MouseEvent) {
-    //converting all internal links (that will come throught v-html from WYSIWYG) to NuxtLink for SPA navigation
-    // might be good to outsource this into a composable
-    const target = e.target as HTMLElement | null
-    if (!target) return
-    const link = target.closest('a')
-    if (!link) return
-    const href = (link.getAttribute('href') || '').trim()
-    if (!isInternalLink(href)) return
-    e.preventDefault()
-    router.push(localePath(href))
-}
 </script>
 <template>
     <div v-if="landingData" class="relative">
@@ -65,20 +43,20 @@ function handleHtmlClick(e: MouseEvent) {
                     <div
                         class="absolute block mt-4 w-22 h-22 sm:w-32 sm:h-32 -z-10 dots-border bg-base-300 rounded-xs ring-6 ring-base-100">
                     </div>
-                    <NuxtImg v-if="landingData" :src="`${API_URL}/assets/${landingData.image}`"
+                    <NuxtImg v-if="landingData" :src="landingData.image"
                         :alt="`Portrait of ${landingData.my_name}`"
                         class="object-cover ml-4 w-22 h-22 sm:w-32 sm:h-32 outline-2 rounded-xs" />
                 </picture>
                 <div class="flex px-3 rounded-sm post-content bg-base-100 mt-9 sm:mt-0">
-                    <p v-if="landingData" ref="htmlLink" class="text-xl text-left md:text-2xl"
-                        v-html="t(landingData, 'about_me_short')" @click="handleHtmlClick">
-                    </p>
+                    <div v-if="landingData.body" class="prose-landing text-xl text-left md:text-2xl">
+                        <ContentRenderer :value="landingData" />
+                    </div>
                 </div>
             </div>
             <nav class="relative flex flex-col sm:my-11" ref="menu_items">
                 <div class="grid grid-cols-1 sm:gap-10 sm:grid-cols-2 mt-25 sm:mt-20">
                     <div v-for="item in mainMenuItems" :key="item.slug">
-                        <NuxtLink :to="`/${item.slug}`">
+                        <NuxtLink :to="localePath(`/${item.slug}`)">
                             <div
                                 class="relative transition-all active:scale-95 hover:scale-103 focus:scale-103">
                                 <div class="flex p-4 mx-auto transition-all border-2 cursor-pointer sm:ml-auto w-[calc(100%-6rem)] sm:w-64 hover:outline-0 outline-primary bg-base-100 peer h-35 rounded-sm focus:outline-0  mb-10 sm:mb-0"

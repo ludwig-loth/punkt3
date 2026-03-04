@@ -4,24 +4,24 @@ export default defineNuxtConfig({
   pages: true,
   ssr: true,
   i18n: {
-    strategy: 'no_prefix',
-    defaultLocale: 'en-US',
+    strategy: 'prefix',
+    defaultLocale: 'en',
     locales: [
-      { code: 'de-DE', iso: 'de-DE', name: 'Deutsch', file: { path: 'de.json', cache: true } },
-      { code: 'en-US', iso: 'en-US', name: 'English', file: { path: 'en.json', cache: true } }
+      { code: 'de', iso: 'de-DE', name: 'Deutsch', file: { path: 'de.json', cache: true } },
+      { code: 'en', iso: 'en-US', name: 'English', file: { path: 'en.json', cache: true } }
     ],
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'i18n_redirected',
       redirectOn: 'root',
-      fallbackLocale: 'en-US'
+      fallbackLocale: 'en'
     }
   },
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL || 'http://localhost:3000',
     name: process.env.NUXT_PUBLIC_SITE_NAME || 'Site Name',
     description: process.env.NUXT_PUBLIC_SITE_DESCRIPTION || 'This is the site description.',
-    defaultLocale: 'en-US',
+    defaultLocale: 'en',
   },
   sitemap: {
     enabled: true,
@@ -66,7 +66,6 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiURL: process.env.NUXT_PUBLIC_API_URL,
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL,
     },
   },
@@ -134,11 +133,21 @@ export default defineNuxtConfig({
     },
   },
   modules: [
+    '@nuxt/content',
     '@pinia/nuxt',
     '@vueuse/nuxt',
     '@nuxt/image',
     '@nuxtjs/seo',
     '@nuxtjs/i18n',
     '@nuxtjs/color-mode',
+    'nuxt-studio',
   ],
+  studio: {
+    enabled: true,
+    repository: {
+      provider: 'github',
+      owner: 'ludwig-loth',
+      repo: 'punkt3',
+    },
+  },
 });

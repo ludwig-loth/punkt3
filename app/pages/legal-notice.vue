@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const legalNoticeStore = useLegalNoticeStore()
+const localePath = useLocalePath()
 const { t, tStatic } = useTranslation()
 definePageMeta({
   layout: 'sidebars',
@@ -32,12 +33,14 @@ definePageMeta({
           <h3 id="m56">{{ tStatic('contact') }}</h3>
           <div>E-Mail: <span>{{ legalNoticeStore.legalNoticeData?.mail_address }}</span>
           </div>
-          <div>{{ tStatic('contact_form') }}: <NuxtLink to="/contact">
+          <div>{{ tStatic('contact_form') }}: <NuxtLink :to="localePath('/contact')">
               {{ legalNoticeStore.legalNoticeData?.contact_form_url }}
             </NuxtLink>
           </div>
-          <div v-html="t(legalNoticeStore.legalNoticeData, 'text')"
-            class="pt-6"></div>
+          <div v-if="legalNoticeStore.legalNoticeData?.body"
+            class="prose-legal pt-6">
+            <ContentRenderer :value="legalNoticeStore.legalNoticeData" />
+          </div>
         </div>
       </div>
     </div>

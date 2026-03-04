@@ -1,12 +1,8 @@
 export interface MenuItem {
-    slug: 'contact' | 'portfolio' | 'about' | 'blog' | 'other-projects';
-    status: 'published' | 'draft' | 'archived';
-    sort: number | string | null;
+    slug: string;
+    status: string;
+    sort: number;
     icon?: string | null;
-    translations: MenuItemTranslation[];
-}
-export interface MenuItemTranslation {
-    languages_code: string;
     heading: string;
     description: string;
 }

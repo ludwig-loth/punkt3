@@ -3,6 +3,7 @@ import type { ComputedRef } from 'vue'
 
 const projectStore = useProjectStore()
 const router = useRouter()
+const localePath = useLocalePath()
 
 definePageMeta({
   layout: 'sidebars',
@@ -13,11 +14,8 @@ definePageMeta({
 
 const { t, tStatic } = await useTranslation()
 
-const config = useRuntimeConfig()
-const API_URL: string = config.public.apiURL
-
 function openProject(slug: string): void {
-  router.push(`/portfolio/${slug}`)
+  router.push(localePath(`/portfolio/${slug}`))
 }
 
 const sortedProjects: ComputedRef<Project[]> = computed(() => {
@@ -27,7 +25,7 @@ const sortedProjects: ComputedRef<Project[]> = computed(() => {
 </script>
 <template>
   <div class="flex flex-col gap-0">
-    <div v-for="project in sortedProjects" :key="project.id" class="relative divider">
+    <div v-for="project in sortedProjects" :key="project.slug" class="relative divider">
       <NuxtLink class="cursor-pointer" @click="openProject(project.slug)">
         <article
           class=" p-1.5 transition-all border-2 rounded-sm group hover:ring-4 ring-primary bg-base-100 focus:ring-3 focus:scale-99 inset-ring-2 inset-ring-primary hover:inset-ring-0 focus:inset-ring-0"
@@ -93,7 +91,7 @@ const sortedProjects: ComputedRef<Project[]> = computed(() => {
                     <div
                       class="absolute z-10 block w-[calc(100%-1rem)] mt-2 md:mt-4 transition-transform h-42 md:size-42 dots-border bg-base-300 rounded-xs group-hover:scale-x-98 group-hover:scale-y-95 group-focus:scale-97 group-hover:focus-y-95 md:group-hover:scale-95 md:group-focus:scale-95">
                     </div>
-                    <NuxtImg :src="`${API_URL}/assets/${project.post_image}`"
+                    <NuxtImg :src="project.post_image"
                       alt="Header image of the project"
                       class="relative z-20 object-cover object-left-top w-full ml-2 transition-transform md:ml-4 h-42 md:size-42 outline-2 rounded-xs group-hover:-translate-x-2 group-hover:translate-y-2 group-focus:-translate-x-2 group-focus:translate-y-2 md:group-hover:-translate-x-4 md:group-hover:translate-y-4 md:group-focus:-translate-x-4 md:group-focus:translate-y-4 " />
                   </picture>
@@ -131,7 +129,7 @@ const sortedProjects: ComputedRef<Project[]> = computed(() => {
         </article>
       </NuxtLink>
       <div
-        v-if="(sortedProjects?.length ?? 0) > 1 && project.id !== sortedProjects?.[sortedProjects.length - 1]?.id"
+        v-if="(sortedProjects?.length ?? 0) > 1 && project.slug !== sortedProjects?.[sortedProjects.length - 1]?.slug"
         class="h-fit mx-auto my-2 max-w-1/4 dots-border-top !border-base-300 divider">
       </div>
     </div>

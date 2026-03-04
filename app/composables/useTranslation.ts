@@ -5,25 +5,28 @@ interface TranslationComposable {
 }
 
 export const useTranslation = (): TranslationComposable => {
-    const { locale, t: $t } = useI18n()
+    const { t: $t } = useI18n()
 
+    /**
+     * Get a field value from a content item.
+     * With flat YAML content (Nuxt Content), fields are directly on the item.
+     * Falls back to translations array lookup for backward compatibility.
+     */
     const t = (item: any, field: string): string => {
         if (!item) return ''
-        const code = locale.value
-        const tr = Array.isArray(item?.translations)
-            ? item.translations.find((t: any) => t.languages_code === code)
-            : null
-        return tr?.[field] ?? item?.[field] ?? ''
+        if (item?.[field] !== undefined) return item[field] ?? ''
+        return ''
     }
 
+    /**
+     * Get a field value from a menu item.
+     * With flat YAML content, heading/description are directly on the item.
+     */
     const tMenuItem = (menuItem: any, field: string): string => {
         if (!menuItem) return ''
-        const code = locale.value
         const base = menuItem?.global_menu_items_id ?? menuItem
-        const tr = Array.isArray(base?.translations)
-            ? base.translations.find((t: any) => t.languages_code === code)
-            : null
-        return tr?.[field] ?? base?.[field] ?? ''
+        if (base?.[field] !== undefined) return base[field] ?? ''
+        return ''
     }
 
     const tStatic = (key: string): string => String($t(key))

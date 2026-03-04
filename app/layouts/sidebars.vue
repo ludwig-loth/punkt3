@@ -4,7 +4,6 @@ const { locale } = useI18n()
 const designStore = useDesignStore();
 const landingStore = useLandingStore();
 const projectStore = useProjectStore();
-const languageStore = useLanguageStore();
 
 const { t, tMenuItem } = useTranslation()
 const { projects } = storeToRefs(projectStore) as { projects: Ref<Project[] | null> }

@@ -12,10 +12,11 @@
     "start": "node .output/server/index.mjs"
   },
   "dependencies": {
-    "@directus/sdk": "^19.1.0",
+    "@nuxt/content": "^3.12.0",
     "@nuxt/image": "^1.10.0",
     "@nuxtjs/seo": "^3.1.0",
     "@vueuse/gesture": "^2.0.0",
+    "better-sqlite3": "^12.6.2",
     "vue": "latest",
     "vue-router": "latest"
   },
@@ -29,9 +30,12 @@
     "@pinia/nuxt": "^0.11.0",
     "@tailwindcss/vite": "^4.1.8",
     "@vueuse/nuxt": "^13.3.0",
-    "nuxt": "^4.1.1",
+    "js-yaml": "^4.1.1",
+    "nuxt": "^4.3.1",
+    "nuxt-studio": "^1.4.0",
     "pinia": "^3.0.2",
     "tailwindcss": "^4.1.8",
+    "turndown": "^7.2.2",
     "typescript": "^5.9.2",
     "vue-tsc": "^3.0.5"
   }

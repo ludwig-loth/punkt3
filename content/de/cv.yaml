@@ -1,0 +1,496 @@
+image: /images/cv/portrait.jpg
+birthdate: "1991-01-08"
+accumulate_work_experience: false
+work_status_attention: false
+welcome_heading: "Hallo! Ich bin Ludwig Loth, Informatiker aus Leidenschaft! "
+work_status: angestellt
+summary: |-
+  <p data-pm-slice="1 1 []">Ich bin leidenschaftlicher Informatiker mit einem<strong> Master of Science in Angewandter Informatik</strong> und einem <strong>Bachelor of Science in Digitalen Medien </strong>(Medieninformatik). Diese Kombination sch&auml;rft meinen Blick f&uuml;r technische Details sowie die gesamte User-Experience und macht es mir m&ouml;glich, umfassend und ganzheitlich zu arbeiten. Mein beruflicher Weg f&uuml;hrte mich durch <strong>vielseitige Rollen als Softwareentwickler, wissenschaftlicher Mitarbeiter und Lehrbeauftragter</strong>. Dieses breite Spektrum aus Praxis, Theorie und Wissensvermittlung pr&auml;gt meine Arbeit bis heute.</p>
+  <p data-pm-slice="1 1 []">&nbsp;</p>
+  <p>Mit Begeisterung entwickle ich digitale Produkte und Konzepte, die technisch &uuml;berzeugen und im Alltag bestehen &ndash; dank hoher Gebrauchstauglichkeit, durchdachter Konzepte und ansprechender Gestaltung. Innovation bedeutet f&uuml;r mich, echten Mehrwert zu schaffen. Die Vermittlung von Wissen und F&auml;higkeiten ist ein zentraler Teil meiner Arbeit. Ich bringe Projekte gerne voran, entwickle neue Ideen und setze auf flexible Ans&auml;tze, die optimal zu den jeweiligen Teams und Aufgaben passen. Dabei profitiere ich von vielf&auml;ltigen Erfahrungen aus sozialen T&auml;tigkeiten und handwerklichen Bereichen, die meinen Blick erweitern und meine Arbeitsweise bereichern.</p>
+  <p>&nbsp;</p>
+  <p>F&uuml;r mich z&auml;hlt am Ende nicht nur, was m&ouml;glich ist, sondern vor allem, was sinnvoll ist. Gute Arbeit entsteht dort, wo Funktionalit&auml;t, Design und Usability einander erg&auml;nzen und st&auml;rken.</p>
+  <p>&nbsp;</p>
+  <p>Ich bin ein <strong>aufgeschlossener, lernwilliger und toleranter</strong> Mensch, bei dem Ausgrenzung keinen Platz hat. Diese Werte pr&auml;gen meinen Umgang mit Menschen und meine Zusammenarbeit in Teams.</p>
+skills_summary: <p>In den vergangenen Jahren durfte ich in ganz unterschiedlichen Rollen, Projekten und Kontexten arbeiten und dabei enorm viel lernen. Ein gro&szlig;er Teil meines Wissens stammt aus Studium und Beruf, vieles habe ich mir aber auch autodidaktisch angeeignet. Neugier, Begeisterung und der Wunsch, Dinge wirklich zu verstehen, treiben mich dabei an. Ich erweitere mein Skillset kontinuierlich &ndash; immer auf der Suche nach Werkzeugen, Ideen und Techniken, die nicht nur spannend, sondern auch sinnvoll einsetzbar sind.</p>
+stages_summary: |-
+  <p>Hier finden Sie die wichtigsten Stationen meines bisherigen beruflichen und akademischen Werdegangs. Jede Einzelne hat mich gepr&auml;gt, mein Wissen erweitert und meine F&auml;higkeiten vertieft. Ich freue mich auf weitere spannende Herausforderungen, bei denen ich erneut dazulernen und mich weiterentwickeln kann.</p>
+  <p>F&uuml;r einen ausf&uuml;hrlicheren Lebenslauf im PDF-Format (oder einem anderen gew&uuml;nschten Format) kontaktieren Sie mich gerne &uuml;ber einen der unten angegebenen Wege.</p>
+additional_info: null
+educational_stages:
+  - id: 74c38775-84c9-4b1f-ac80-992b2d2874ae
+    from: "2020-10-01T12:00:00"
+    to: "2025-01-31T12:00:00"
+    until_today: false
+    date_display: null
+    final_grade: null
+    degree: Master of Science (M.Sc.) - Angewandte Informatik
+    institution: Hochschule Fulda
+    location: Fulda - Hessen - Deutschland
+    final_thesis_title: Metavis - Ein Werkzeug zur interaktiven Generierung von metaphorischen Visualisierungen
+    final_thesis_grade: null
+    additional_info: null
+  - id: 65c8ac82-a4a9-47b1-a86f-87ca09b7f734
+    from: "2014-10-01T12:00:00"
+    to: "2018-08-16T12:00:00"
+    until_today: false
+    date_display: year
+    final_grade: null
+    degree: Bachelor of Science (B.Sc.) - Digitale Medien
+    institution: Hochschule Fulda
+    location: Fulda - Hessen - Deutschland
+    final_thesis_title: Erstellung und Evaluation von Web-Formularen mit interaktiven Grafiken
+    final_thesis_grade: null
+    additional_info: null
+  - id: acecc3f4-4fd8-4a69-854b-05cb8d73b428
+    from: "2001-01-01T12:00:00"
+    to: "2009-12-31T12:00:00"
+    until_today: false
+    date_display: year
+    final_grade: null
+    degree: Allgemeine Hochschulreife
+    institution: Käthe Kollwitz Gymnanisum
+    location: Lengenfeld/Stein - Thüringen -Deutschland
+    final_thesis_title: null
+    final_thesis_grade: null
+    additional_info: null
+career_stages:
+  - id: 62135413-db50-4f86-a9a1-26c53a07b787
+    status: published
+    sort: 1
+    from: "2020-02-01T12:00:00"
+    to: null
+    until_today: true
+    date_display: year
+    use_in_accumulate_work_experience: true
+    position: Wissenschaftlicher Projektmitarbeiter
+    company: Hochschule Fulda (Fachbereich Angewandte Informatik)
+    location: Fulda - Hessen - Deutschland
+    additional_info: null
+    employment_level: Vollzeit, Teilzeit
+  - id: 34f1862a-29ee-4205-a8d0-1f352c89ff78
+    status: published
+    sort: 2
+    from: "2018-10-01T12:00:00"
+    to: null
+    until_today: true
+    date_display: year
+    use_in_accumulate_work_experience: true
+    position: " Lehrbeauftragter"
+    company: Hochschule Fulda (Fachbereich Angewandte Informatik)
+    location: Fulda - Hessen -Deutschland
+    additional_info: null
+    employment_level: Honorarbasiert
+  - id: 259eb445-c1cf-48a4-882b-fcbeab786c15
+    status: published
+    sort: 3
+    from: "2018-05-01T12:00:00"
+    to: "2024-02-29T12:00:00"
+    until_today: false
+    date_display: year
+    use_in_accumulate_work_experience: true
+    position: Softwareentwickler und Social Media Manager
+    company: SPEED Agentur für Sportmarketing und Eventmanagement
+    location: Neuenstein - Hessen - Deutschland
+    additional_info: null
+    employment_level: ehrenamtlich
+  - id: 8592663f-cd57-4ac3-bfe0-20d43ac1571a
+    status: published
+    sort: 4
+    from: "2018-10-01T12:00:00"
+    to: "2020-02-29T12:00:00"
+    until_today: false
+    date_display: year
+    use_in_accumulate_work_experience: true
+    position: Technischer Leiter Usability Labor
+    company: Hochschule Fulda - Interdisziplinäres Zentrum für Zukunftstechnologien (iZT)
+    location: Fulda - Hessen -Deutschland
+    additional_info: null
+    employment_level: Vollzeit
+  - id: bc58f4a4-0c51-4bc2-8b21-80deef19acd6
+    status: published
+    sort: 5
+    from: "2014-08-01T12:00:00"
+    to: "2018-03-01T12:00:00"
+    until_today: false
+    date_display: year
+    use_in_accumulate_work_experience: true
+    position: Software-Entwickler
+    company: IETEC Orthopädische Einlagen GmbH Produktions KG
+    location: Künzell - Hessen - Deutschland
+    additional_info: null
+    employment_level: Vollzeit
+skills:
+  - id: b085fc53-1a50-4525-9ca3-9068ac623c7f
+    sort: 1
+    subsection: Sprachen
+    section:
+      id: tech_skills
+      sort: 2
+      heading: Technische Fähigkeiten
+    tags:
+      - id: a098f794-390b-48f3-acf7-83c1f837f38d
+        value: c
+        icon: c2e8259d-d303-44e0-8eb5-f2a26278d1ee
+        color: null
+        sort: 0
+        name: C
+        skill_level: null
+      - id: f03820cb-97e5-4fad-831d-6831b1f1ca92
+        value: c#
+        icon: af8d1e7b-05f1-4262-a34b-1e6c7f6f352e
+        color: null
+        sort: 0
+        name: C#
+        skill_level: null
+      - id: 4c47aa91-5ec5-4c28-8a06-cb6cee185a5d
+        value: c++
+        icon: 10192913-2b85-4756-a40b-21c3cc3951f7
+        color: null
+        sort: 0
+        name: C++
+        skill_level: null
+      - id: 32d80cb1-e91c-48f7-a781-b00e6001e426
+        value: css
+        icon: 8161fa59-07b8-414d-8669-2ec31d7dbd9d
+        color: null
+        sort: 9
+        name: CSS
+        skill_level: null
+      - id: f72bb49d-53d0-44a9-984c-82d6c6d8c0b8
+        value: java
+        icon: b3481908-9c27-41c4-8c07-64fe21bff1e7
+        color: null
+        sort: 0
+        name: Java
+        skill_level: null
+      - id: 76c9e769-bd2b-44ea-a19e-593c32931c81
+        value: javascript
+        icon: f4560c3f-dd57-4a52-907f-45aeaf59a64f
+        color: null
+        sort: 10
+        name: JavaScript
+        skill_level: null
+      - id: d20b282c-1ef5-4dbe-8c93-4473324d2efe
+        value: latex
+        icon: 964363f5-b000-4114-9dd1-8ec2d0daf871
+        color: null
+        sort: 0
+        name: LaTex
+        skill_level: null
+      - id: 648e6230-a28e-4096-bcfb-581900bd04eb
+        value: express
+        icon: 5e123ab7-7173-4d0f-a49e-e3b8f845823c
+        color: null
+        sort: 12
+        name: Express
+        skill_level: null
+      - id: c19f3b4a-9827-4f78-8d33-6ae75b46d46e
+        value: php
+        icon: 9e284a05-347e-4f43-bb1a-e9e1c115d5a0
+        color: null
+        sort: 0
+        name: php
+        skill_level: null
+      - id: c8735598-c714-47ff-8cbd-937f7b180419
+        value: typescript
+        icon: fc25492b-51cb-4b65-814d-88987e1ce2e1
+        color: null
+        sort: 3
+        name: TypeScript
+        skill_level: null
+      - id: a0b07d0c-a750-4517-81ad-c1bc586d072e
+        value: sql
+        icon: a95e083e-de9d-4ac7-a77f-bd5ba4581b2f
+        color: null
+        sort: 0
+        name: SQL
+        skill_level: null
+  - id: 3726c5bf-c86c-4e56-9c93-b99ad9cf6e7d
+    sort: 2
+    subsection: Frameworks & Bibliotheken
+    section:
+      id: tech_skills
+      sort: 2
+      heading: Technische Fähigkeiten
+    tags:
+      - id: df3ce091-1a58-4cb0-be50-888393e1b694
+        value: bootstrap
+        icon: 59a088ac-8719-40d3-981e-09a65c0b1c50
+        color: null
+        sort: 0
+        name: Bootstrap
+        skill_level: null
+      - id: 1c6fede6-ac2a-4658-9e07-3832608cd967
+        value: electron
+        icon: 112b9ea9-8633-4014-9a57-a50ce3d1c5b8
+        color: null
+        sort: 0
+        name: Electron
+        skill_level: null
+      - id: 9011704a-66e0-4a08-a14b-46625fe57e71
+        value: mongoose
+        icon: 655ba355-ed51-4516-a352-3bc18b374f2f
+        color: null
+        sort: 14
+        name: Mongoose
+        skill_level: null
+      - id: 4cd09e2c-6eb4-4297-84bb-c4dc8f2c3033
+        value: node
+        icon: 413cdade-77f9-4fb6-a9a2-66e895239301
+        color: null
+        sort: 7
+        name: Node
+        skill_level: null
+      - id: b0f3feae-7783-4fae-8286-2da9b61976d9
+        value: nuxt
+        icon: 9bd6ae34-304a-4754-b7f8-d3577e952761
+        color: null
+        sort: 0
+        name: Nuxt
+        skill_level: null
+      - id: 2449245a-2ec6-49a7-88df-5a3a5fd80efe
+        value: primevue
+        icon: 47e47dcf-41d5-4161-bf80-f21cf41d4f65
+        color: null
+        sort: 11
+        name: PrimeVue
+        skill_level: null
+      - id: f2e59a21-fb71-465b-a0a9-a01b49b3b50b
+        value: react
+        icon: 0af57f3b-f64e-45d8-907e-11987865cd65
+        color: null
+        sort: 0
+        name: React
+        skill_level: null
+      - id: dcdff60d-7094-4af0-ae6e-c0082504a358
+        value: tailwindcss
+        icon: e396b3db-dcaa-478b-b9bf-08647d20c513
+        color: null
+        sort: 0
+        name: TailwindCSS
+        skill_level: null
+      - id: d2074b67-d053-4615-ae94-b69ba63bf3dd
+        value: vue
+        icon: 84a6cf7f-0ce6-45e5-949d-0db01df7bfa1
+        color: null
+        sort: 6
+        name: Vue
+        skill_level: null
+      - id: 11047c44-fc40-47e9-afff-7b2435d7ebbe
+        value: vuetify
+        icon: 50ea2c97-3c0a-4313-ab70-4650ce59dfa1
+        color: null
+        sort: 0
+        name: Vuetify
+        skill_level: null
+  - id: 2f047111-c82f-45b9-b9ee-ec2bbf7b8ceb
+    sort: 3
+    subsection: Werkzeuge & weiteres
+    section:
+      id: tech_skills
+      sort: 2
+      heading: Technische Fähigkeiten
+    tags:
+      - id: accd0b08-b496-486c-b7fd-3146c9b57fa7
+        value: docker
+        icon: 48cee8e5-7738-48b1-a60f-6fe8ef9cca17
+        color: null
+        sort: 4
+        name: Docker
+        skill_level: null
+      - id: 2caf4250-c120-4a2c-bfab-3d38b462eb4a
+        value: directus
+        icon: af1ccd79-d318-402e-8bf4-fd9511e4691c
+        color: null
+        sort: 0
+        name: Directus
+        skill_level: null
+      - id: 463040d2-3123-4039-907d-e608f5f6deb0
+        value: git
+        icon: 08583266-ef99-4d11-8ac9-f254625a5779
+        color: null
+        sort: 5
+        name: Git
+        skill_level: null
+      - id: b74412e0-da0b-41b0-bc0d-a90ef52876f3
+        value: linux
+        icon: 63a24540-7857-4d6c-94a5-33efc6c651a0
+        color: null
+        sort: 0
+        name: Linux
+        skill_level: null
+      - id: 74835579-fe79-43a9-a954-665b046023dd
+        value: mariadb
+        icon: 9bff38f1-ea85-45f2-aef9-01e9479da261
+        color: null
+        sort: 0
+        name: MariaDB
+        skill_level: null
+      - id: d472b5b6-c7d8-4bf3-a800-20d5ea58ce4d
+        value: mogodb
+        icon: 7fb31c4d-7991-4812-9c13-e437385e767e
+        color: null
+        sort: 13
+        name: MongoDB
+        skill_level: null
+      - id: 0296f5d0-f052-401a-a85a-9476d8ab6a06
+        value: mysql
+        icon: eb6ddfc5-83d0-4d0e-8ab6-cd6df5f9bd84
+        color: null
+        sort: 0
+        name: MySQL
+        skill_level: null
+      - id: a4cf8dcd-814e-4cb0-a6fe-5c78dcd08603
+        value: portainer
+        icon: 21669c73-f3fb-48ae-8acc-8345e960c877
+        color: null
+        sort: 0
+        name: Portainer
+        skill_level: null
+      - id: b9a8c5f6-9b12-4c40-b819-e533659ed260
+        value: postgresql
+        icon: 1c7b5d1e-fce8-4e27-8ecc-3d4e20676d42
+        color: null
+        sort: 0
+        name: PostgreSQL
+        skill_level: null
+      - id: 8f53fafa-e192-43ee-95db-c99dd56541fe
+        value: wordpress
+        icon: 9b8a5d3d-50a0-4b90-9a8f-69c349e130f2
+        color: null
+        sort: 0
+        name: Wordpress
+        skill_level: null
+  - id: 9e4eb571-a4ec-4533-9fd2-5c1ac1e2dd68
+    sort: 4
+    subsection: Sprachen
+    section:
+      id: other_skills
+      sort: 1
+      heading: Andere Fähigkeiten
+    tags:
+      - id: d1abbdfb-6b38-4364-acea-a9d15fae9890
+        value: german
+        icon: null
+        color: null
+        sort: 0
+        name: Deutsch
+        skill_level: Muttersprache
+      - id: 667fa5b5-b468-4f20-9fbf-b798c4736982
+        value: english
+        icon: null
+        color: null
+        sort: 0
+        name: Englisch
+        skill_level: fließend in Wort und Schrift
+      - id: 712e1d2a-64c5-454b-b3a2-23fea8397336
+        value: latin
+        icon: null
+        color: null
+        sort: 0
+        name: Latein
+        skill_level: Schulniveau
+  - id: 582cf989-d3a9-4e4e-80a8-3da4e2645045
+    sort: 5
+    subsection: Sonstiges
+    section:
+      id: other_skills
+      sort: 1
+      heading: Andere Fähigkeiten
+    tags:
+      - id: e8d45d26-d287-42ea-ac99-b73918c5c880
+        value: creative
+        icon: null
+        color: null
+        sort: 0
+        name: Creative
+        skill_level: null
+      - id: c88c4864-2ebe-4962-a29f-559552dfa299
+        value: research
+        icon: null
+        color: null
+        sort: 0
+        name: Forschung
+        skill_level: null
+      - id: 9d7c1243-4f7b-4e09-b628-dda1646a3900
+        value: knowledge transfer
+        icon: null
+        color: null
+        sort: 0
+        name: Wissensvermittlung
+        skill_level: null
+      - id: 849ac708-7ac9-4f5f-b444-b5136a7fa6b9
+        value: networking and transfer
+        icon: null
+        color: null
+        sort: 0
+        name: Vernetzung und Transfer
+        skill_level: null
+      - id: 01b74bb7-e716-424f-a5fb-8c1f3ae227aa
+        value: project management
+        icon: null
+        color: null
+        sort: 0
+        name: Projektmanagement
+        skill_level: null
+      - id: 989feecf-1db2-4667-8be4-fbbf89a28103
+        value: scientific work
+        icon: null
+        color: null
+        sort: 0
+        name: Wissenschaftl. Arbeiten
+        skill_level: null
+publications:
+  - id: 83faa038-5cbf-406d-b716-fdb5cd441e32
+    title: " Partizipative Entwicklung interaktiver Systeme mit der Zielgruppe Ü65: Konzeption und Erprobung methodischer Ansätze"
+    subtitle: null
+    authors:
+      - prefix: null
+        first_name: Isabell
+        last_name: Bürkner
+      - prefix: null
+        first_name: Monika
+        last_name: Schak
+      - prefix: null
+        first_name: Jessica
+        last_name: Rietze
+      - prefix: null
+        first_name: Ludwig
+        last_name: Loth
+      - prefix: null
+        first_name: Rainer
+        last_name: Blum
+      - prefix: null
+        first_name: Birgit
+        last_name: Bomsdorf
+    publisher: " Springer VS, Wiesbaden"
+    identifier:
+      type: DOI
+      value: 10.1007/978-3-658-43912-5_9
+    location: null
+    year: 2024
+    conference: null
+    journal: "In: Küster, C., Hagspihl, S., Rückert-John, J. (eds) Verpflegung | Wohnen | Digitale Teilhabe"
+    url: null
+    additional_fields: []
+  - id: ca9883ee-7ca6-4805-b320-72df73f2a7da
+    title: Erstellung eines NLP-basierten Editors mit Qualitätsindikatoren und Änderungsvorschlägen für Kompetenzbeschreibungen
+    subtitle: null
+    authors:
+      - prefix: null
+        first_name: Ludwig
+        last_name: Loth
+      - prefix: null
+        first_name: Johannes
+        last_name: Konert
+    publisher: null
+    identifier:
+      type: DOI
+      value: 10.18420/delfi2022-ws-32
+    location: Karlsruhe
+    year: 2022
+    conference: "Bonn: Gesellschaft für Informatik e. V. pp. 149–158."
+    journal: Proceedings of DELFI Workshops 2022
+    url: https://dl.gi.de/items/ed3c8a09-79c0-4799-ba98-f7df219aad8d
+    additional_fields: []

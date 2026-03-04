@@ -29,10 +29,9 @@ async function sendContactForm(): Promise<void> {
   try {
     contactFrom.value.text = input.value || '';
 
-    const response = await $fetch('/api/contactForm', {
-      method: 'POST',
-      body: contactFrom.value
-    })
+    // TODO: Replace with new form submission service (e.g. Formspree, email API, etc.)
+    // The Directus API endpoint has been removed.
+    console.warn('Contact form submission is not yet configured.')
 
     message_send.value = true;
     contactFrom.value = {
@@ -54,7 +53,7 @@ async function sendContactForm(): Promise<void> {
     <div class="p-1 rounded-sm bg-base-100">
       <div class="border-2 border-dotted rounded-sm bg-base-100 border-base-200">
         <h2 class="p-2 pb-0">{{ tStatic('social_media') }}</h2>
-        <div class="px-2 pb-2" v-html="t(contactStore.contactData, 'contact_introduction')"></div>
+        <div class="px-2 pb-2">{{ contactStore.contactData.contact_introduction }}</div>
         <div
           class="flex flex-row flex-wrap w-fit *:flex *:flex-row *:items-center *:justify-start p-2 pb-4 gap-5 relative justify-center">
           <contact-card v-for="social in contactStore.contactData?.socials || []" :key="social.id"
@@ -67,7 +66,7 @@ async function sendContactForm(): Promise<void> {
       <div class="border-2 border-dotted rounded-sm bg-base-100 border-base-200">
         <h2 class="p-2 pb-0">{{ tStatic('direct_message') }}</h2>
         <div class="p-2">
-          <div v-html="t(contactStore.contactData, 'direct_message_introduction')"></div>
+          <div>{{ contactStore.contactData.direct_message_introduction }}</div>
           <div>
             <form @submit.prevent="sendContactForm"
               class="flex flex-col w-full gap-4 py-5 pl-2 md:pr-10">
@@ -115,7 +114,9 @@ async function sendContactForm(): Promise<void> {
                   d="M10 3a7 7 0 100 14 7 7 0 000-14zm-9 7a9 9 0 1118 0 9 9 0 01-18 0zm8-4a1 1 0 011-1h.01a1 1 0 110 2H10a1 1 0 01-1-1zm.01 8a1 1 0 102 0V9a1 1 0 10-2 0v5z" />
               </svg>
             </div>
-            <div class="" v-html="t(contactStore.contactData, 'gdpr_info')"></div>
+            <div v-if="contactStore.contactData.body" class="prose-contact-gdpr">
+              <ContentRenderer :value="contactStore.contactData" />
+            </div>
           </div>
         </div>
       </div>

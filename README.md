@@ -11,11 +11,14 @@ The number 3 represents the three main aspects of the framework:
 
 ## Configuration
 
-### Backend Adapter
+### Content Management
 To configure PUNKT3, you can modify the environment variables in the `.env` file. Here are the available variables:
 
-- `NUXT_BACKEND_ADAPTER`: Choose the backend service [directus] (more adapters in development)
-- `NUXT_API_URL`: The URL of your API endpoint.
+- `NUXT_PUBLIC_SITE_URL`: The public URL of your site.
+- `NUXT_PUBLIC_SITE_NAME`: The name of your site.
+- `NUXT_PUBLIC_SITE_DESCRIPTION`: A short description of your site.
+
+Content is managed via YAML files in the `content/` directory and can be edited with Nuxt Studio.
 
 ### Sub menus
 

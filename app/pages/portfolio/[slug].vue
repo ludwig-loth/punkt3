@@ -1,8 +1,7 @@
 <script setup lang="ts">
-const projectStore = useProjectStore()
-const config = useRuntimeConfig()
-const API_URL: string = config.public.apiURL
 const route = useRoute()
+const { locale } = useI18n()
+const shortLocale = computed(() => locale.value)
 
 definePageMeta({
     layout: 'sidebars',
@@ -17,18 +16,14 @@ definePageMeta({
 
 const { t, tStatic } = useTranslation()
 
-const project: Ref<Project | null> = ref(null)
-
-const slug = computed(() => String(route.params.slug || ''))
-
-watchEffect(() => {
-    if (!slug.value) {
-        project.value = null
-        return
-    }
-    const list = projectStore.projects as Project[] | undefined
-    project.value = list?.find(p => p.slug === slug.value) || null
-})
+const { data: project } = await useAsyncData(
+    `project-${route.params.slug}`,
+    () => queryCollection('projects')
+        .where('slug', '=', String(route.params.slug))
+        .where('stem', 'LIKE', `${shortLocale.value}/portfolio/%`)
+        .first(),
+    { watch: [shortLocale] }
+)
 </script>
 
 <template>
@@ -101,11 +96,11 @@ watchEffect(() => {
                         <div
                             class="flex flex-col items-center justify-center gap-2 p-1 pb-3 md:pl-3 md:p-1 md:basis-1/2">
                             <div class="relative">
-                                <light-box :img-src="`${API_URL}/assets/${project.post_image}`">
+                                <light-box :img-src="project.post_image">
                                     <template #trigger="{ openLightbox }">
                                         <picture class="self-center flex-shrink-0 mt-0">
                                             <NuxtImg
-                                                :src="`${API_URL}/assets/${project.post_image}`"
+                                                :src="project.post_image"
                                                 alt="Header image of the project"
                                                 class="relative object-cover object-left-top transition-transform cursor-zoom-in outline-2 rounded-xs"
                                                 @click="openLightbox" />
@@ -118,59 +113,8 @@ watchEffect(() => {
                 </div>
                 <div class="h-1 mx-auto my-3 w-3/4 dots-border-top !border-base-300">
                 </div>
-                <div v-for="(block, index) in project.content_blocks" :key="block.id">
-                    <div :class="block.divider_at_bottom ? '' : 'rounded-t-sm bg-base-100'">
-                        <div class="relative p-1"
-                            :class="block.divider_at_bottom ? 'rounded-sm bg-base-100' : ''">
-                            <div
-                                class="p-1 border-2 border-dotted rounded-sm bg-base-100 border-base-200">
-                                <h2 v-if="block.show_heading"
-                                    class="p-2 font-sans text-2xl text-base-content">
-                                    {{ t(block, 'heading') }}
-                                </h2>
-                                <div class="clearfix gap-4"
-                                    :class="{ 'flex flex-col-reverse': block.image_position === 'bottom', 'flex-col flex': block.image_position === 'top' }">
-                                    <div v-if="block.image"
-                                        :class="{ 'float-left w-1/2 bg-base-100': block.image_position === 'left', 'float-right w-1/2 bg-base-100': block.image_position === 'right' }">
-                                        <picture
-                                            class="flex flex-col items-center self-center flex-shrink-0 w-full p-3 pb-0">
-                                            <light-box :img-src="`${API_URL}/assets/${block.image}`"
-                                                :caption="t(block, 'image_caption')">
-                                                <template #trigger="{ openLightbox }">
-                                                    <NuxtImg
-                                                        :src="`${API_URL}/assets/${block.image}`"
-                                                        :alt="t(block, 'image_caption')"
-                                                        class="relative object-cover object-center transition-transform cursor-zoom-in outline-2 rounded-xs max-h-96"
-                                                        @click="openLightbox" />
-                                                </template>
-                                            </light-box>
-                                            <caption v-if="block.translations?.[0]?.image_caption"
-                                                class="mt-2 text-sm italic font-semibold text-secondary-content dark:text-secondary-content-dark">
-                                                {{ t(block, 'image_caption') }}
-                                            </caption>
-                                        </picture>
-                                    </div>
-                                    <p v-html="t(block, 'text')" class="p-1 post-content">
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            v-if="block.divider_at_bottom && index !== project.content_blocks.length - 1">
-                            <div
-                                class="h-fit mx-auto my-3 max-w-1/2 dots-border-top !border-base-300">
-                            </div>
-                        </div>
-                        <div v-else-if="!block.divider_at_bottom && index !== project.content_blocks.length - 1"
-                            class="absolute w-[calc(100%-1rem)] bg-base-100 z-20">
-                            <!-- this is a filthy hack to to create the illusion of a continous post -->
-                            <div class="px-1 bg-base-100">
-                                <div
-                                    class="z-20 w-full h-5 p-1 mx-auto -mt-[.5rem] border-dotted bg-base-100 border-x-2 border-base-200">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="prose-project post-content">
+                    <ContentRenderer v-if="project.body" :value="project" />
                 </div>
             </div>
         </div>
@@ -189,10 +133,3 @@ watchEffect(() => {
         </div>
     </div>
 </template>
-<style>
-.clearfix::after {
-    content: "";
-    display: table;
-    clear: both;
-}
-</style>

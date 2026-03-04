@@ -4,13 +4,13 @@ const { locale, setLocale } = useI18n()
 const emit = defineEmits<{ languageChanged: [value: string] }>()
 interface LangOption { text: string; value: string; label: string }
 
-const selected: Ref<'de-DE' | 'en-US'> = ref(locale.value as 'de-DE' | 'en-US')
+const selected: Ref<'de' | 'en'> = ref(locale.value as 'de' | 'en')
 const isOpen = ref(false)
 const highlightedIndex = ref(0)
 
 const options: Ref<LangOption[]> = ref([
-  { text: 'de', value: 'de-DE', label: 'deutsch' },
-  { text: 'en', value: 'en-US', label: 'english' }
+  { text: 'de', value: 'de', label: 'deutsch' },
+  { text: 'en', value: 'en', label: 'english' }
 ])
 
 const selectedOption = computed(() => options.value.find(o => o.value === selected.value) || null)
@@ -28,8 +28,8 @@ function toggleDropdown() { isOpen.value ? closeDropdown() : openDropdown() }
 
 function selectOption(option: LangOption) {
   if (!option) return
-  selected.value = option.value as 'de-DE' | 'en-US'
-  setLocale(option.value as 'de-DE' | 'en-US')
+  selected.value = option.value as 'de' | 'en'
+  setLocale(option.value as 'de' | 'en')
   emit('languageChanged', option.value)
   closeDropdown()
 }
@@ -63,7 +63,7 @@ function handleOptionKeydown(e: KeyboardEvent, option: LangOption, idx: number) 
 }
 
 onClickOutside(dropdownRef, () => closeDropdown())
-onMounted(() => { selected.value = locale.value as 'de-DE' | 'en-US' })
+onMounted(() => { selected.value = locale.value as 'de' | 'en' })
 </script>
 
 <template>
