@@ -1,17 +1,18 @@
 # PUNKT3
 
 ---
+# Attention !!!
 In this branch I experimented with vibe coding. 
-I wanted to see how good Claude Code with Pous 4.6 is at rewriting this whole project to use Nuxt Content along with Nuxt Studio.
+I wanted to see how good Claude Code with Opus 4.6 is at rewriting this whole project to use Nuxt Content along with Nuxt Studio.
 
-Turns out: it's ok, but it needs a lot of manual adjustments and fixes after the initial rewrite.
+Turns out it's ok-ish , but it needs plenty of manual adjustments and fixes after the initial rewrite.
 
-I will leave this branch here for myself as an inspiration and reference for the future, but I won't merge it into main because of the amount of manual fixes needed after the initial rewrite.
+I will leave this branch here for myself as an inspiration and reference for the future, but I won't merge it into main because of the amount of manual fixes required after the initial rewrite.
 
 The goal is to rewrite the PUNKT3 manually to use Nuxt Content and Nuxt Studio. 
 That means it will no longer be backend-agnostic. I found out that this is just too much work for a simple portfolio frontend. 
 
-But the good news are: With the new Nuxt Content and Studio integration, the content management experience is much better and more intuitive than with Directus. Because Studio is a visual editor that works directly with the content files, you can edit your content in a more user-friendly way. We don't need a seperate backend server anymore, because Studio is a part of our Nuxt app and therefore it's hosted with the Nuxt app aswell. This simplifies the deployment and hosting of the project significantly.
+But the good news is, with the new Nuxt Content and Studio integration, the content management experience is much better and more intuitive than with Directus. Because Studio is a visual editor that works directly with the content files, you can edit your content in a more user-friendly way. We don't need a separate backend server anymore because Studio is a part of our Nuxt app, and therefore it's hosted with the Nuxt app as well. This simplifies the deployment and hosting of the project significantly.
 
 ---
 
